@@ -1,0 +1,101 @@
+{
+  "package": "System Atlas Design Handover",
+  "version": "1.0",
+  "created_date": "2026-10-24",
+  "approved_views": {
+    "07": "Whole-system bird\u2019s-eye view",
+    "05A": "Specific-transaction introspection and live demonstration"
+  },
+  "files": [
+    {
+      "path": "AI_CODER_START_HERE.md",
+      "size_bytes": 6399,
+      "sha256": "66a85da40df9cd664affc85d5e9def341b10ffb127fb399ffa7286378ddb2ff1"
+    },
+    {
+      "path": "OPEN_ME.html",
+      "size_bytes": 10790,
+      "sha256": "98fdc2fffb020e11f395299ac0b4403787caf900614db7d590dfd3e2a16174e5"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 4299,
+      "sha256": "80cc4e20663d0c24cb8fb81b4eef93f9756577c9390926ade3f50ae9edb2cdbb"
+    },
+    {
+      "path": "VALIDATION.md",
+      "size_bytes": 2050,
+      "sha256": "5aaf06c57f3d036cd1cf20903a95289c0867eec80772e51102280a6c1ac430e1"
+    },
+    {
+      "path": "data/DATA_GUIDE.md",
+      "size_bytes": 7406,
+      "sha256": "e85320b26a545f3f23dc9c2834806e01fb7d5454dc9023eb72f65a18711ce112"
+    },
+    {
+      "path": "data/contracts.ts",
+      "size_bytes": 6735,
+      "sha256": "71895760ecf9cb89b2f4db6f83e86048e664a75f7e151f89b744bfeed1666d19"
+    },
+    {
+      "path": "data/topology.json",
+      "size_bytes": 28200,
+      "sha256": "c982ebc0afa4e1bf5d530afe147f7d69c04884417a93206125db41fd7ead02fa"
+    },
+    {
+      "path": "data/traces.json",
+      "size_bytes": 38714,
+      "sha256": "28c980b98c209b9b5b1fdc90e663f1c8d1c84021ffec3ebb997d5e0723b05ae0"
+    },
+    {
+      "path": "data/validate_fixtures.py",
+      "size_bytes": 10047,
+      "sha256": "28fa00a73038c5a6038beb4faa49d6255d7103b4ece7aaf6308690936fd2fff5"
+    },
+    {
+      "path": "design/tokens.json",
+      "size_bytes": 2010,
+      "sha256": "ee90731e89c5692c7bb28e0b70303b9bcc4b19ebceb6f8e765fa9a7162f0e525"
+    },
+    {
+      "path": "references/05A_precision_trace.png",
+      "size_bytes": 1944883,
+      "sha256": "f853268d1ea0cc67e41e46dd8f29cdbd94ce255cd551de82b3e727639443733c"
+    },
+    {
+      "path": "references/07_topographic_atlas.png",
+      "size_bytes": 2404306,
+      "sha256": "ff511040c4643374d58e3c827cbd0ba32bb519c87f6f64b0d985ebfddff7a06c"
+    },
+    {
+      "path": "references/README.md",
+      "size_bytes": 2346,
+      "sha256": "9556bd149f1eb0f65ea2c15906dae82cd102bea0c7a41fb549f5030b7a22fd37"
+    },
+    {
+      "path": "references/manifest.json",
+      "size_bytes": 1002,
+      "sha256": "fa7e1930ee75f56e7c14245cbc5cc6062dfa2e653f0f04a5a4a40e682547b8fe"
+    },
+    {
+      "path": "specs/ACCEPTANCE_CRITERIA.md",
+      "size_bytes": 14635,
+      "sha256": "b442770b23528629b70baef9df5678211eafc9470781c02145a8db48728b3766"
+    },
+    {
+      "path": "specs/IMPLEMENTATION_PLAN.md",
+      "size_bytes": 8542,
+      "sha256": "cf31c731158abf2dade2a54c3eba73f454778a6b22829ab5ddb729a20461b782"
+    },
+    {
+      "path": "specs/PRODUCT_AND_EXPERIENCE.md",
+      "size_bytes": 14132,
+      "sha256": "fbbbe057dc43403308cd93d08171f802589a49aea7f1cdf2c901017d0e715336"
+    },
+    {
+      "path": "specs/VISUAL_SYSTEM.md",
+      "size_bytes": 10858,
+      "sha256": "63011ae92d56db1949dcc9364ad8db3223a89fadd9d14728c2dbfcbf98be2fdb"
+    }
+  ]
+}

@@ -1,0 +1,2455 @@
+{
+  "note": "Fictional reference system used by every mockup. Layout units are world units on the ground plane (x right, z away from the default camera, y up). Heights encode rate; see docs/04-look-and-feel.md.",
+  "system": {
+    "id": "vesper",
+    "name": "Vesper AI platform",
+    "kind": "ai-platform",
+    "environment": "prod",
+    "region": "us-east-2",
+    "snapshotAt": "2026-10-24T14:02:17Z",
+    "headline": {
+      "requestsPerSec": 1284,
+      "sloTtftMs": 800,
+      "ttftP95Stable": 410,
+      "ttftP95Canary": 1390,
+      "errorPct": 0.42
+    }
+  },
+  "districts": [
+    {
+      "id": "edge",
+      "label": "Edge gate",
+      "tone": "cyan",
+      "plate": {
+        "x0": -300,
+        "z0": 240,
+        "x1": 300,
+        "z1": 360
+      }
+    },
+    {
+      "id": "identity",
+      "label": "Identity",
+      "tone": "cyan",
+      "plate": {
+        "x0": 560,
+        "z0": 600,
+        "x1": 870,
+        "z1": 820
+      }
+    },
+    {
+      "id": "output",
+      "label": "Output",
+      "tone": "cyan",
+      "plate": {
+        "x0": -850,
+        "z0": 610,
+        "x1": -590,
+        "z1": 1000
+      }
+    },
+    {
+      "id": "routing",
+      "label": "Routing",
+      "tone": "cyan",
+      "plate": {
+        "x0": -90,
+        "z0": 1130,
+        "x1": 290,
+        "z1": 1370
+      }
+    },
+    {
+      "id": "safety",
+      "label": "Safety",
+      "tone": "cyan",
+      "plate": {
+        "x0": -690,
+        "z0": 1510,
+        "x1": -430,
+        "z1": 1670
+      }
+    },
+    {
+      "id": "retrieval",
+      "label": "Retrieval + vector vaults",
+      "tone": "cyan",
+      "plate": {
+        "x0": 660,
+        "z0": 1390,
+        "x1": 1330,
+        "z1": 2120
+      }
+    },
+    {
+      "id": "prompt",
+      "label": "Prompt",
+      "tone": "cyan",
+      "plate": {
+        "x0": 160,
+        "z0": 2060,
+        "x1": 340,
+        "z1": 2220
+      }
+    },
+    {
+      "id": "scheduling",
+      "label": "Transit hub",
+      "tone": "amber",
+      "plate": {
+        "x0": -640,
+        "z0": 2290,
+        "x1": -60,
+        "z1": 2830
+      }
+    },
+    {
+      "id": "compute",
+      "label": "Compute · h100-a",
+      "tone": "cyan",
+      "plate": {
+        "x0": -310,
+        "z0": 2960,
+        "x1": 930,
+        "z1": 3600
+      }
+    },
+    {
+      "id": "training",
+      "label": "Training quarter",
+      "tone": "violet",
+      "plate": {
+        "x0": -2110,
+        "z0": 2440,
+        "x1": -1340,
+        "z1": 3200
+      }
+    },
+    {
+      "id": "data",
+      "label": "Data archive",
+      "tone": "violet",
+      "plate": {
+        "x0": -1810,
+        "z0": 1310,
+        "x1": -1110,
+        "z1": 1900
+      }
+    },
+    {
+      "id": "telemetry",
+      "label": "Telemetry",
+      "tone": "steel",
+      "plate": {
+        "x0": 1500,
+        "z0": 2290,
+        "x1": 1940,
+        "z1": 3020
+      }
+    },
+    {
+      "id": "external",
+      "label": "Clients",
+      "tone": "none",
+      "plate": null
+    }
+  ],
+  "components": [
+    {
+      "id": "edge-gateway",
+      "label": "edge-gateway",
+      "districtId": "edge",
+      "type": "gateway",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 6,
+      "layout": [
+        {
+          "x": -250,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        },
+        {
+          "x": -150,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        },
+        {
+          "x": -50,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        },
+        {
+          "x": 50,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        },
+        {
+          "x": 150,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        },
+        {
+          "x": 250,
+          "z": 300,
+          "w": 64,
+          "d": 64,
+          "h": 170
+        }
+      ]
+    },
+    {
+      "id": "authz",
+      "label": "authz",
+      "districtId": "identity",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1380,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 4,
+      "layout": [
+        {
+          "x": 610,
+          "z": 660,
+          "w": 64,
+          "d": 64,
+          "h": 150
+        },
+        {
+          "x": 702,
+          "z": 660,
+          "w": 64,
+          "d": 64,
+          "h": 150
+        },
+        {
+          "x": 610,
+          "z": 752,
+          "w": 64,
+          "d": 64,
+          "h": 150
+        },
+        {
+          "x": 702,
+          "z": 752,
+          "w": 64,
+          "d": 64,
+          "h": 150
+        }
+      ]
+    },
+    {
+      "id": "quota-cache",
+      "label": "quota-cache",
+      "districtId": "identity",
+      "type": "datastore",
+      "shape": "vault",
+      "metrics": {
+        "ratePerSec": 1380,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 3,
+      "layout": [
+        {
+          "x": 820,
+          "z": 640,
+          "w": 46,
+          "d": 46,
+          "h": 54
+        },
+        {
+          "x": 820,
+          "z": 706,
+          "w": 46,
+          "d": 46,
+          "h": 54
+        },
+        {
+          "x": 820,
+          "z": 772,
+          "w": 46,
+          "d": 46,
+          "h": 54
+        }
+      ]
+    },
+    {
+      "id": "stream-gateway",
+      "label": "stream-gateway",
+      "districtId": "output",
+      "type": "gateway",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 6,
+      "layout": [
+        {
+          "x": -800,
+          "z": 660,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        },
+        {
+          "x": -718,
+          "z": 660,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        },
+        {
+          "x": -636,
+          "z": 660,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        },
+        {
+          "x": -800,
+          "z": 742,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        },
+        {
+          "x": -718,
+          "z": 742,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        },
+        {
+          "x": -636,
+          "z": 742,
+          "w": 56,
+          "d": 56,
+          "h": 140
+        }
+      ]
+    },
+    {
+      "id": "safety-output",
+      "label": "safety-output",
+      "districtId": "output",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 51360,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 6,
+      "layout": [
+        {
+          "x": -800,
+          "z": 880,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        },
+        {
+          "x": -718,
+          "z": 880,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        },
+        {
+          "x": -636,
+          "z": 880,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        },
+        {
+          "x": -800,
+          "z": 962,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        },
+        {
+          "x": -718,
+          "z": 962,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        },
+        {
+          "x": -636,
+          "z": 962,
+          "w": 56,
+          "d": 56,
+          "h": 105
+        }
+      ]
+    },
+    {
+      "id": "inference-router",
+      "label": "inference-router",
+      "districtId": "routing",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 4,
+      "layout": [
+        {
+          "x": -15,
+          "z": 1190,
+          "w": 70,
+          "d": 70,
+          "h": 200
+        },
+        {
+          "x": 215,
+          "z": 1190,
+          "w": 70,
+          "d": 70,
+          "h": 200
+        },
+        {
+          "x": -15,
+          "z": 1310,
+          "w": 70,
+          "d": 70,
+          "h": 200
+        },
+        {
+          "x": 215,
+          "z": 1310,
+          "w": 70,
+          "d": 70,
+          "h": 200
+        },
+        {
+          "x": 100,
+          "z": 1250,
+          "w": 26,
+          "d": 26,
+          "h": 340,
+          "role": "split-beacon"
+        }
+      ],
+      "config": {
+        "variants": [
+          {
+            "name": "stable",
+            "deployment": "dep-114",
+            "weight": 0.9
+          },
+          {
+            "name": "canary",
+            "deployment": "dep-118",
+            "weight": 0.1,
+            "capacityAware": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "safety-input",
+      "label": "safety-input",
+      "districtId": "safety",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 6,
+      "layout": [
+        {
+          "x": -640,
+          "z": 1560,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        },
+        {
+          "x": -558,
+          "z": 1560,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        },
+        {
+          "x": -476,
+          "z": 1560,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        },
+        {
+          "x": -640,
+          "z": 1642,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        },
+        {
+          "x": -558,
+          "z": 1642,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        },
+        {
+          "x": -476,
+          "z": 1642,
+          "w": 56,
+          "d": 56,
+          "h": 130
+        }
+      ]
+    },
+    {
+      "id": "retrieval-svc",
+      "label": "retrieval-svc",
+      "districtId": "retrieval",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 796,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 8,
+      "layout": [
+        {
+          "x": 760,
+          "z": 1440,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 844,
+          "z": 1440,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 928,
+          "z": 1440,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 1012,
+          "z": 1440,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 760,
+          "z": 1524,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 844,
+          "z": 1524,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 928,
+          "z": 1524,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        },
+        {
+          "x": 1012,
+          "z": 1524,
+          "w": 58,
+          "d": 58,
+          "h": 150
+        }
+      ]
+    },
+    {
+      "id": "embed-svc",
+      "label": "embed-svc",
+      "districtId": "retrieval",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 796,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 4,
+      "layout": [
+        {
+          "x": 1130,
+          "z": 1440,
+          "w": 54,
+          "d": 54,
+          "h": 112
+        },
+        {
+          "x": 1206,
+          "z": 1440,
+          "w": 54,
+          "d": 54,
+          "h": 112
+        },
+        {
+          "x": 1130,
+          "z": 1524,
+          "w": 54,
+          "d": 54,
+          "h": 112
+        },
+        {
+          "x": 1206,
+          "z": 1524,
+          "w": 54,
+          "d": 54,
+          "h": 112
+        }
+      ]
+    },
+    {
+      "id": "vector-store",
+      "label": "vector-store",
+      "districtId": "retrieval",
+      "type": "datastore",
+      "shape": "vault",
+      "metrics": {
+        "ratePerSec": 4780,
+        "utilization": null,
+        "health": "degraded"
+      },
+      "instanceCount": 12,
+      "layout": [
+        {
+          "x": 700,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-01/primary"
+        },
+        {
+          "x": 742,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-01/replica-b"
+        },
+        {
+          "x": 812,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-02/primary"
+        },
+        {
+          "x": 854,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-02/replica-b"
+        },
+        {
+          "x": 924,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-03/primary"
+        },
+        {
+          "x": 966,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-03/replica-b"
+        },
+        {
+          "x": 1036,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-04/primary"
+        },
+        {
+          "x": 1078,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-04/replica-b"
+        },
+        {
+          "x": 1148,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-05/primary"
+        },
+        {
+          "x": 1190,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-05/replica-b"
+        },
+        {
+          "x": 1260,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-06/primary"
+        },
+        {
+          "x": 1302,
+          "z": 2050,
+          "w": 36,
+          "d": 90,
+          "h": 128,
+          "instance": "vs-06/replica-b"
+        }
+      ]
+    },
+    {
+      "id": "prompt-builder",
+      "label": "prompt-builder",
+      "districtId": "prompt",
+      "type": "service",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 4,
+      "layout": [
+        {
+          "x": 210,
+          "z": 2110,
+          "w": 54,
+          "d": 54,
+          "h": 110
+        },
+        {
+          "x": 288,
+          "z": 2110,
+          "w": 54,
+          "d": 54,
+          "h": 110
+        },
+        {
+          "x": 210,
+          "z": 2188,
+          "w": 54,
+          "d": 54,
+          "h": 110
+        },
+        {
+          "x": 288,
+          "z": 2188,
+          "w": 54,
+          "d": 54,
+          "h": 110
+        }
+      ]
+    },
+    {
+      "id": "gpu-scheduler",
+      "label": "gpu-scheduler",
+      "districtId": "scheduling",
+      "type": "queue",
+      "shape": "hub-ring",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "degraded"
+      },
+      "instanceCount": 3,
+      "layout": [
+        {
+          "x": -350,
+          "z": 2560,
+          "ring": {
+            "innerRadius": 160,
+            "outerRadius": 245
+          },
+          "towers": [
+            {
+              "x": -396,
+              "z": 2550,
+              "w": 30,
+              "d": 30,
+              "h": 190
+            },
+            {
+              "x": -350,
+              "z": 2550,
+              "w": 30,
+              "d": 30,
+              "h": 190
+            },
+            {
+              "x": -304,
+              "z": 2550,
+              "w": 30,
+              "d": 30,
+              "h": 190
+            }
+          ]
+        }
+      ],
+      "queues": [
+        {
+          "id": "stable",
+          "depth": 2,
+          "ring": "inner"
+        },
+        {
+          "id": "canary",
+          "depth": 37,
+          "ring": "outer",
+          "baseline": 3
+        }
+      ]
+    },
+    {
+      "id": "model-server",
+      "label": "model-server · h100-a",
+      "districtId": "compute",
+      "type": "node-pool",
+      "shape": "monolith",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "degraded"
+      },
+      "instanceCount": 12,
+      "layout": [
+        {
+          "x": -150,
+          "z": 3060,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-0"
+        },
+        {
+          "x": 160,
+          "z": 3060,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-1"
+        },
+        {
+          "x": 470,
+          "z": 3060,
+          "w": 232,
+          "d": 150,
+          "h": 300,
+          "instance": "c-1"
+        },
+        {
+          "x": 780,
+          "z": 3060,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "c-0"
+        },
+        {
+          "x": -150,
+          "z": 3280,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-2"
+        },
+        {
+          "x": 160,
+          "z": 3280,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-3"
+        },
+        {
+          "x": 470,
+          "z": 3280,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-4"
+        },
+        {
+          "x": 780,
+          "z": 3280,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-5"
+        },
+        {
+          "x": -150,
+          "z": 3500,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-6"
+        },
+        {
+          "x": 160,
+          "z": 3500,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-7"
+        },
+        {
+          "x": 470,
+          "z": 3500,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-8"
+        },
+        {
+          "x": 780,
+          "z": 3500,
+          "w": 232,
+          "d": 150,
+          "h": 430,
+          "instance": "s-9"
+        }
+      ],
+      "capacity": {
+        "gpusTotal": 96,
+        "gpusSchedulable": 88
+      }
+    },
+    {
+      "id": "h100-b",
+      "label": "training pool h100-b",
+      "districtId": "training",
+      "type": "node-pool",
+      "shape": "block",
+      "metrics": {
+        "ratePerSec": null,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 64,
+      "layout": [
+        {
+          "x": -2050,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1958,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1866,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1774,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1682,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1590,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1498,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1406,
+          "z": 2500,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -2050,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1958,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1866,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1774,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1682,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1590,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1498,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1406,
+          "z": 2592,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -2050,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1958,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1866,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1774,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1682,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1590,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1498,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1406,
+          "z": 2684,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -2050,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1958,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1866,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1774,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1682,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1590,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1498,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -1406,
+          "z": 2776,
+          "w": 70,
+          "d": 70,
+          "h": 120,
+          "inJob": true
+        },
+        {
+          "x": -2050,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1958,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1866,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1774,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1682,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1590,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1498,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1406,
+          "z": 2868,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -2050,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1958,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1866,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1774,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1682,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1590,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1498,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1406,
+          "z": 2960,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -2050,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1958,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1866,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1774,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1682,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1590,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1498,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1406,
+          "z": 3052,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -2050,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1958,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1866,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1774,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1682,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1590,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1498,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        },
+        {
+          "x": -1406,
+          "z": 3144,
+          "w": 70,
+          "d": 70,
+          "h": 84,
+          "inJob": false
+        }
+      ],
+      "jobs": [
+        {
+          "id": "tr-2304",
+          "nodes": 32,
+          "gpus": 256,
+          "step": 18420,
+          "steps": 40000
+        }
+      ]
+    },
+    {
+      "id": "data-lake",
+      "label": "data archive · lake",
+      "districtId": "data",
+      "type": "datastore",
+      "shape": "archive",
+      "metrics": {
+        "ratePerSec": null,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 4,
+      "layout": [
+        {
+          "x": -1560,
+          "z": 1380,
+          "w": 420,
+          "d": 46,
+          "h": 38
+        },
+        {
+          "x": -1560,
+          "z": 1500,
+          "w": 420,
+          "d": 46,
+          "h": 38
+        },
+        {
+          "x": -1560,
+          "z": 1620,
+          "w": 420,
+          "d": 46,
+          "h": 38
+        },
+        {
+          "x": -1560,
+          "z": 1740,
+          "w": 420,
+          "d": 46,
+          "h": 38
+        }
+      ]
+    },
+    {
+      "id": "data-pipeline",
+      "label": "data-pipeline",
+      "districtId": "data",
+      "type": "job",
+      "shape": "tower",
+      "metrics": {
+        "ratePerSec": null,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 3,
+      "layout": [
+        {
+          "x": -1180,
+          "z": 1380,
+          "w": 60,
+          "d": 60,
+          "h": 92
+        },
+        {
+          "x": -1180,
+          "z": 1490,
+          "w": 60,
+          "d": 60,
+          "h": 92
+        },
+        {
+          "x": -1180,
+          "z": 1600,
+          "w": 60,
+          "d": 60,
+          "h": 92
+        }
+      ]
+    },
+    {
+      "id": "dataset-registry",
+      "label": "dataset registry",
+      "districtId": "data",
+      "type": "datastore",
+      "shape": "vault",
+      "metrics": {
+        "ratePerSec": null,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 1,
+      "layout": [
+        {
+          "x": -1180,
+          "z": 1800,
+          "w": 84,
+          "d": 70,
+          "h": 70
+        }
+      ]
+    },
+    {
+      "id": "model-registry",
+      "label": "model registry",
+      "districtId": "training",
+      "type": "datastore",
+      "shape": "vault",
+      "metrics": {
+        "ratePerSec": null,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 1,
+      "layout": [
+        {
+          "x": -980,
+          "z": 2300,
+          "w": 96,
+          "d": 96,
+          "h": 120
+        }
+      ]
+    },
+    {
+      "id": "trace-collector",
+      "label": "telemetry · traces / metrics / logs",
+      "districtId": "telemetry",
+      "type": "service",
+      "shape": "needle",
+      "metrics": {
+        "ratePerSec": 340,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 3,
+      "layout": [
+        {
+          "x": 1560,
+          "z": 2350,
+          "w": 40,
+          "d": 40,
+          "h": 380
+        },
+        {
+          "x": 1720,
+          "z": 2650,
+          "w": 40,
+          "d": 40,
+          "h": 380
+        },
+        {
+          "x": 1880,
+          "z": 2950,
+          "w": 40,
+          "d": 40,
+          "h": 380
+        }
+      ]
+    },
+    {
+      "id": "clients",
+      "label": "clients (external)",
+      "districtId": "external",
+      "type": "external",
+      "shape": "none",
+      "metrics": {
+        "ratePerSec": 1284,
+        "utilization": null,
+        "health": "healthy"
+      },
+      "instanceCount": 0,
+      "layout": [
+        {
+          "x": 0,
+          "z": -160,
+          "anchorOnly": true
+        }
+      ]
+    }
+  ],
+  "instances": [
+    {
+      "id": "edge-gateway/eg-0",
+      "label": "eg-0",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "edge-gateway/eg-1",
+      "label": "eg-1",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "edge-gateway/eg-2",
+      "label": "eg-2",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "edge-gateway/eg-3",
+      "label": "eg-3",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "edge-gateway/eg-4",
+      "label": "eg-4",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "edge-gateway/eg-5",
+      "label": "eg-5",
+      "componentId": "edge-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.72
+    },
+    {
+      "id": "authz/az-0",
+      "label": "az-0",
+      "componentId": "authz",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "authz/az-1",
+      "label": "az-1",
+      "componentId": "authz",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "authz/az-2",
+      "label": "az-2",
+      "componentId": "authz",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "authz/az-3",
+      "label": "az-3",
+      "componentId": "authz",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "quota-cache/qc-0",
+      "label": "qc-0",
+      "componentId": "quota-cache",
+      "kind": "shard",
+      "health": "healthy",
+      "utilization": 1
+    },
+    {
+      "id": "quota-cache/qc-1",
+      "label": "qc-1",
+      "componentId": "quota-cache",
+      "kind": "shard",
+      "health": "healthy",
+      "utilization": 1
+    },
+    {
+      "id": "quota-cache/qc-2",
+      "label": "qc-2",
+      "componentId": "quota-cache",
+      "kind": "shard",
+      "health": "healthy",
+      "utilization": 1
+    },
+    {
+      "id": "stream-gateway/sg-0",
+      "label": "sg-0",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "stream-gateway/sg-1",
+      "label": "sg-1",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "stream-gateway/sg-2",
+      "label": "sg-2",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "stream-gateway/sg-3",
+      "label": "sg-3",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "stream-gateway/sg-4",
+      "label": "sg-4",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "stream-gateway/sg-5",
+      "label": "sg-5",
+      "componentId": "stream-gateway",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.66
+    },
+    {
+      "id": "safety-output/so-0",
+      "label": "so-0",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "safety-output/so-1",
+      "label": "so-1",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "safety-output/so-2",
+      "label": "so-2",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "safety-output/so-3",
+      "label": "so-3",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "safety-output/so-4",
+      "label": "so-4",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "safety-output/so-5",
+      "label": "so-5",
+      "componentId": "safety-output",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "inference-router/rt-0",
+      "label": "rt-0",
+      "componentId": "inference-router",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.68
+    },
+    {
+      "id": "inference-router/rt-1",
+      "label": "rt-1",
+      "componentId": "inference-router",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.68
+    },
+    {
+      "id": "inference-router/rt-2",
+      "label": "rt-2",
+      "componentId": "inference-router",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.68
+    },
+    {
+      "id": "inference-router/rt-3",
+      "label": "rt-3",
+      "componentId": "inference-router",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.68
+    },
+    {
+      "id": "safety-input/si-0",
+      "label": "si-0",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "safety-input/si-1",
+      "label": "si-1",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "safety-input/si-2",
+      "label": "si-2",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "safety-input/si-3",
+      "label": "si-3",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "safety-input/si-4",
+      "label": "si-4",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "safety-input/si-5",
+      "label": "si-5",
+      "componentId": "safety-input",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.55
+    },
+    {
+      "id": "retrieval-svc/rs-0",
+      "label": "rs-0",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-1",
+      "label": "rs-1",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-2",
+      "label": "rs-2",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-3",
+      "label": "rs-3",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-4",
+      "label": "rs-4",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-5",
+      "label": "rs-5",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-6",
+      "label": "rs-6",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "retrieval-svc/rs-7",
+      "label": "rs-7",
+      "componentId": "retrieval-svc",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.62
+    },
+    {
+      "id": "embed-svc/em-0",
+      "label": "em-0",
+      "componentId": "embed-svc",
+      "kind": "gpu",
+      "health": "healthy",
+      "utilization": 0.8
+    },
+    {
+      "id": "embed-svc/em-1",
+      "label": "em-1",
+      "componentId": "embed-svc",
+      "kind": "gpu",
+      "health": "healthy",
+      "utilization": 0.8
+    },
+    {
+      "id": "embed-svc/em-2",
+      "label": "em-2",
+      "componentId": "embed-svc",
+      "kind": "gpu",
+      "health": "healthy",
+      "utilization": 0.8
+    },
+    {
+      "id": "embed-svc/em-3",
+      "label": "em-3",
+      "componentId": "embed-svc",
+      "kind": "gpu",
+      "health": "healthy",
+      "utilization": 0.8
+    },
+    {
+      "id": "vector-store/vs-01/primary",
+      "label": "vs-01 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-01/replica-b",
+      "label": "vs-01 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-02/primary",
+      "label": "vs-02 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-02/replica-b",
+      "label": "vs-02 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-03/primary",
+      "label": "vs-03 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "degraded",
+      "utilization": 1,
+      "note": "compaction since 13:57:40 · p99 270 ms"
+    },
+    {
+      "id": "vector-store/vs-03/replica-b",
+      "label": "vs-03 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-04/primary",
+      "label": "vs-04 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-04/replica-b",
+      "label": "vs-04 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-05/primary",
+      "label": "vs-05 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-05/replica-b",
+      "label": "vs-05 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-06/primary",
+      "label": "vs-06 primary",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "vector-store/vs-06/replica-b",
+      "label": "vs-06 replica-b",
+      "componentId": "vector-store",
+      "kind": "replica",
+      "health": "healthy",
+      "utilization": 0.5
+    },
+    {
+      "id": "prompt-builder/pb-0",
+      "label": "pb-0",
+      "componentId": "prompt-builder",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "prompt-builder/pb-1",
+      "label": "pb-1",
+      "componentId": "prompt-builder",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "prompt-builder/pb-2",
+      "label": "pb-2",
+      "componentId": "prompt-builder",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "prompt-builder/pb-3",
+      "label": "pb-3",
+      "componentId": "prompt-builder",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.6
+    },
+    {
+      "id": "gpu-scheduler/gs-0",
+      "label": "gs-0",
+      "componentId": "gpu-scheduler",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.9
+    },
+    {
+      "id": "gpu-scheduler/gs-1",
+      "label": "gs-1",
+      "componentId": "gpu-scheduler",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.9
+    },
+    {
+      "id": "gpu-scheduler/gs-2",
+      "label": "gs-2",
+      "componentId": "gpu-scheduler",
+      "kind": "pod",
+      "health": "healthy",
+      "utilization": 0.9
+    },
+    {
+      "id": "model-server/s-0",
+      "label": "s-0",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-02",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-1",
+      "label": "s-1",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-03",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/c-1",
+      "label": "c-1",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-17",
+      "variant": "canary",
+      "gpus": 8,
+      "health": "cordoned",
+      "utilization": 0,
+      "note": "XID 79 on GPU 5 · cordoned 14:00:52 · E1"
+    },
+    {
+      "id": "model-server/c-0",
+      "label": "c-0",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-16",
+      "variant": "canary",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 1
+    },
+    {
+      "id": "model-server/s-2",
+      "label": "s-2",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-06",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-3",
+      "label": "s-3",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-07",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-4",
+      "label": "s-4",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-08",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-5",
+      "label": "s-5",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-09",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-6",
+      "label": "s-6",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-10",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-7",
+      "label": "s-7",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-11",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-8",
+      "label": "s-8",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-12",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    },
+    {
+      "id": "model-server/s-9",
+      "label": "s-9",
+      "componentId": "model-server",
+      "kind": "node",
+      "host": "gpu-a-13",
+      "variant": "stable",
+      "gpus": 8,
+      "health": "healthy",
+      "utilization": 0.91
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "event",
+      "at": "2026-10-24T14:00:52Z",
+      "subject": "model-server/c-1",
+      "text": "Node gpu-a-17 cordoned after XID 79 on GPU 5. Canary replica c-1 evicted.",
+      "source": "k8s events + DCGM"
+    },
+    {
+      "id": "E2",
+      "kind": "metric",
+      "at": "2026-10-24T14:01:00Z",
+      "subject": "gpu-scheduler",
+      "text": "Canary queue depth 3 → 37 since 14:01.",
+      "source": "scheduler_queue_depth{deploy=\"vesper-chat-3.2\"}"
+    },
+    {
+      "id": "E3",
+      "kind": "config",
+      "at": "2026-10-24T13:10:00Z",
+      "subject": "inference-router",
+      "text": "dep-118 router weight for canary is a fixed 10%. Not capacity-aware.",
+      "source": "deploy config dep-118"
+    },
+    {
+      "id": "E4",
+      "kind": "span",
+      "at": "2026-10-24T14:02:17.366Z",
+      "subject": "vector-store/vs-03/primary",
+      "text": "vs-03 primary hit the 250 ms deadline. Retry on replica-b took 33 ms.",
+      "source": "trace req_7f3a9c21 span s8"
+    },
+    {
+      "id": "E5",
+      "kind": "log",
+      "at": "2026-10-24T13:57:40Z",
+      "subject": "vector-store/vs-03/primary",
+      "text": "Compaction started on vs-03 primary. Shard p99 270 ms since.",
+      "source": "vector-store logs"
+    }
+  ],
+  "lineage": [
+    {
+      "id": "lake/support/2026-09",
+      "kind": "data",
+      "label": "object store snapshot",
+      "next": "dp-0912"
+    },
+    {
+      "id": "dp-0912",
+      "kind": "pipeline",
+      "label": "dedup → PII scrub → tokenize",
+      "next": "support-sft-v14"
+    },
+    {
+      "id": "support-sft-v14",
+      "kind": "dataset",
+      "label": "2.1 M conversations · 3.4 B tokens",
+      "next": "tr-2291"
+    },
+    {
+      "id": "tr-2291",
+      "kind": "training",
+      "label": "from vesper-base-3 · 64 × H100 · 18 h 40 m",
+      "next": "eval-suite-7"
+    },
+    {
+      "id": "eval-suite-7",
+      "kind": "evaluation",
+      "label": "score 94.1 vs 93.2 for 3.1 · safety pass",
+      "next": "vesper-chat-3.2"
+    },
+    {
+      "id": "vesper-chat-3.2",
+      "kind": "artifact",
+      "label": "registry v3.2.0",
+      "next": "dep-118"
+    },
+    {
+      "id": "dep-118",
+      "kind": "deployment",
+      "label": "canary 10% since 13:10 UTC · 1 of 2 replicas live",
+      "next": "model-server"
+    }
+  ],
+  "camera": {
+    "pivot": [
+      -60,
+      0,
+      1900
+    ],
+    "distance": 4150,
+    "defaultAzimuthDeg": 12,
+    "defaultElevationDeg": 29,
+    "elevationRangeDeg": [
+      12,
+      72
+    ],
+    "focalPx": 1330
+  }
+}

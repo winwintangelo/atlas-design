@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "file": "references/05A_precision_trace.png",
+      "role": "Approved visual direction for specific-transaction introspection and live demos",
+      "dimensions_px": [
+        1672,
+        941
+      ],
+      "sha256": "f853268d1ea0cc67e41e46dd8f29cdbd94ce255cd551de82b3e727639443733c",
+      "kind": "AI-generated static concept mockup",
+      "telemetry": "synthetic and illustrative",
+      "authority": "visual reference, not a validated topology or data contract"
+    },
+    {
+      "file": "references/07_topographic_atlas.png",
+      "role": "Approved visual direction for whole-system bird\u2019s-eye view",
+      "dimensions_px": [
+        1672,
+        941
+      ],
+      "sha256": "ff511040c4643374d58e3c827cbd0ba32bb519c87f6f64b0d985ebfddff7a06c",
+      "kind": "AI-generated static concept mockup",
+      "telemetry": "synthetic and illustrative",
+      "authority": "visual reference, not a validated topology or data contract"
+    }
+  ]
+}

@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Concept A — The Data Metropolis</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Saira:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#02050a}
+a{color:#56d6ff}a:hover{color:#a6ecff}
+@keyframes aFlow{to{stroke-dashoffset:-240}}
+@keyframes aFlowSlow{to{stroke-dashoffset:-60}}
+@keyframes aPulse{0%,100%{opacity:.45}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #02050a; color: #e9f2fb; font-family: 'Saira', system-ui, sans-serif">
+
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <defs>
+      <filter id="aGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="{{fx.blur}}" result="b"></feGaussianBlur>
+        <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+      </filter>
+      <filter id="aGlowBig" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="{{fx.blurBig}}" result="b"></feGaussianBlur>
+        <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+      </filter>
+      <linearGradient id="aSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#010307"></stop>
+        <stop offset="0.75" stop-color="{{fx.skyMid}}"></stop>
+        <stop offset="1" stop-color="{{fx.skyLow}}"></stop>
+      </linearGradient>
+      <linearGradient id="aGridFade" gradientUnits="userSpaceOnUse" x1="0" y1="{{g.horizon}}" x2="0" y2="1080">
+        <stop offset="0" stop-color="#56d6ff" stop-opacity="0"></stop>
+        <stop offset="0.25" stop-color="#56d6ff" stop-opacity="{{fx.gridFar}}"></stop>
+        <stop offset="1" stop-color="#56d6ff" stop-opacity="{{fx.gridNear}}"></stop>
+      </linearGradient>
+      <radialGradient id="aHaze" cx="0.5" cy="0.38" r="0.7">
+        <stop offset="0" stop-color="#1b4a66" stop-opacity="0.38"></stop>
+        <stop offset="1" stop-color="#02050a" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <div style="position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; transform: {{zoom.transform}}; transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1)">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; overflow: visible" aria-hidden="true">
+      <rect x="-2000" y="-1200" width="5920" height="{{g.skyH}}" fill="url(#aSky)"></rect>
+      <rect x="-2000" y="{{g.horizon}}" width="5920" height="2400" fill="#02060b"></rect>
+      <rect x="-200" y="-100" width="2320" height="1100" fill="url(#aHaze)" opacity="{{fx.haze}}"></rect>
+      <path d="{{g.grid}}" fill="none" stroke="url(#aGridFade)" stroke-width="1"></path>
+      <path d="{{g.horizonLine}}" fill="none" stroke="#56d6ff" stroke-width="1.5" opacity="{{fx.horizon}}" filter="url(#aGlowBig)"></path>
+      <path d="{{g.platesCyan}}" fill="rgba(86,214,255,0.035)" stroke="#56d6ff" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="6 6"></path>
+      <path d="{{g.platesViolet}}" fill="rgba(182,155,255,0.04)" stroke="#b69bff" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="6 6"></path>
+      <path d="{{g.platesAmber}}" fill="rgba(255,179,64,0.045)" stroke="#ffb340" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 6"></path>
+      <path d="{{g.lake}}" fill="rgba(120,100,220,0.16)" stroke="#b69bff" stroke-opacity="0.5" stroke-width="1"></path>
+      <path d="{{g.lakeRipples}}" fill="none" stroke="#b69bff" stroke-opacity="0.22" stroke-width="1"></path>
+      <g opacity="{{ly.traffic}}">
+        <path d="{{g.lanes}}" fill="none" stroke="#56d6ff" stroke-opacity="0.22" stroke-width="7" stroke-linecap="round"></path>
+        <path d="{{g.lanes}}" fill="none" stroke="#56d6ff" stroke-width="2" stroke-dasharray="3 17" stroke-linecap="round" style="animation: aFlow 5s linear infinite"></path>
+        <path d="{{g.lanesCanary}}" fill="none" stroke="#ffb340" stroke-width="2" stroke-dasharray="2 22" stroke-linecap="round" style="animation: aFlow 14s linear infinite"></path>
+        <path d="{{g.lanesReturn}}" fill="none" stroke="#56d6ff" stroke-opacity="0.5" stroke-width="1.5" stroke-dasharray="2 10" style="animation: aFlow 7s linear infinite"></path>
+      </g>
+    </svg>
+
+    <sc-for list="{{items}}" as="b" hint-placeholder-count="12">
+      <svg width="{{b.bw}}" height="{{b.bh}}" viewBox="{{b.vb}}" style="position: absolute; left: {{b.l}}px; top: {{b.t}}px; overflow: visible" aria-hidden="true">
+        <path d="{{b.side}}" fill="{{b.sf}}"></path>
+        <path d="{{b.front}}" fill="{{b.ff}}"></path>
+        <path d="{{b.top}}" fill="{{b.tf}}"></path>
+        <path d="{{b.ribs}}" fill="none" stroke="{{b.ec}}" stroke-opacity="0.16" stroke-width="1"></path>
+        <path d="{{b.dim}}" fill="{{b.wc}}" opacity="0.13"></path>
+        <path d="{{b.lit}}" fill="{{b.wc}}" opacity="{{b.wo}}"></path>
+        <path d="{{b.edges}}" fill="none" stroke="{{b.ec}}" stroke-width="1" stroke-opacity="0.7" stroke-linejoin="round"></path>
+        <path d="{{b.cap}}" fill="none" stroke="{{b.ec}}" stroke-width="{{b.cw}}" stroke-linejoin="round" filter="url(#aGlow)"></path>
+        <path d="{{b.extra}}" fill="{{b.xf}}" stroke="{{b.xs}}" stroke-width="1.4" filter="url(#aGlow)"></path>
+      </svg>
+    </sc-for>
+
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; overflow: visible" aria-hidden="true">
+      <g opacity="{{ly.lineage}}">
+        <path d="{{r.lineage}}" fill="none" stroke="#b69bff" stroke-width="2" stroke-dasharray="10 8" filter="url(#aGlow)" style="animation: aFlow 16s linear infinite"></path>
+      </g>
+      <path d="{{r.okAll}}" fill="none" stroke="#bff0ff" stroke-opacity="0.25" stroke-width="{{fx.tube}}" stroke-linecap="round"></path>
+      <path d="{{r.ok}}" fill="none" stroke="#f2fbff" stroke-width="2.6" stroke-linecap="round" filter="url(#aGlow)"></path>
+      <path d="{{r.ok}}" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 26" stroke-linecap="round" style="animation: aFlow 3s linear infinite"></path>
+      <path d="{{r.fail}}" fill="none" stroke="#ff6b7d" stroke-width="2.6" stroke-linecap="round" filter="url(#aGlow)"></path>
+      <path d="{{r.spark}}" fill="none" stroke="#ff6b7d" stroke-width="2" stroke-linecap="round" filter="url(#aGlow)" style="animation: aPulse 1.6s ease-in-out infinite"></path>
+      <path d="{{r.wait}}" fill="none" stroke="#ffb340" stroke-width="3" stroke-linecap="round" filter="url(#aGlow)"></path>
+      <path d="{{r.wait}}" fill="none" stroke="#fff2d8" stroke-width="2" stroke-dasharray="2 14" stroke-linecap="round" style="animation: aFlowSlow 9s linear infinite"></path>
+      <path d="{{r.stream}}" fill="none" stroke="#56d6ff" stroke-width="2.4" stroke-linecap="round" filter="url(#aGlow)"></path>
+      <path d="{{r.stream}}" fill="none" stroke="#e9fbff" stroke-width="2.4" stroke-dasharray="1.5 6" stroke-linecap="round" style="animation: aFlow 2.2s linear infinite"></path>
+      <path d="{{r.beam}}" fill="none" stroke="#bfefff" stroke-width="{{fx.beam}}" stroke-opacity="0.07" stroke-linecap="round" filter="url(#aGlowBig)"></path>
+      <path d="{{r.beam}}" fill="none" stroke="#f2fbff" stroke-width="1.2" stroke-opacity="{{fx.beamCore}}"></path>
+    </svg>
+  </div>
+
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; pointer-events: none" aria-hidden="true">
+    <path d="{{r.motes}}" fill="#d9f6ff" opacity="{{fx.motes}}" style="animation: aPulse 5s ease-in-out infinite"></path>
+  </svg>
+  <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 48% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.85) 100%); opacity: {{fx.vignette}}; transition: opacity 0.6s"></div>
+
+  <div style="position: absolute; inset: 0; pointer-events: none">
+    <sc-for list="{{labels}}" as="l" hint-placeholder-count="14">
+      <div style="position: absolute; left: {{l.sx}}px; top: {{l.sy}}px; transform: translate(-50%, -100%); opacity: {{l.op}}; transition: left 1.2s cubic-bezier(0.7, 0, 0.2, 1), top 1.2s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.5s; display: flex; flex-direction: column; align-items: center">
+        <div style="padding: 5px 9px 6px; background: rgba(2,7,13,0.8); border: 1px solid {{l.bc}}; display: flex; flex-direction: column; gap: 1px; white-space: nowrap">
+          <span style="font-family: 'Michroma', 'Saira', sans-serif; font-size: 10.5px; letter-spacing: 0.12em; color: {{l.c}}">{{l.t}}</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #d3e1ee">{{l.s}}</span>
+        </div>
+        <div style="width: 1px; height: {{l.lead}}px; background: {{l.c}}; opacity: 0.75"></div>
+      </div>
+    </sc-for>
+    <sc-for list="{{hops}}" as="h" hint-placeholder-count="9">
+      <div style="position: absolute; left: {{h.sx}}px; top: {{h.sy}}px; width: 24px; height: 24px; margin: -12px 0 0 -12px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{h.c}}; background: #02060b; color: {{h.c}}; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; opacity: {{h.op}}; box-shadow: 0 0 12px {{h.c}}; transition: left 1.2s cubic-bezier(0.7, 0, 0.2, 1), top 1.2s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.5s">{{h.n}}</div>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{isExec}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 1010px; top: 150px; width: 560px; box-sizing: border-box; padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; background: rgba(3,9,16,0.9); border: 1px solid rgba(242,251,255,0.5); box-shadow: 0 0 40px rgba(159,232,255,0.18)">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-family: 'Michroma', sans-serif; font-size: 13px; letter-spacing: 0.14em; color: #f2fbff">FLOOR VIEW · INSIDE c-0</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a9bccd">gpu-a-16 · vesper-chat-3.2 · TP 8</span>
+      </div>
+      <svg width="512" height="226" viewBox="0 0 512 226" role="img" aria-label="Eight GPUs in tensor parallel; 24 sequences span all of them; this request is lane 17, now decoding">
+        <g fill="#08131d" stroke="#bfeaff" stroke-opacity="0.55">
+          <rect x="16" y="28" width="50" height="150"></rect><rect x="76" y="28" width="50" height="150"></rect><rect x="136" y="28" width="50" height="150"></rect><rect x="196" y="28" width="50" height="150"></rect>
+          <rect x="256" y="28" width="50" height="150"></rect><rect x="316" y="28" width="50" height="150"></rect><rect x="376" y="28" width="50" height="150"></rect><rect x="436" y="28" width="50" height="150"></rect>
+        </g>
+        <path d="{{floor.lanes}}" fill="none" stroke="#56d6ff" stroke-opacity="0.45" stroke-width="1.4"></path>
+        <path d="{{floor.mine}}" fill="none" stroke="#f2fbff" stroke-width="3.2" filter="url(#aGlow)"></path>
+        <path d="{{floor.kv}}" fill="#ffb340"></path>
+        <path d="{{floor.kvFree}}" fill="#2a2010"></path>
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="#cfe0ee">
+          <text x="18" y="20">GPU 0</text><text x="78" y="20">GPU 1</text><text x="138" y="20">GPU 2</text><text x="198" y="20">GPU 3</text><text x="258" y="20">GPU 4</text><text x="318" y="20">GPU 5</text><text x="378" y="20">GPU 6</text><text x="438" y="20">GPU 7</text>
+          <text x="492" y="{{floor.mineY}}" fill="#f2fbff" text-anchor="end" dy="-6">lane 17 · req_7f3a9c21 · decoding</text>
+          <text x="16" y="206" fill="#ffb340">KV cache 78% on every GPU</text>
+          <text x="496" y="206" fill="#a9bccd" text-anchor="end">24 sequences span all 8 GPUs</text>
+        </g>
+      </svg>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+        <div style="display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 1px solid rgba(255,179,64,0.5)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #ffb340">840 ms</span>
+          <span style="font-size: 13px; color: #d3e1ee">waited at the door</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">span s10 · E2</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 1px solid rgba(242,251,255,0.4)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #f2fbff">228 ms</span>
+          <span style="font-size: 13px; color: #d3e1ee">prefill · 1,846 tok</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">span s11</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 1px solid rgba(86,214,255,0.45)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #56d6ff">72 tok/s</span>
+          <span style="font-size: 13px; color: #d3e1ee">decode · 318 tok</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">span s12</span>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #a9bccd">The floor plate is c-0's batch. Each lit band is one sequence. The white band is this request. Click any band to open its span.</p>
+    </div>
+  </sc-if>
+
+  <header style="position: absolute; left: 0; top: 0; right: 0; height: 64px; box-sizing: border-box; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: linear-gradient(rgba(2,5,10,0.92), rgba(2,5,10,0)); z-index: 2">
+    <div style="display: flex; align-items: center; gap: 18px">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 24 L14 4 L25 24 Z M9 24 L14 14 L19 24" fill="none" stroke="#56d6ff" stroke-width="1.6"></path></svg>
+      <span style="font-family: 'Michroma', sans-serif; font-size: 15px; letter-spacing: 0.24em">VESPER</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #7d93a8">SYSTEM ATLAS</span>
+      <span style="padding: 4px 10px; border: 1px solid rgba(86,214,255,0.45); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #56d6ff">A · DATA METROPOLIS</span>
+    </div>
+    <nav aria-label="Location" style="display: flex; gap: 10px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a9bccd">
+      <sc-for list="{{crumbs}}" as="c" hint-placeholder-count="3">
+        <span style="color: {{c.c}}">{{c.t}}</span>
+      </sc-for>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 16px">
+      <span style="display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #d3e1ee"><span style="width: 8px; height: 8px; border-radius: 50%; background: #56d6ff; box-shadow: 0 0 8px #56d6ff"></span>LIVE · 14:02:17 UTC</span>
+      <div role="group" aria-label="Visual intensity" style="display: flex; border: 1px solid rgba(150,190,230,0.3)">
+        <button type="button" onClick="{{setOp}}" style="height: 36px; padding: 0 14px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; background: {{modeBtn.opBg}}; color: {{modeBtn.opC}}">OPERATIONAL</button>
+        <button type="button" onClick="{{setCin}}" style="height: 36px; padding: 0 14px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; background: {{modeBtn.cinBg}}; color: {{modeBtn.cinC}}">CINEMATIC</button>
+      </div>
+    </div>
+  </header>
+
+  <aside style="position: absolute; left: 24px; top: 84px; width: 248px; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 18px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(86,214,255,0.22)">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">ZOOM</span>
+      <sc-for list="{{levels}}" as="v" hint-placeholder-count="4">
+        <button type="button" onClick="{{v.go}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; text-align: left; cursor: pointer; border: 1px solid {{v.bc}}; background: {{v.bg}}; color: #e9f2fb; font-family: 'Saira', sans-serif">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{v.nc}}">{{v.n}}</span>
+          <span style="display: flex; flex-direction: column; gap: 0"><span style="font-size: 15px; font-weight: 600">{{v.t}}</span><span style="font-size: 12px; color: #a9bccd">{{v.s}}</span></span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">LAYERS</span>
+      <button type="button" onClick="{{toggleTraffic}}" style="display: flex; justify-content: space-between; align-items: center; min-height: 36px; padding: 0 10px; cursor: pointer; border: 1px solid rgba(150,190,230,0.2); background: transparent; color: #e9f2fb; font-family: 'Saira', sans-serif; font-size: 14px"><span>Live traffic</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{lyBtn.trafficC}}">{{lyBtn.traffic}}</span></button>
+      <button type="button" onClick="{{toggleLineage}}" style="display: flex; justify-content: space-between; align-items: center; min-height: 36px; padding: 0 10px; cursor: pointer; border: 1px solid rgba(150,190,230,0.2); background: transparent; color: #e9f2fb; font-family: 'Saira', sans-serif; font-size: 14px"><span>Model lineage</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{lyBtn.lineageC}}">{{lyBtn.lineage}}</span></button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 7px; font-size: 13px; line-height: 1.35; color: #a9bccd">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">HOW TO READ THE CITY</span>
+      <span><b style="color: #e9f2fb; font-weight: 600">Height</b> = requests per second</span>
+      <span><b style="color: #e9f2fb; font-weight: 600">Lit windows</b> = utilization, one per pod or GPU</span>
+      <span><b style="color: #e9f2fb; font-weight: 600">Transit cars</b> = queued requests</span>
+      <span><b style="color: #e9f2fb; font-weight: 600">Street dashes</b> move at measured rate</span>
+    </div>
+  </aside>
+
+  <aside style="position: absolute; right: 24px; top: 84px; width: 330px; box-sizing: border-box; padding: 18px; display: flex; flex-direction: column; gap: 14px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(242,251,255,0.3)">
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">ISOLATED REQUEST</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #f2fbff">req_7f3a9c21</span>
+      <span style="font-size: 13px; color: #a9bccd">chat · stream · tenant t-0428 · canary 3.2</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <div style="display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: 1px solid rgba(255,179,64,0.55); background: rgba(40,26,8,0.45)">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #ffb340">1,410 ms</span>
+        <span style="font-size: 12px; color: #e3c79a">first token · SLO 800</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: 1px solid rgba(150,190,230,0.25)">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px">5,842 ms</span>
+        <span style="font-size: 12px; color: #a9bccd">total · 318 tok out</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(150,190,230,0.14)">
+      <sc-for list="{{hopRows}}" as="h" hint-placeholder-count="9">
+        <div style="display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 31px; border-bottom: 1px solid rgba(150,190,230,0.1)">
+          <span style="width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{h.c}}; color: {{h.c}}; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{h.n}}</span>
+          <span style="display: flex; flex-direction: column"><span style="font-size: 13px; color: #e9f2fb">{{h.d}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">{{h.s}}</span></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{h.tc}}">{{h.ms}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">EVIDENCE</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <span style="padding: 3px 8px; border: 1px solid #ff6b7d; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff6b7d">E1 cordon −85 s</span>
+        <span style="padding: 3px 8px; border: 1px solid #ffb340; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ffb340">E2 queue 3→37</span>
+        <span style="padding: 3px 8px; border: 1px solid #ffb340; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ffb340">E3 weight 10%</span>
+        <span style="padding: 3px 8px; border: 1px solid #ff6b7d; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff6b7d">E4 vs-03 timeout</span>
+        <span style="padding: 3px 8px; border: 1px solid rgba(169,188,205,0.6); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a9bccd">E5 compaction</span>
+      </div>
+    </div>
+  </aside>
+
+  <section aria-label="Request timeline" style="position: absolute; left: 24px; right: 24px; bottom: 20px; height: 128px; box-sizing: border-box; padding: 14px 18px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 22px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(86,214,255,0.22)">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; gap: 8px">
+        <button type="button" style="height: 36px; padding: 0 14px; cursor: pointer; border: 1px solid #f2fbff; background: rgba(242,251,255,0.08); color: #f2fbff; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em">REPLAY INCIDENT</button>
+        <button type="button" aria-label="Playback speed" style="height: 36px; padding: 0 12px; cursor: pointer; border: 1px solid rgba(150,190,230,0.3); background: transparent; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 12px">0.25×</button>
+      </div>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #7d93a8">BEFORE THE REQUEST</span>
+      <span style="font-size: 13px; color: #ff6b7d">−85 s · gpu-a-17 cordoned · E1</span>
+      <span style="font-size: 13px; color: #a9bccd">−4 m 37 s · vs-03 compaction · E5</span>
+    </div>
+    <div style="position: relative">
+      <div style="position: absolute; left: 0; right: 0; top: 4px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8"><span>0 ms</span><span>scale changes at 1,500 ms</span><span>5,842 ms</span></div>
+      <sc-for list="{{tl}}" as="s" hint-placeholder-count="10">
+        <div style="position: absolute; left: {{s.x}}%; width: {{s.w}}%; top: {{s.y}}px; height: 16px; background: {{s.bg}}; box-shadow: {{s.sh}}"></div>
+      </sc-for>
+      <div style="position: absolute; left: {{tlMarks.brk}}%; top: 22px; height: 64px; border-left: 1px dashed rgba(150,190,230,0.45)"></div>
+      <div style="position: absolute; left: {{tlMarks.slo}}%; top: 22px; height: 70px; border-left: 1px dashed #e9f2fb"></div>
+      <div style="position: absolute; left: {{tlMarks.ttft}}%; top: 18px; height: 78px; width: 2px; background: #ffb340; box-shadow: 0 0 10px #ffb340"></div>
+      <div style="position: absolute; left: {{tlMarks.ttft}}%; top: 78px; padding-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ffb340; white-space: nowrap">▲ first token 1,410 ms</div>
+      <div style="position: absolute; left: {{tlMarks.slo}}%; top: 78px; transform: translateX(-100%); padding-right: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e9f2fb; white-space: nowrap">SLO 800 ms</div>
+      <div style="position: absolute; left: 0; top: 78px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a9bccd">critical path · parallel / side work below</div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"intensity":{"editor":"enum","options":["Cinematic","Operational"],"default":"Cinematic"},"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var st = this.state || {};
+    var mode = st.mode || (this.props.intensity === 'Operational' ? 'op' : 'cin');
+    var cin = mode === 'cin';
+    var level = st.level == null ? 0 : st.level;
+    var showLineage = st.lineage == null ? true : st.lineage;
+    var showTraffic = st.traffic == null ? true : st.traffic;
+
+    var CAM = { x: 700, y: 2000, z: -1650, yaw: -0.2, pitch: 0.36, f: 1270, cx: 920, cy: 296 };
+    var ca = Math.cos(CAM.pitch), sa = Math.sin(CAM.pitch), cy_ = Math.cos(CAM.yaw), sy_ = Math.sin(CAM.yaw);
+    function proj(x, y, z) {
+      var X0 = x - CAM.x, Y = y - CAM.y, Z0 = z - CAM.z;
+      var X = X0 * cy_ - Z0 * sy_, Z = X0 * sy_ + Z0 * cy_;
+      var yc = Y * ca + Z * sa, zc = -Y * sa + Z * ca;
+      return [CAM.cx + CAM.f * X / zc, CAM.cy - CAM.f * yc / zc, zc];
+    }
+    function r1(n) { return Math.round(n * 10) / 10; }
+    function rnd(i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+    function pathPts(pts, close) { return 'M' + pts.map(function (p) { return r1(p[0]) + ' ' + r1(p[1]); }).join(' L') + (close ? ' Z' : ''); }
+
+    var K = {
+      svc: { e: '#56d6ff', t: '#0b1a27', f: '#050c14', s: '#08131d', w: '#7fe1ff' },
+      gpu: { e: '#8fdcff', t: '#0b1a27', f: '#040a11', s: '#07111b', w: '#cfefff' },
+      canary: { e: '#f2fbff', t: '#14202b', f: '#060c13', s: '#0a141e', w: '#ffffff' },
+      dead: { e: '#ff6b7d', t: '#1a0b0f', f: '#0c0507', s: '#12080b', w: '#ff6b7d' },
+      hot: { e: '#ffb340', t: '#1f1608', f: '#0c0904', s: '#140f06', w: '#ffc46b' },
+      sched: { e: '#ffb340', t: '#1a1409', f: '#0b0905', s: '#120e07', w: '#ffc46b' },
+      train: { e: '#b69bff', t: '#130f23', f: '#080612', s: '#0d0a19', w: '#cdbaff' },
+      data: { e: '#b69bff', t: '#100d1f', f: '#07060f', s: '#0b0916', w: '#a993f0' },
+      tele: { e: '#8fb3d1', t: '#0c141c', f: '#060a0f', s: '#091018', w: '#a9c6de' }
+    };
+
+    // ---------- the city: one building per pod / node ----------
+    var B = [];
+    function add(o) { o.seed = B.length * 7 + 3; B.push(o); return o; }
+    var i, j;
+    for (i = 0; i < 6; i++) add({ g: 'edge', x: -250 + i * 100, z: 300, w: 64, d: 64, h: 170, k: 'svc', win: [2, 5], load: 0.72 });
+    for (i = 0; i < 4; i++) add({ g: 'ident', x: 610 + (i % 2) * 92, z: 660 + Math.floor(i / 2) * 92, w: 64, d: 64, h: 150, k: 'svc', win: [2, 4], load: 0.6 });
+    for (i = 0; i < 3; i++) add({ g: 'ident', x: 820, z: 640 + i * 66, w: 46, d: 46, h: 54, k: 'svc', win: [1, 1], load: 1 });
+    for (i = 0; i < 6; i++) add({ g: 'out', x: -800 + (i % 3) * 82, z: 660 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 140, k: 'svc', win: [2, 4], load: 0.66 });
+    for (i = 0; i < 6; i++) add({ g: 'out', x: -800 + (i % 3) * 82, z: 880 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 105, k: 'svc', win: [2, 3], load: 0.6 });
+    for (i = 0; i < 4; i++) add({ g: 'route', x: 100 + (i % 2 ? 115 : -115), z: 1190 + Math.floor(i / 2) * 120, w: 70, d: 70, h: 200, k: 'svc', win: [2, 6], load: 0.68 });
+    var spire = add({ g: 'route', x: 100, z: 1250, w: 26, d: 26, h: 340, k: 'canary', win: [1, 8], load: 1 });
+    for (i = 0; i < 6; i++) add({ g: 'safety', x: -640 + (i % 3) * 82, z: 1560 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 130, k: 'svc', win: [2, 4], load: 0.55 });
+    for (i = 0; i < 8; i++) add({ g: 'retr', x: 760 + (i % 4) * 84, z: 1440 + Math.floor(i / 4) * 84, w: 58, d: 58, h: 150, k: 'svc', win: [2, 4], load: 0.62 });
+    for (i = 0; i < 4; i++) add({ g: 'retr', x: 1130 + (i % 2) * 76, z: 1440 + Math.floor(i / 2) * 84, w: 54, d: 54, h: 112, k: 'gpu', win: [2, 3], load: 0.8 });
+    var vsPrimary, vsReplica;
+    for (i = 0; i < 6; i++) {
+      var p = add({ g: 'vault', x: 700 + i * 112, z: 2050, w: 36, d: 90, h: 128, k: i === 2 ? 'hot' : 'svc', win: [1, 5], load: i === 2 ? 1 : 0.5 });
+      var q = add({ g: 'vault', x: 742 + i * 112, z: 2050, w: 36, d: 90, h: 128, k: 'svc', win: [1, 5], load: 0.5 });
+      if (i === 2) { vsPrimary = p; vsReplica = q; }
+    }
+    for (i = 0; i < 4; i++) add({ g: 'prompt', x: 210 + (i % 2) * 78, z: 2110 + Math.floor(i / 2) * 78, w: 54, d: 54, h: 110, k: 'svc', win: [2, 3], load: 0.6 });
+    for (i = 0; i < 3; i++) add({ g: 'hub', x: -396 + i * 46, z: 2550 + (i === 1 ? 30 : 0), w: 30, d: 30, h: 190, k: 'sched', win: [1, 6], load: 0.9 });
+    var nodes = [], c0, c1;
+    var colsX = [-150, 160, 470, 780], rowsZ = [3060, 3280, 3500];
+    for (j = 0; j < 3; j++) for (i = 0; i < 4; i++) {
+      var kind = 'gpu';
+      if (j === 0 && i === 3) kind = 'canary';
+      if (j === 0 && i === 2) kind = 'dead';
+      var n = add({ g: 'compute', x: colsX[i], z: rowsZ[j], w: 232, d: 150, h: kind === 'dead' ? 300 : 430, k: kind, win: [4, 2], load: kind === 'dead' ? 0 : (kind === 'canary' ? 1 : 0.91), gpu: true });
+      nodes.push(n);
+      if (kind === 'canary') c0 = n;
+      if (kind === 'dead') c1 = n;
+    }
+    for (j = 0; j < 8; j++) for (i = 0; i < 8; i++) {
+      var inJob = (j < 4);
+      add({ g: 'train', x: -2050 + i * 92, z: 2500 + j * 92, w: 70, d: 70, h: inJob ? 120 : 84, k: 'train', win: [2, 2], load: inJob ? 1 : 0.62 });
+    }
+    for (i = 0; i < 4; i++) add({ g: 'data', x: -1560, z: 1380 + i * 120, w: 420, d: 46, h: 38, k: 'data', win: [8, 1], load: 0.5 });
+    for (i = 0; i < 3; i++) add({ g: 'data', x: -1180, z: 1380 + i * 110, w: 60, d: 60, h: 92, k: 'data', win: [2, 3], load: 0.6 });
+    var dsReg = add({ g: 'data', x: -1180, z: 1800, w: 84, d: 70, h: 70, k: 'data', win: [3, 2], load: 0.7 });
+    var registry = add({ g: 'data', x: -980, z: 2300, w: 96, d: 96, h: 120, k: 'data', win: [3, 3], load: 0.8 });
+    for (i = 0; i < 3; i++) add({ g: 'tele', x: 1560 + i * 160, z: 2350 + i * 300, w: 40, d: 40, h: 380, k: 'tele', win: [1, 10], load: 0.5 });
+
+    // ---------- build every building into its own small svg ----------
+    function boxGeom(b) {
+      var x0 = b.x - b.w / 2, x1 = b.x + b.w / 2, z0 = b.z - b.d / 2, z1 = b.z + b.d / 2, h = b.h;
+      var P = {
+        b00: proj(x0, 0, z0), b10: proj(x1, 0, z0), b01: proj(x0, 0, z1), b11: proj(x1, 0, z1),
+        t00: proj(x0, h, z0), t10: proj(x1, h, z0), t01: proj(x0, h, z1), t11: proj(x1, h, z1)
+      };
+      var top = [P.t00, P.t10, P.t11, P.t01], front = [P.b00, P.b10, P.t10, P.t00], side = null, sideKind = 0;
+      if (CAM.x < x0) { side = [P.b00, P.b01, P.t01, P.t00]; sideKind = -1; }
+      else if (CAM.x > x1) { side = [P.b10, P.b11, P.t11, P.t10]; sideKind = 1; }
+      var lit = [], dim = [], ribs = [];
+      var cols = b.win[0], rows = b.win[1], cw = b.w / cols, rh = (h * 0.84) / rows, idx = 0;
+      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+        var wx0 = x0 + c * cw + cw * (b.gpu ? 0.12 : 0.22), wx1 = x0 + (c + 1) * cw - cw * (b.gpu ? 0.12 : 0.22);
+        var top_ = h * 0.92 - r * rh - rh * 0.14, bot = h * 0.92 - (r + 1) * rh + rh * 0.14;
+        var quad = [proj(wx0, bot, z0), proj(wx1, bot, z0), proj(wx1, top_, z0), proj(wx0, top_, z0)];
+        var on = b.load >= 1 ? true : (b.load <= 0 ? false : rnd(b.seed + idx) < b.load);
+        (on ? lit : dim).push(quad); idx++;
+      }
+      if (side) {
+        var sx = sideKind < 0 ? x0 : x1, nR = Math.max(2, Math.round(b.d / 22));
+        for (var k = 1; k < nR; k++) { var zz = z0 + (z1 - z0) * k / nR; ribs.push([proj(sx, h * 0.04, zz), proj(sx, h * 0.96, zz)]); }
+      }
+      return { P: P, top: top, front: front, side: side, lit: lit, dim: dim, ribs: ribs };
+    }
+    var fx = cin
+      ? { blur: 3.2, blurBig: 9, skyMid: '#06121d', skyLow: '#0d2a3d', gridFar: 0.12, gridNear: 0.32, haze: 1, horizon: 0.9, vignette: 0.9, panel: 0.66, tube: 12, beam: 22, beamCore: 0.6, motes: 0.85, winBoost: 1 }
+      : { blur: 1.1, blurBig: 3, skyMid: '#03080e', skyLow: '#06121b', gridFar: 0.06, gridNear: 0.18, haze: 0, horizon: 0.35, vignette: 0, panel: 0.9, tube: 6, beam: 0, beamCore: 0, motes: 0, winBoost: 0.8 };
+
+    var items = B.map(function (b) {
+      var G = boxGeom(b), pal = K[b.k];
+      var all = [].concat(G.top, G.front, G.side || []);
+      var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      all.forEach(function (p) { if (p[0] < minX) minX = p[0]; if (p[1] < minY) minY = p[1]; if (p[0] > maxX) maxX = p[0]; if (p[1] > maxY) maxY = p[1]; });
+      var pad = 30, ox = minX - pad, oy = minY - pad;
+      function rel(pts) { return pts.map(function (p) { return [p[0] - ox, p[1] - oy]; }); }
+      function multi(list) { return list.map(function (q) { return pathPts(rel(q), true); }).join(' '); }
+      var edges = pathPts(rel(G.front), true) + (G.side ? ' ' + pathPts(rel(G.side), true) : '');
+      var extra = '', xf = 'none', xs = 'none';
+      if (b === c1) {
+        var cx = (G.top[0][0] + G.top[2][0]) / 2 - ox, cy = (G.top[0][1] + G.top[2][1]) / 2 - oy;
+        extra = 'M' + r1(cx - 16) + ' ' + r1(cy - 8) + ' L' + r1(cx + 16) + ' ' + r1(cy + 8) + ' M' + r1(cx + 16) + ' ' + r1(cy - 8) + ' L' + r1(cx - 16) + ' ' + r1(cy + 8);
+        xs = '#ff6b7d';
+      }
+      b.anchor = proj(b.x, b.h, b.z);
+      b.box = [minX, minY, maxX, maxY];
+      return {
+        bw: r1(maxX - minX + pad * 2), bh: r1(maxY - minY + pad * 2), vb: '0 0 ' + r1(maxX - minX + pad * 2) + ' ' + r1(maxY - minY + pad * 2),
+        l: r1(ox), t: r1(oy), depth: G.P.b00[2] + (b.flat || 0),
+        side: G.side ? pathPts(rel(G.side), true) : '', front: pathPts(rel(G.front), true), top: pathPts(rel(G.top), true),
+        sf: pal.s, ff: pal.f, tf: pal.t, ec: pal.e, wc: pal.w, wo: (b.k === 'canary' ? 1 : 0.85) * fx.winBoost,
+        lit: multi(G.lit), dim: multi(G.dim), ribs: G.ribs.map(function (s) { return pathPts(rel(s), false); }).join(' '),
+        edges: edges, cap: pathPts(rel(G.top), true), cw: b.k === 'canary' ? 2.4 : 1.5,
+        extra: extra, xf: xf, xs: xs
+      };
+    });
+
+    // transit hub: two rings on the ground, cars = queued requests (stable inner, canary outer)
+    var HUB = { x: -350, z: 2560 }, Rin = 160, Rout = 245;
+    function ringPts(R, a0, a1, n, y) { var pts = []; for (var t = 0; t <= n; t++) { var a = a0 + (a1 - a0) * t / n; pts.push(proj(HUB.x + R * Math.cos(a), y, HUB.z + R * Math.sin(a))); } return pts; }
+    function carQuad(R, a, y, len, wid) {
+      var tx = -Math.sin(a), tz = Math.cos(a), nx = Math.cos(a), nz = Math.sin(a);
+      var cx = HUB.x + R * Math.cos(a), cz = HUB.z + R * Math.sin(a);
+      return [proj(cx - tx * len - nx * wid, y, cz - tz * len - nz * wid), proj(cx + tx * len - nx * wid, y, cz + tz * len - nz * wid), proj(cx + tx * len + nx * wid, y, cz + tz * len + nz * wid), proj(cx - tx * len + nx * wid, y, cz - tz * len + nz * wid)];
+    }
+    var hubPts = ringPts(Rout + 30, 0, Math.PI * 2, 8, 0);
+    var hMinX = Infinity, hMinY = Infinity, hMaxX = -Infinity, hMaxY = -Infinity;
+    ringPts(Rout + 40, 0, Math.PI * 2, 48, 0).forEach(function (p) { hMinX = Math.min(hMinX, p[0]); hMinY = Math.min(hMinY, p[1]); hMaxX = Math.max(hMaxX, p[0]); hMaxY = Math.max(hMaxY, p[1]); });
+    var hpad = 20, hox = hMinX - hpad, hoy = hMinY - hpad - 20;
+    function hrel(pts) { return pts.map(function (p) { return [p[0] - hox, p[1] - hoy]; }); }
+    var canCars = [], stCars = [];
+    var entryA = Math.PI * 0.5 + Math.PI;
+    for (i = 0; i < 37; i++) canCars.push(pathPts(hrel(carQuad(Rout, entryA + 0.12 + i * 0.152, 6, 15, 8)), true));
+    for (i = 0; i < 2; i++) stCars.push(pathPts(hrel(carQuad(Rin, entryA + 0.2 + i * 0.3, 6, 13, 7)), true));
+    items.push({
+      bw: r1(hMaxX - hMinX + hpad * 2), bh: r1(hMaxY - hMinY + hpad * 2 + 20), vb: '0 0 ' + r1(hMaxX - hMinX + hpad * 2) + ' ' + r1(hMaxY - hMinY + hpad * 2 + 20),
+      l: r1(hox), t: r1(hoy), depth: proj(0, 0, HUB.z + Rout)[2],
+      side: pathPts(hrel(ringPts(Rout + 22, 0, Math.PI * 2, 72, 0)), true), sf: 'rgba(255,179,64,0.05)',
+      front: '', ff: 'none', top: pathPts(hrel(ringPts(Rin - 22, 0, Math.PI * 2, 72, 0)), true), tf: 'rgba(86,214,255,0.06)',
+      ribs: pathPts(hrel(ringPts(Rout, 0, Math.PI * 2, 96, 2)), true) + ' ' + pathPts(hrel(ringPts(Rin, 0, Math.PI * 2, 96, 2)), true),
+      ec: '#ffb340', dim: stCars.join(' '), lit: canCars.join(' '), wc: '#ffb340', wo: 1,
+      edges: pathPts(hrel(ringPts(Rout + 22, 0, Math.PI * 2, 96, 0)), true), cap: pathPts(hrel(ringPts(Rout, 0, Math.PI * 2, 96, 2)), true), cw: 1.2,
+      extra: stCars.join(' '), xf: '#56d6ff', xs: '#56d6ff'
+    });
+    items.sort(function (a, b) { return b.depth - a.depth; });
+
+    // ---------- ground: grid, horizon, district plates, traffic lanes ----------
+    var grid = [];
+    for (var gx = -3200; gx <= 3200; gx += 200) { var a1 = proj(gx, 0, 0), a2 = proj(gx, 0, 9000); grid.push([a1, a2]); }
+    for (var gz = 0; gz <= 9000; gz += 200) { var b1 = proj(-3200, 0, gz), b2 = proj(3200, 0, gz); grid.push([b1, b2]); }
+    var horizonY = CAM.cy - CAM.f * Math.tan(CAM.pitch);
+    function plate(x0, z0, x1, z1) { return pathPts([proj(x0, 0, z0), proj(x1, 0, z0), proj(x1, 0, z1), proj(x0, 0, z1)], true); }
+    function line3(pts) { return pathPts(pts.map(function (p) { return proj(p[0], 0, p[1]); }), false); }
+    var lake = plate(-1820, 1300, -1300, 1880);
+    var rip = []; for (i = 1; i < 7; i++) rip.push(line3([[-1800, 1300 + i * 84], [-1320, 1300 + i * 84]]));
+    var g = {
+      horizon: r1(horizonY), skyH: r1(horizonY + 1200),
+      grid: grid.map(function (s) { return pathPts(s, false); }).join(' '),
+      horizonLine: 'M-2000 ' + r1(horizonY) + ' L3920 ' + r1(horizonY),
+      platesCyan: [plate(-300, 240, 300, 360), plate(560, 600, 870, 820), plate(-850, 610, -590, 1000), plate(-90, 1130, 290, 1370), plate(-690, 1510, -430, 1670), plate(710, 1390, 1250, 1560), plate(660, 1980, 1330, 2120), plate(160, 2060, 340, 2220), plate(-310, 2960, 930, 3600), plate(1500, 2290, 1940, 3020)].join(' '),
+      platesViolet: [plate(-2110, 2440, -1340, 3200), plate(-1810, 1310, -1110, 1900), plate(-1050, 2230, -910, 2370)].join(' '),
+      platesAmber: plate(-640, 2290, -60, 2830),
+      lake: lake, lakeRipples: rip.join(' '),
+      lanes: [line3([[0, 80], [0, 300], [700, 710], [100, 1250], [-560, 1600]]), line3([[100, 1250], [880, 1480], [250, 2150], [-350, 2315]]), line3([[-560, 1600], [250, 2150]]), line3([[-350, 2560], [-150, 3000]]), line3([[-350, 2560], [160, 3000]]), line3([[880, 1480], [980, 2050]]), line3([[-150, 3000], [-720, 1000], [-720, 700], [-150, 300], [-150, 80]])].join(' '),
+      lanesCanary: line3([[-120, 2620], [780, 3000]]),
+      lanesReturn: [line3([[1600, 2400], [880, 1480]]), line3([[-1500, 2700], [-980, 2300]])].join(' ')
+    };
+
+    // ---------- the isolated request: an elevated conduit ----------
+    function arc(a, b, lift) {
+      var A = proj(a[0], a[1], a[2]), Bp = proj(b[0], b[1], b[2]);
+      var C = proj((a[0] + b[0]) / 2, Math.max(a[1], b[1]) + lift, (a[2] + b[2]) / 2);
+      var cx = 2 * C[0] - (A[0] + Bp[0]) / 2, cy = 2 * C[1] - (A[1] + Bp[1]) / 2;
+      return 'M' + r1(A[0]) + ' ' + r1(A[1]) + ' Q' + r1(cx) + ' ' + r1(cy) + ' ' + r1(Bp[0]) + ' ' + r1(Bp[1]);
+    }
+    function topOf(b, up) { return [b.x, b.h + (up || 24), b.z]; }
+    var H = {
+      client: [0, 60, 0], edge: [-50, 196, 300], ident: [656, 176, 706], route: [100, 366, 1250],
+      safety: [-558, 156, 1600], retr: [886, 176, 1482], vsP: topOf(vsPrimary, 20), vsR: topOf(vsReplica, 20),
+      prompt: [249, 136, 2149], hubIn: [HUB.x + Rout * Math.cos(entryA), 14, HUB.z + Rout * Math.sin(entryA)], c0: topOf(c0, 30),
+      out: [-718, 166, 700], edgeOut: [-150, 196, 300], clientOut: [-200, 40, 0]
+    };
+    var ringRide = ringPts(Rout, entryA, entryA + Math.PI * 1.62, 60, 14);
+    var exitP = ringRide[ringRide.length - 1];
+    var exit3 = [HUB.x + Rout * Math.cos(entryA + Math.PI * 1.62), 14, HUB.z + Rout * Math.sin(entryA + Math.PI * 1.62)];
+    var okSegs = [arc(H.client, H.edge, 120), arc(H.edge, H.ident, 160), arc(H.ident, H.route, 170), arc(H.route, H.safety, 150), arc(H.route, H.retr, 150), arc(H.vsP, H.vsR, 60), arc(H.vsR, H.retr, 90), arc(H.retr, H.prompt, 160), arc(H.safety, H.prompt, 220), arc(H.prompt, H.hubIn, 120), arc(exit3, H.c0, 260)];
+    var vsA = proj(H.vsP[0], H.vsP[1], H.vsP[2]);
+    var spark = [];
+    for (i = 0; i < 8; i++) { var an = i * Math.PI / 4 + 0.2, r0 = 7, rr = 17 + (i % 2) * 7; spark.push('M' + r1(vsA[0] + Math.cos(an) * r0) + ' ' + r1(vsA[1] + Math.sin(an) * r0) + ' L' + r1(vsA[0] + Math.cos(an) * rr) + ' ' + r1(vsA[1] + Math.sin(an) * rr)); }
+    var c0Top = proj(c0.x, c0.h, c0.z), c0Sky = proj(c0.x, c0.h + 700, c0.z);
+    var motes = [];
+    for (i = 0; i < 70; i++) { var mx = 260 + rnd(i * 3.1) * 1380, my = 120 + rnd(i * 5.7) * 640, mr = 0.6 + rnd(i * 9.2) * 1.6; motes.push('M' + r1(mx - mr) + ' ' + r1(my) + ' a' + r1(mr) + ' ' + r1(mr) + ' 0 1 0 ' + r1(mr * 2) + ' 0 a' + r1(mr) + ' ' + r1(mr) + ' 0 1 0 ' + r1(-mr * 2) + ' 0'); }
+    var r = {
+      okAll: okSegs.join(' ') + ' ' + pathPts(ringRide, false),
+      ok: okSegs.join(' '),
+      fail: arc(H.retr, H.vsP, 80),
+      spark: spark.join(' '),
+      wait: pathPts(ringRide, false),
+      stream: [arc(H.c0, H.out, 520), arc(H.out, H.edgeOut, 140), arc(H.edgeOut, H.clientOut, 100)].join(' '),
+      beam: 'M' + r1(c0Top[0]) + ' ' + r1(c0Top[1]) + ' L' + r1(c0Sky[0]) + ' ' + r1(c0Sky[1]),
+      lineage: [arc([-1730, 130, 2640], topOf(registry, 10), 220), arc(topOf(registry, 10), H.c0, 640), arc(topOf(dsReg, 10), [-1730, 130, 2640], 200)].join(' '),
+      motes: motes.join(' ')
+    };
+
+    // ---------- zoom levels: city → district → building → floor ----------
+    function bboxOf(list) { var a = [Infinity, Infinity, -Infinity, -Infinity]; list.forEach(function (bb) { a[0] = Math.min(a[0], bb[0]); a[1] = Math.min(a[1], bb[1]); a[2] = Math.max(a[2], bb[2]); a[3] = Math.max(a[3], bb[3]); }); return a; }
+    var compBox = bboxOf(nodes.map(function (n) { return n.box; }).concat([[hMinX, hMinY, hMaxX, hMaxY]]));
+    function fit(bb, vx, vy, vw, vh, maxS) {
+      var w = bb[2] - bb[0], h = bb[3] - bb[1], s = Math.min(vw / w, vh / h, maxS || 99);
+      return { s: s, tx: vx + vw / 2 - s * (bb[0] + w / 2), ty: vy + vh / 2 - s * (bb[1] + h / 2) };
+    }
+    var Z = [
+      { s: 1, tx: 0, ty: 0 },
+      fit(compBox, 300, 90, 1260, 780),
+      fit([c0.box[0] - 120, c0.box[1] - 60, c0.box[2] + 120, c0.box[3] + 60], 300, 90, 1260, 780),
+      fit([c0.box[0] - 30, c0.box[1] - 40, c0.box[2] + 30, c0.box[3] + 40], 300, 110, 680, 760)
+    ];
+    var z = Z[level];
+    var zoom = { transform: 'translate(' + r1(z.tx) + 'px, ' + r1(z.ty) + 'px) scale(' + z.s.toFixed(4) + ')' };
+    function S(p) { return [z.tx + z.s * p[0], z.ty + z.s * p[1]]; }
+    function inView(p) { return p[0] > 290 && p[0] < 1570 && p[1] > 80 && p[1] < 900; }
+
+    // ---------- labels ----------
+    function avgAnchor(grp) { var bs = B.filter(function (b) { return b.g === grp; }); var x = 0, zz = 0, hh = 0; bs.forEach(function (b) { x += b.x; zz += b.z; hh = Math.max(hh, b.h); }); return proj(x / bs.length, hh + 10, zz / bs.length); }
+    var cyan = '#56d6ff', amber = '#ffb340', coral = '#ff6b7d', violet = '#b69bff', white = '#f2fbff';
+    var L = [
+      { a: avgAnchor('edge'), t: 'EDGE GATE', s: 'edge-gateway ×6 · 1,284 req/s', c: cyan, lv: [0], lead: 18 },
+      { a: avgAnchor('ident'), t: 'IDENTITY', s: 'authz ×4 · quota-cache', c: cyan, lv: [0], lead: 18 },
+      { a: proj(100, 360, 1250), t: 'ROUTING', s: 'router ×4 · 90 / 10 split', c: cyan, lv: [0], lead: 20 },
+      { a: avgAnchor('safety'), t: 'SAFETY', s: 'safety-input ×6', c: cyan, lv: [0], lead: 18 },
+      { a: avgAnchor('retr'), t: 'RETRIEVAL', s: 'retrieval ×8 · embed ×4', c: cyan, lv: [0], lead: 40 },
+      { a: proj(vsPrimary.x, vsPrimary.h + 10, vsPrimary.z), t: 'VECTOR VAULTS', s: 'vs-03 compacting · E5', c: amber, lv: [0], lead: 30 },
+      { a: avgAnchor('prompt'), t: 'PROMPT', s: 'prompt-builder ×4', c: cyan, lv: [0], lead: 16 },
+      { a: proj(HUB.x - 200, 30, HUB.z), t: 'TRANSIT HUB', s: 'canary queue 37 · stable 2', c: amber, lv: [0, 1], lead: 78 },
+      { a: proj(-150, 440, 3060), t: 'COMPUTE · h100-a', s: '88 / 96 GPU · util 91%', c: cyan, lv: [0], lead: 40 },
+      { a: avgAnchor('out'), t: 'OUTPUT', s: 'stream ×6 · safety-output ×6', c: cyan, lv: [0], lead: 18 },
+      { a: proj(-1730, 140, 2640), t: 'TRAINING QUARTER', s: 'h100-b 512 GPU · tr-2304', c: violet, lv: [0], lead: 30 },
+      { a: proj(-1560, 60, 1560), t: 'DATA ARCHIVE', s: 'lake · dp-0912 · sft-v14', c: violet, lv: [0], lead: 24 },
+      { a: proj(registry.x, registry.h + 10, registry.z), t: 'MODEL REGISTRY', s: 'vesper-chat-3.2', c: violet, lv: [0], lead: 22 },
+      { a: proj(1560, 400, 2350), t: 'TELEMETRY', s: 'traces · metrics · logs', c: '#8fb3d1', lv: [0], lead: 20 },
+      { a: proj(c0.x, c0.h + 10, c0.z), t: 'c-0 · CANARY 3.2', s: 'gpu-a-16 · 8 / 8 GPU busy', c: white, lv: [1, 2], lead: 26 },
+      { a: proj(c1.x, c1.h + 10, c1.z), t: 'c-1 · EVICTED', s: 'gpu-a-17 cordoned · XID 79', c: coral, lv: [1, 2], lead: 26 },
+      { a: proj(nodes[0].x, nodes[0].h + 10, nodes[0].z), t: 's-0 · STABLE 3.1', s: '7 / 8 GPU busy', c: cyan, lv: [1], lead: 22 },
+      { a: proj(nodes[5].x, nodes[5].h + 10, nodes[5].z), t: 's-5 · STABLE 3.1', s: '8 / 8 GPU busy', c: cyan, lv: [1], lead: 22 },
+      { a: proj(c0.x + 116, c0.h * 0.5, c0.z - 75), t: 'BATCH', s: '24 sequences · KV 78%', c: white, lv: [2], lead: 10 }
+    ];
+    var labels = L.map(function (l) {
+      var p = S(l.a), vis = l.lv.indexOf(level) >= 0 && inView(p);
+      return { sx: r1(p[0]), sy: r1(p[1]), op: vis ? 1 : 0, t: l.t, s: l.s, c: l.c, bc: l.c === white ? 'rgba(242,251,255,0.55)' : 'rgba(150,190,230,0.28)', lead: l.lead };
+    });
+    var hopDefs = [
+      { n: 1, p: H.edge, c: white }, { n: 2, p: H.ident, c: white }, { n: 3, p: H.route, c: white }, { n: 4, p: H.safety, c: white },
+      { n: 5, p: H.retr, c: coral }, { n: 6, p: H.prompt, c: white }, { n: 7, p: [HUB.x + Rout * Math.cos(entryA + 1.0), 14, HUB.z + Rout * Math.sin(entryA + 1.0)], c: amber },
+      { n: 8, p: H.c0, c: white }, { n: 9, p: H.out, c: cyan }
+    ];
+    var hops = hopDefs.map(function (h) { var pp = proj(h.p[0], h.p[1], h.p[2]); var p = S(pp); return { n: h.n, c: h.c, sx: r1(p[0]), sy: r1(p[1]), op: (level <= 1 && inView(p)) ? 1 : 0 }; });
+
+    var hopRows = [
+      { n: 1, d: 'Edge gate', s: 'edge-gateway', ms: '4 ms', c: white, tc: '#d3e1ee' },
+      { n: 2, d: 'Identity', s: 'authz + quota', ms: '11 ms', c: white, tc: '#d3e1ee' },
+      { n: 3, d: 'Routing', s: 'router → canary 3.2', ms: '7 ms', c: white, tc: '#d3e1ee' },
+      { n: 4, d: 'Safety ∥', s: 'safety-input', ms: '39 ms', c: white, tc: '#d3e1ee' },
+      { n: 5, d: 'Retrieval ∥', s: 'vs-03 timeout → retry', ms: '313 ms', c: coral, tc: coral },
+      { n: 6, d: 'Prompt', s: 'prompt-builder', ms: '7 ms', c: white, tc: '#d3e1ee' },
+      { n: 7, d: 'Transit hub', s: 'canary queue · 37 ahead', ms: '840 ms', c: amber, tc: amber },
+      { n: 8, d: 'Compute c-0', s: 'prefill 1,846 tok', ms: '228 ms', c: white, tc: '#d3e1ee' },
+      { n: 9, d: 'Output', s: 'stream 318 tok · 40 checks', ms: '4,432 ms', c: cyan, tc: '#d3e1ee' }
+    ];
+
+    // ---------- timeline (piecewise scale, labeled) ----------
+    function tx(ms) { return ms <= 1500 ? ms / 1500 * 70 : 70 + (ms - 1500) / 4342 * 30; }
+    function seg(t0, t1, y, bg, sh) { return { x: r1(tx(t0)), w: Math.max(0.15, r1(tx(t1) - tx(t0))), y: y, bg: bg, sh: sh || 'none' }; }
+    var tl = [
+      seg(0, 22, 26, '#f2fbff'), seg(22, 298, 26, '#ff6b7d'), seg(298, 335, 26, '#f2fbff'), seg(335, 342, 26, '#f2fbff'),
+      seg(342, 1182, 26, 'repeating-linear-gradient(135deg, #ffb340 0 7px, #a86a12 7px 10px)'), seg(1182, 1410, 26, '#f2fbff', '0 0 10px rgba(242,251,255,0.7)'),
+      seg(1410, 5842, 26, 'repeating-linear-gradient(90deg, #56d6ff 0 3px, rgba(86,214,255,0.25) 3px 6px)'),
+      seg(22, 61, 48, 'rgba(242,251,255,0.55)'), seg(24, 48, 48, 'rgba(242,251,255,0.55)'), seg(1410, 5839, 48, 'rgba(86,214,255,0.35)')
+    ];
+    var tlMarks = { brk: 70, slo: r1(tx(800)), ttft: r1(tx(1410)) };
+
+    var levelDefs = [
+      { t: 'City', s: 'whole system · live' }, { t: 'District', s: 'compute + transit hub' },
+      { t: 'Building', s: 'c-0 · one replica' }, { t: 'Floor', s: 'one execution' }
+    ];
+    var levels = levelDefs.map(function (v, k) {
+      var on = k === level;
+      return { n: '0' + k, t: v.t, s: v.s, bg: on ? 'rgba(86,214,255,0.14)' : 'transparent', bc: on ? '#56d6ff' : 'rgba(150,190,230,0.2)', nc: on ? '#56d6ff' : '#7d93a8', go: function () { self.setState({ level: k }); } };
+    });
+    var crumbList = ['us-east-2', 'Inference · compute', 'c-0 · gpu-a-16', 'req_7f3a9c21 on c-0'];
+    var crumbs = [];
+    for (i = 0; i <= level; i++) { if (i > 0) crumbs.push({ t: '/', c: '#4c5f72' }); crumbs.push({ t: crumbList[i], c: i === level ? '#f2fbff' : '#a9bccd' }); }
+
+    var lanes = [], mine = '', mineY = 0;
+    for (i = 0; i < 24; i++) { var ly = r1(38 + i * 5.6); if (i === 16) { mine = 'M16 ' + ly + ' L486 ' + ly; mineY = ly; } else lanes.push('M16 ' + ly + ' L486 ' + ly); }
+    var kv = [], kvFree = [];
+    for (i = 0; i < 8; i++) { var kx = 16 + i * 60; kv.push('M' + kx + ' 184 h' + r1(50 * 0.78) + ' v8 h' + r1(-50 * 0.78) + ' Z'); kvFree.push('M' + r1(kx + 50 * 0.78) + ' 184 h' + r1(50 * 0.22) + ' v8 h' + r1(-50 * 0.22) + ' Z'); }
+    var floor = { lanes: lanes.join(' '), mine: mine, mineY: mineY, kv: kv.join(' '), kvFree: kvFree.join(' ') };
+    return {
+      floor: floor,
+      fx: fx, g: g, r: r, items: items, zoom: zoom, labels: labels, hops: hops, hopRows: hopRows,
+      tl: tl, tlMarks: tlMarks, levels: levels, crumbs: crumbs, isExec: level === 3,
+      ly: { lineage: showLineage ? 1 : 0, traffic: showTraffic ? 1 : 0 },
+      lyBtn: { lineage: showLineage ? 'ON' : 'OFF', lineageC: showLineage ? '#b69bff' : '#7d93a8', traffic: showTraffic ? 'ON' : 'OFF', trafficC: showTraffic ? '#56d6ff' : '#7d93a8' },
+      modeBtn: { opBg: cin ? 'transparent' : 'rgba(86,214,255,0.18)', opC: cin ? '#a9bccd' : '#f2fbff', cinBg: cin ? 'rgba(86,214,255,0.18)' : 'transparent', cinC: cin ? '#f2fbff' : '#a9bccd' },
+      setOp: function () { self.setState({ mode: 'op' }); },
+      setCin: function () { self.setState({ mode: 'cin' }); },
+      toggleLineage: function () { self.setState({ lineage: !showLineage }); },
+      toggleTraffic: function () { self.setState({ traffic: !showTraffic }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

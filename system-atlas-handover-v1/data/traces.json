@@ -1,0 +1,1251 @@
+{
+  "schemaVersion": "1.0",
+  "referenceScenarioId": "reference-queue-delay",
+  "traces": [
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:00:01.645Z",
+        "observedAtUtc": "2026-10-24T14:00:01.640Z",
+        "watermarkUtc": "2026-10-24T14:00:01.600Z",
+        "streamId": "trace-demo-4097",
+        "sequence": 1,
+        "completeness": "complete"
+      },
+      "traceId": "00000000000000000000000000001001",
+      "displayId": "#1001",
+      "scenarioId": "normal",
+      "label": "Successful request",
+      "baseTimeUtc": "2026-10-24T14:00:00.000Z",
+      "startMs": 0,
+      "endMs": 1600,
+      "watermarkOffsetMs": 1600,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "finished",
+      "outcome": "success",
+      "modelVersionId": "model-v12",
+      "missingSpanIds": [],
+      "gaps": [],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "gateway-resource-1",
+          "componentId": "gateway",
+          "name": "POST /inference",
+          "kind": "SERVER",
+          "startMs": 0,
+          "endMs": 1600,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000002",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "auth-resource-1",
+          "componentId": "auth",
+          "name": "authorize",
+          "kind": "INTERNAL",
+          "startMs": 0,
+          "endMs": 80,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000003",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "orchestrator-resource-1",
+          "componentId": "orchestrator",
+          "name": "orchestrate inference",
+          "kind": "INTERNAL",
+          "startMs": 80,
+          "endMs": 1600,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000004",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "retrieval-resource-1",
+          "componentId": "retrieval",
+          "name": "retrieve context",
+          "kind": "INTERNAL",
+          "startMs": 90,
+          "endMs": 420,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000005",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "cache-resource-1",
+          "componentId": "cache",
+          "name": "cache lookup",
+          "kind": "INTERNAL",
+          "startMs": 90,
+          "endMs": 130,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "cache.hit": false
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000006",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "embedding-resource-1",
+          "componentId": "embedding",
+          "name": "embed query",
+          "kind": "INTERNAL",
+          "startMs": 90,
+          "endMs": 150,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000007",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "vector-db-resource-1",
+          "componentId": "vector-db",
+          "name": "vector query",
+          "kind": "CLIENT",
+          "startMs": 160,
+          "endMs": 350,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000008",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "gpu-queue-resource-1",
+          "componentId": "gpu-queue",
+          "name": "queue.wait",
+          "kind": "INTERNAL",
+          "startMs": 420,
+          "endMs": 460,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "operation.phase": "queue.wait"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "0000000000000009",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "inference-gpu-resource-1",
+          "componentId": "inference-gpu",
+          "name": "model.execute",
+          "kind": "INTERNAL",
+          "startMs": 460,
+          "endMs": 1300,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "model.version": "model-v12"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001001",
+          "spanId": "000000000000000a",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "output-resource-1",
+          "componentId": "output",
+          "name": "response.stream",
+          "kind": "INTERNAL",
+          "startMs": 1300,
+          "endMs": 1600,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [
+            {
+              "name": "response.first_chunk",
+              "atMs": 1310,
+              "attributes": {
+                "chunk.sequence": 0
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.chunk",
+              "atMs": 1450,
+              "attributes": {
+                "chunk.sequence": 1
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.completed",
+              "atMs": 1600,
+              "attributes": {},
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:00:32.885Z",
+        "observedAtUtc": "2026-10-24T14:00:32.880Z",
+        "watermarkUtc": "2026-10-24T14:00:32.840Z",
+        "streamId": "trace-demo-32554",
+        "sequence": 1,
+        "completeness": "complete"
+      },
+      "traceId": "00000000000000000000000000007f2a",
+      "displayId": "#7F2A",
+      "scenarioId": "reference-queue-delay",
+      "label": "Selected request with queue delay",
+      "baseTimeUtc": "2026-10-24T14:00:30.000Z",
+      "startMs": 0,
+      "endMs": 2840,
+      "watermarkOffsetMs": 2840,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "finished",
+      "outcome": "success",
+      "modelVersionId": "model-v12",
+      "missingSpanIds": [],
+      "gaps": [],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "gateway-resource-1",
+          "componentId": "gateway",
+          "name": "POST /inference",
+          "kind": "SERVER",
+          "startMs": 0,
+          "endMs": 2840,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000002",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "auth-resource-1",
+          "componentId": "auth",
+          "name": "authorize",
+          "kind": "INTERNAL",
+          "startMs": 0,
+          "endMs": 120,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000003",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "orchestrator-resource-1",
+          "componentId": "orchestrator",
+          "name": "orchestrate inference",
+          "kind": "INTERNAL",
+          "startMs": 120,
+          "endMs": 2840,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000004",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "retrieval-resource-1",
+          "componentId": "retrieval",
+          "name": "retrieve context",
+          "kind": "INTERNAL",
+          "startMs": 140,
+          "endMs": 480,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000005",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "embedding-resource-1",
+          "componentId": "embedding",
+          "name": "embed query",
+          "kind": "INTERNAL",
+          "startMs": 140,
+          "endMs": 220,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000006",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "vector-db-resource-1",
+          "componentId": "vector-db",
+          "name": "vector query",
+          "kind": "CLIENT",
+          "startMs": 220,
+          "endMs": 440,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000007",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "gpu-queue-resource-1",
+          "componentId": "gpu-queue",
+          "name": "queue.wait",
+          "kind": "INTERNAL",
+          "startMs": 480,
+          "endMs": 1430,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "operation.phase": "queue.wait"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000008",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "inference-gpu-resource-1",
+          "componentId": "inference-gpu",
+          "name": "model.execute",
+          "kind": "INTERNAL",
+          "startMs": 1430,
+          "endMs": 2110,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "model.version": "model-v12"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000007f2a",
+          "spanId": "0000000000000009",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "output-resource-1",
+          "componentId": "output",
+          "name": "response.stream",
+          "kind": "INTERNAL",
+          "startMs": 2110,
+          "endMs": 2840,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [
+            {
+              "name": "response.first_chunk",
+              "atMs": 2130,
+              "attributes": {
+                "chunk.sequence": 0
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.chunk",
+              "atMs": 2360,
+              "attributes": {
+                "chunk.sequence": 1
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.chunk",
+              "atMs": 2650,
+              "attributes": {
+                "chunk.sequence": 2
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.completed",
+              "atMs": 2840,
+              "attributes": {},
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:01:02.245Z",
+        "observedAtUtc": "2026-10-24T14:01:02.240Z",
+        "watermarkUtc": "2026-10-24T14:01:02.200Z",
+        "streamId": "trace-demo-4099",
+        "sequence": 1,
+        "completeness": "complete"
+      },
+      "traceId": "00000000000000000000000000001003",
+      "displayId": "#1003",
+      "scenarioId": "parallel-retry",
+      "label": "Parallel retrieval and tool call with recovered retry",
+      "baseTimeUtc": "2026-10-24T14:01:00.000Z",
+      "startMs": 0,
+      "endMs": 2200,
+      "watermarkOffsetMs": 2200,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "finished",
+      "outcome": "success",
+      "modelVersionId": "model-v12",
+      "missingSpanIds": [],
+      "gaps": [],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "gateway-resource-1",
+          "componentId": "gateway",
+          "name": "POST /inference",
+          "kind": "SERVER",
+          "startMs": 0,
+          "endMs": 2200,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000002",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "auth-resource-1",
+          "componentId": "auth",
+          "name": "authorize",
+          "kind": "INTERNAL",
+          "startMs": 0,
+          "endMs": 80,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000003",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "orchestrator-resource-1",
+          "componentId": "orchestrator",
+          "name": "orchestrate inference",
+          "kind": "INTERNAL",
+          "startMs": 80,
+          "endMs": 2200,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000004",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "retrieval-resource-1",
+          "componentId": "retrieval",
+          "name": "retrieve context",
+          "kind": "INTERNAL",
+          "startMs": 100,
+          "endMs": 700,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000005",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "cache-resource-1",
+          "componentId": "cache",
+          "name": "cache lookup",
+          "kind": "INTERNAL",
+          "startMs": 100,
+          "endMs": 140,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "cache.hit": false
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000006",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "tool-service-resource-1",
+          "componentId": "tool-service",
+          "name": "tool.fetch",
+          "kind": "CLIENT",
+          "startMs": 100,
+          "endMs": 850,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000007",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "vector-db-resource-1",
+          "componentId": "vector-db",
+          "name": "vector query attempt 1",
+          "kind": "CLIENT",
+          "startMs": 200,
+          "endMs": 330,
+          "status": "ERROR",
+          "outcome": "error",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "retry.attempt": 1
+          },
+          "events": [
+            {
+              "name": "exception",
+              "atMs": 330,
+              "attributes": {
+                "exception.type": "TimeoutError",
+                "exception.message": "Demo vector query timed out"
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            }
+          ],
+          "links": [],
+          "statusMessage": "Synthetic timeout reported by instrumentation"
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000008",
+          "parentSpanId": "0000000000000004",
+          "resourceId": "vector-db-resource-1",
+          "componentId": "vector-db",
+          "name": "vector query attempt 2",
+          "kind": "CLIENT",
+          "startMs": 370,
+          "endMs": 650,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "retry.attempt": 2
+          },
+          "events": [],
+          "links": [
+            {
+              "traceId": "00000000000000000000000000001003",
+              "spanId": "0000000000000007",
+              "relation": "retry-of",
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit retry association in the fixture."
+              }
+            }
+          ]
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "0000000000000009",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "gpu-queue-resource-1",
+          "componentId": "gpu-queue",
+          "name": "queue.wait",
+          "kind": "INTERNAL",
+          "startMs": 850,
+          "endMs": 900,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "operation.phase": "queue.wait"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "000000000000000a",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "inference-gpu-resource-1",
+          "componentId": "inference-gpu",
+          "name": "model.execute",
+          "kind": "INTERNAL",
+          "startMs": 900,
+          "endMs": 1800,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "model.version": "model-v12"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "000000000000000b",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "output-resource-1",
+          "componentId": "output",
+          "name": "response.stream",
+          "kind": "INTERNAL",
+          "startMs": 1800,
+          "endMs": 2200,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [
+            {
+              "name": "response.first_chunk",
+              "atMs": 1820,
+              "attributes": {
+                "chunk.sequence": 0
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.completed",
+              "atMs": 2200,
+              "attributes": {},
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            }
+          ],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001003",
+          "spanId": "000000000000000c",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "audit-queue-resource-1",
+          "componentId": "audit-queue",
+          "name": "audit.publish",
+          "kind": "PRODUCER",
+          "startMs": 2080,
+          "endMs": 2100,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:01:02.745Z",
+        "observedAtUtc": "2026-10-24T14:01:02.740Z",
+        "watermarkUtc": "2026-10-24T14:01:02.700Z",
+        "streamId": "trace-demo-4100",
+        "sequence": 1,
+        "completeness": "complete"
+      },
+      "traceId": "00000000000000000000000000001004",
+      "displayId": "#1004",
+      "scenarioId": "async-audit",
+      "label": "Asynchronous audit after request completion",
+      "baseTimeUtc": "2026-10-24T14:01:00.000Z",
+      "startMs": 2600,
+      "endMs": 2700,
+      "watermarkOffsetMs": 2700,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "finished",
+      "outcome": "success",
+      "modelVersionId": null,
+      "missingSpanIds": [],
+      "gaps": [],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000001004",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "audit-worker-resource-1",
+          "componentId": "audit-worker",
+          "name": "audit.consume",
+          "kind": "CONSUMER",
+          "startMs": 2600,
+          "endMs": 2700,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": [
+            {
+              "traceId": "00000000000000000000000000001003",
+              "spanId": "000000000000000c",
+              "relation": "async-caused-by",
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit producer context attached as a span link."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:01:31.945Z",
+        "observedAtUtc": "2026-10-24T14:01:31.940Z",
+        "watermarkUtc": "2026-10-24T14:01:31.900Z",
+        "streamId": "trace-demo-4101",
+        "sequence": 1,
+        "completeness": "partial"
+      },
+      "traceId": "00000000000000000000000000001005",
+      "displayId": "#1005",
+      "scenarioId": "partial-unknown",
+      "label": "Incomplete telemetry; result unknown",
+      "baseTimeUtc": "2026-10-24T14:01:30.000Z",
+      "startMs": 0,
+      "endMs": 1900,
+      "watermarkOffsetMs": 1900,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "finished",
+      "outcome": "not-observed",
+      "modelVersionId": "model-v12",
+      "missingSpanIds": [
+        "000000000000dead"
+      ],
+      "gaps": [
+        {
+          "kind": "missing-span",
+          "missingSpanId": "000000000000dead",
+          "componentId": "retrieval",
+          "note": "Parent context is known, but the corresponding span was not received. Do not invent its duration or connect the fragment to Orchestrator as fact."
+        },
+        {
+          "kind": "uninstrumented-boundary",
+          "componentId": "inference-gpu",
+          "note": "No inference or response spans were captured. Do not mark success, failure, zero duration, or zero traffic."
+        }
+      ],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000001005",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "gateway-resource-1",
+          "componentId": "gateway",
+          "name": "POST /inference",
+          "kind": "SERVER",
+          "startMs": 0,
+          "endMs": 1900,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001005",
+          "spanId": "0000000000000002",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "orchestrator-resource-1",
+          "componentId": "orchestrator",
+          "name": "orchestrate inference",
+          "kind": "INTERNAL",
+          "startMs": 80,
+          "endMs": 1900,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001005",
+          "spanId": "0000000000000003",
+          "parentSpanId": "000000000000dead",
+          "resourceId": "vector-db-resource-1",
+          "componentId": "vector-db",
+          "name": "vector query fragment",
+          "kind": "INTERNAL",
+          "startMs": 220,
+          "endMs": 440,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "meta": {
+        "schemaVersion": "1.0",
+        "sourceMode": "demo",
+        "sourceLabel": "SIMULATED DATA",
+        "capturedAtUtc": "2026-10-24T14:02:01.245Z",
+        "observedAtUtc": "2026-10-24T14:02:01.240Z",
+        "watermarkUtc": "2026-10-24T14:02:01.200Z",
+        "streamId": "trace-demo-4102",
+        "sequence": 1,
+        "completeness": "partial"
+      },
+      "traceId": "00000000000000000000000000001006",
+      "displayId": "#1006",
+      "scenarioId": "open-streaming",
+      "label": "Open streaming request at fixed watermark",
+      "baseTimeUtc": "2026-10-24T14:02:00.000Z",
+      "startMs": 0,
+      "endMs": null,
+      "watermarkOffsetMs": 1200,
+      "clockUncertaintyMs": 0,
+      "lifecycle": "open",
+      "outcome": "not-observed",
+      "modelVersionId": "model-v12",
+      "missingSpanIds": [],
+      "gaps": [],
+      "payload": {
+        "availability": "not-captured",
+        "preview": null
+      },
+      "spans": [
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000001",
+          "parentSpanId": null,
+          "resourceId": "gateway-resource-1",
+          "componentId": "gateway",
+          "name": "POST /inference",
+          "kind": "SERVER",
+          "startMs": 0,
+          "endMs": null,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000002",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "auth-resource-1",
+          "componentId": "auth",
+          "name": "authorize",
+          "kind": "INTERNAL",
+          "startMs": 0,
+          "endMs": 70,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000003",
+          "parentSpanId": "0000000000000001",
+          "resourceId": "orchestrator-resource-1",
+          "componentId": "orchestrator",
+          "name": "orchestrate inference",
+          "kind": "INTERNAL",
+          "startMs": 70,
+          "endMs": null,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000004",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "cache-resource-1",
+          "componentId": "cache",
+          "name": "cache lookup",
+          "kind": "INTERNAL",
+          "startMs": 80,
+          "endMs": 120,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "cache.hit": true
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000005",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "gpu-queue-resource-1",
+          "componentId": "gpu-queue",
+          "name": "queue.wait",
+          "kind": "INTERNAL",
+          "startMs": 120,
+          "endMs": 220,
+          "status": "OK",
+          "outcome": "success",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "operation.phase": "queue.wait"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000006",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "inference-gpu-resource-1",
+          "componentId": "inference-gpu",
+          "name": "model.execute",
+          "kind": "INTERNAL",
+          "startMs": 220,
+          "endMs": null,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {
+            "model.version": "model-v12"
+          },
+          "events": [],
+          "links": []
+        },
+        {
+          "traceId": "00000000000000000000000000001006",
+          "spanId": "0000000000000007",
+          "parentSpanId": "0000000000000003",
+          "resourceId": "output-resource-1",
+          "componentId": "output",
+          "name": "response.stream",
+          "kind": "INTERNAL",
+          "startMs": 800,
+          "endMs": null,
+          "status": "UNSET",
+          "outcome": "not-observed",
+          "evidence": {
+            "quality": "synthetic",
+            "source": "handover-fixture-v1"
+          },
+          "attributes": {},
+          "events": [
+            {
+              "name": "response.first_chunk",
+              "atMs": 850,
+              "attributes": {
+                "chunk.sequence": 0
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            },
+            {
+              "name": "response.chunk",
+              "atMs": 1020,
+              "attributes": {
+                "chunk.sequence": 1
+              },
+              "evidence": {
+                "quality": "synthetic",
+                "source": "handover-fixture-v1",
+                "note": "Explicit captured demo event; not inferred from a visual particle."
+              }
+            }
+          ],
+          "links": []
+        }
+      ]
+    }
+  ]
+}

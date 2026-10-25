@@ -1,0 +1,1643 @@
+{
+  "$schema": "../schema/atlas.types.ts#TransactionDetail",
+  "note": "Fictional reference data used by the A2 mockup. Times are milliseconds from request start.",
+  "transactions": [
+    {
+      "id": "req_7f3a9c21",
+      "startedAt": "2026-10-24T14:02:17.318Z",
+      "tenant": "t-0428",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "canary",
+      "instance": "c-0",
+      "status": "slow",
+      "code": 200,
+      "metrics": {
+        "ttftMs": 1410,
+        "totalMs": 5842,
+        "inputTokens": 1846,
+        "outputTokens": 318,
+        "tokensPerSecond": 72,
+        "queueMs": 840,
+        "prefillMs": 228
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 5842,
+          "status": "ok",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_7f3a9c21\ntraceparent: 00-4bf92f357f3a9c2177b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0428\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 200\ncontent-type: text/event-stream\nx-request-id: req_7f3a9c21\nx-vesper-route: canary/vesper-chat-3.2\n\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 62 more chunks …\ndata: {\"choices\":[{\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":1846,\"completion_tokens\":318}}\ndata: [DONE]",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0428\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 1846,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0428:tpm 2358 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0428\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-118\",\n  \"model\": \"vesper-chat-3.2\",\n  \"variant\": \"canary\",\n  \"weight\": 0.1,\n  \"capacity_aware\": false,\n  \"replicas_live\": 1,\n  \"replicas_desired\": 2\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"PASS\",\n  \"score\": 0.02,\n  \"labels\": []\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 335,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0428\"\n  }\n}",
+            "response": "{\n  \"chunks\": 8,\n  \"tokens\": 1204,\n  \"shards_queried\": 6,\n  \"retries\": 1,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"kb_0035\",\n    \"… 4 more\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 48,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 24\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s8",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 48,
+          "endMs": 298,
+          "status": "fail",
+          "kind": "rpc",
+          "note": "DEADLINE_EXCEEDED",
+          "attempt": 1,
+          "shard": "vs-03",
+          "replica": "primary",
+          "target": "vector-store/vs-03/primary",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-03\",\n  \"replica\": \"primary\",\n  \"attempt\": 1,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"error\": {\n    \"code\": \"DEADLINE_EXCEEDED\",\n    \"message\": \"shard vs-03/primary exceeded 250 ms\",\n    \"compaction\": \"running since 13:57:40\"\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s9",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 298,
+          "endMs": 331,
+          "status": "ok",
+          "kind": "rpc",
+          "attempt": 2,
+          "shard": "vs-03",
+          "replica": "replica-b",
+          "target": "vector-store/vs-03/replica-b",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-03\",\n  \"replica\": \"replica-b\",\n  \"attempt\": 2,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"hits\": 8,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"… 5 more\"\n  ],\n  \"scores\": [\n    0.82,\n    0.79,\n    0.77,\n    \"…\"\n  ],\n  \"latency_ms\": 33\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s10",
+          "integrationId": "route-prompt",
+          "function": "prompt.v1.Builder/Assemble",
+          "callee": "prompt-builder",
+          "startMs": 335,
+          "endMs": 342,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"template\": \"support-rag-v4\",\n  \"chunks\": 8,\n  \"history_turns\": 2\n}",
+            "response": "{\n  \"prompt_tokens\": 1846,\n  \"truncated\": false,\n  \"cache_key\": \"pk_••91a\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s11",
+          "integrationId": "prompt-hub",
+          "function": "sched.v1.Scheduler/Enqueue",
+          "callee": "gpu-scheduler",
+          "startMs": 342,
+          "endMs": 1182,
+          "status": "wait",
+          "kind": "queue",
+          "payload": {
+            "request": "{\n  \"deployment\": \"dep-118\",\n  \"priority\": \"standard\",\n  \"prompt_tokens\": 1846,\n  \"max_tokens\": 512\n}",
+            "response": "{\n  \"admitted\": true,\n  \"replica\": \"c-0\",\n  \"queue_depth_at_enqueue\": 37,\n  \"waited_ms\": 840\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s12",
+          "integrationId": "hub-compute",
+          "function": "inference.v1.ModelServer/Generate",
+          "callee": "model-server",
+          "startMs": 1182,
+          "endMs": 5827,
+          "status": "ok",
+          "kind": "gen",
+          "ttft": 1410,
+          "payload": {
+            "request": "{\n  \"model\": \"vesper-chat-3.2\",\n  \"replica\": \"c-0\",\n  \"prompt_tokens\": 1846,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"stream\": true\n}",
+            "response": "{\n  \"prefill_ms\": 228,\n  \"ttft_ms_from_request\": 1410,\n  \"completion_tokens\": 318,\n  \"tokens_per_s\": 72,\n  \"finish_reason\": \"stop\",\n  \"kv_cache_util\": 0.78\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s13",
+          "integrationId": "compute-out",
+          "function": "stream.v1.Gateway/Push",
+          "callee": "stream-gateway",
+          "startMs": 1410,
+          "endMs": 5842,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "{\n  \"seq\": 1,\n  \"delta_tokens\": 5,\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"acked_chunks\": 64,\n  \"bytes\": 19398\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s14",
+          "integrationId": "out-sout",
+          "function": "safety.v1.Output/Check ×40",
+          "callee": "safety-output",
+          "startMs": 1410,
+          "endMs": 5839,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"window\": \"chunks 1–2\",\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"checks\": 40,\n  \"verdict\": \"PASS\",\n  \"max_added_ms\": 6\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s15",
+          "integrationId": "out-cli",
+          "function": "SSE text/event-stream",
+          "callee": "clients",
+          "startMs": 1410,
+          "endMs": 5842,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "// server push · no request body",
+            "response": "data: {\"id\":\"req_7f3a9c21\",\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 63 more chunks · 318 tokens …\ndata: [DONE]",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 48,
+            "kind": "ok"
+          },
+          {
+            "startMs": 48,
+            "endMs": 298,
+            "kind": "fail"
+          },
+          {
+            "startMs": 298,
+            "endMs": 335,
+            "kind": "ok"
+          },
+          {
+            "startMs": 335,
+            "endMs": 342,
+            "kind": "ok"
+          },
+          {
+            "startMs": 342,
+            "endMs": 1182,
+            "kind": "wait"
+          },
+          {
+            "startMs": 1182,
+            "endMs": 1410,
+            "kind": "gpu"
+          },
+          {
+            "startMs": 1410,
+            "endMs": 5842,
+            "kind": "stream"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 24,
+            "endMs": 48,
+            "kind": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_2c91be07",
+      "startedAt": "2026-10-24T14:02:16.904Z",
+      "tenant": "t-0311",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "canary",
+      "instance": "c-0",
+      "status": "slow",
+      "code": 200,
+      "metrics": {
+        "ttftMs": 1279,
+        "totalMs": 4159,
+        "inputTokens": 1530,
+        "outputTokens": 212,
+        "tokensPerSecond": 74,
+        "queueMs": 1010,
+        "prefillMs": 190
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 4159,
+          "status": "ok",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_2c91be07\ntraceparent: 00-4bf92f352c91be0777b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0311\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 200\ncontent-type: text/event-stream\nx-request-id: req_2c91be07\nx-vesper-route: canary/vesper-chat-3.2\n\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 40 more chunks …\ndata: {\"choices\":[{\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":1530,\"completion_tokens\":212}}\ndata: [DONE]",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0311\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 1530,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0311:tpm 2042 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0311\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-118\",\n  \"model\": \"vesper-chat-3.2\",\n  \"variant\": \"canary\",\n  \"weight\": 0.1,\n  \"capacity_aware\": false,\n  \"replicas_live\": 1,\n  \"replicas_desired\": 2\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"PASS\",\n  \"score\": 0.02,\n  \"labels\": []\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 72,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0311\"\n  }\n}",
+            "response": "{\n  \"chunks\": 8,\n  \"tokens\": 1204,\n  \"shards_queried\": 6,\n  \"retries\": 0,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"kb_0035\",\n    \"… 4 more\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 44,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 20\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s8",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 44,
+          "endMs": 70,
+          "status": "ok",
+          "kind": "rpc",
+          "attempt": 1,
+          "shard": "vs-05",
+          "replica": "primary",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-05\",\n  \"replica\": \"primary\",\n  \"attempt\": 1,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"hits\": 8,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"… 5 more\"\n  ],\n  \"scores\": [\n    0.82,\n    0.79,\n    0.77,\n    \"…\"\n  ],\n  \"latency_ms\": 26\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s9",
+          "integrationId": "route-prompt",
+          "function": "prompt.v1.Builder/Assemble",
+          "callee": "prompt-builder",
+          "startMs": 72,
+          "endMs": 79,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"template\": \"support-rag-v4\",\n  \"chunks\": 8,\n  \"history_turns\": 2\n}",
+            "response": "{\n  \"prompt_tokens\": 1530,\n  \"truncated\": false,\n  \"cache_key\": \"pk_••91a\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s10",
+          "integrationId": "prompt-hub",
+          "function": "sched.v1.Scheduler/Enqueue",
+          "callee": "gpu-scheduler",
+          "startMs": 79,
+          "endMs": 1089,
+          "status": "wait",
+          "kind": "queue",
+          "payload": {
+            "request": "{\n  \"deployment\": \"dep-118\",\n  \"priority\": \"standard\",\n  \"prompt_tokens\": 1530,\n  \"max_tokens\": 512\n}",
+            "response": "{\n  \"admitted\": true,\n  \"replica\": \"c-0\",\n  \"queue_depth_at_enqueue\": 37,\n  \"waited_ms\": 1010\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s11",
+          "integrationId": "hub-compute",
+          "function": "inference.v1.ModelServer/Generate",
+          "callee": "model-server",
+          "startMs": 1089,
+          "endMs": 4144,
+          "status": "ok",
+          "kind": "gen",
+          "ttft": 1279,
+          "payload": {
+            "request": "{\n  \"model\": \"vesper-chat-3.2\",\n  \"replica\": \"c-0\",\n  \"prompt_tokens\": 1530,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"stream\": true\n}",
+            "response": "{\n  \"prefill_ms\": 190,\n  \"ttft_ms_from_request\": 1279,\n  \"completion_tokens\": 212,\n  \"tokens_per_s\": 74,\n  \"finish_reason\": \"stop\",\n  \"kv_cache_util\": 0.78\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s12",
+          "integrationId": "compute-out",
+          "function": "stream.v1.Gateway/Push",
+          "callee": "stream-gateway",
+          "startMs": 1279,
+          "endMs": 4159,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "{\n  \"seq\": 1,\n  \"delta_tokens\": 5,\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"acked_chunks\": 42,\n  \"bytes\": 12932\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s13",
+          "integrationId": "out-sout",
+          "function": "safety.v1.Output/Check ×40",
+          "callee": "safety-output",
+          "startMs": 1279,
+          "endMs": 4156,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"window\": \"chunks 1–2\",\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"checks\": 40,\n  \"verdict\": \"PASS\",\n  \"max_added_ms\": 6\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s14",
+          "integrationId": "out-cli",
+          "function": "SSE text/event-stream",
+          "callee": "clients",
+          "startMs": 1279,
+          "endMs": 4159,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "// server push · no request body",
+            "response": "data: {\"id\":\"req_2c91be07\",\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 41 more chunks · 212 tokens …\ndata: [DONE]",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 72,
+            "kind": "ok"
+          },
+          {
+            "startMs": 72,
+            "endMs": 79,
+            "kind": "ok"
+          },
+          {
+            "startMs": 79,
+            "endMs": 1089,
+            "kind": "wait"
+          },
+          {
+            "startMs": 1089,
+            "endMs": 1279,
+            "kind": "gpu"
+          },
+          {
+            "startMs": 1279,
+            "endMs": 4159,
+            "kind": "stream"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 24,
+            "endMs": 44,
+            "kind": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_9e7710b4",
+      "startedAt": "2026-10-24T14:02:15.770Z",
+      "tenant": "t-0519",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "canary",
+      "instance": "c-0",
+      "status": "error",
+      "code": 503,
+      "metrics": {
+        "ttftMs": null,
+        "totalMs": 2084,
+        "inputTokens": 2210,
+        "outputTokens": null,
+        "tokensPerSecond": null,
+        "queueMs": 2000,
+        "prefillMs": null
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 2084,
+          "status": "fail",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_9e7710b4\ntraceparent: 00-4bf92f359e7710b477b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0519\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 503\nretry-after: 1\n\n{\n  \"error\": {\n    \"type\": \"overloaded\",\n    \"code\": \"queue_timeout\",\n    \"message\": \"No capacity on vesper-chat-3.2 within 2,000 ms\"\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0519\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 2210,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0519:tpm 2722 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0519\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-118\",\n  \"model\": \"vesper-chat-3.2\",\n  \"variant\": \"canary\",\n  \"weight\": 0.1,\n  \"capacity_aware\": false,\n  \"replicas_live\": 1,\n  \"replicas_desired\": 2\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"PASS\",\n  \"score\": 0.02,\n  \"labels\": []\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 72,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0519\"\n  }\n}",
+            "response": "{\n  \"chunks\": 8,\n  \"tokens\": 1204,\n  \"shards_queried\": 6,\n  \"retries\": 0,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"kb_0035\",\n    \"… 4 more\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 44,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 20\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s8",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 44,
+          "endMs": 70,
+          "status": "ok",
+          "kind": "rpc",
+          "attempt": 1,
+          "shard": "vs-05",
+          "replica": "primary",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-05\",\n  \"replica\": \"primary\",\n  \"attempt\": 1,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"hits\": 8,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"… 5 more\"\n  ],\n  \"scores\": [\n    0.82,\n    0.79,\n    0.77,\n    \"…\"\n  ],\n  \"latency_ms\": 26\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s9",
+          "integrationId": "route-prompt",
+          "function": "prompt.v1.Builder/Assemble",
+          "callee": "prompt-builder",
+          "startMs": 72,
+          "endMs": 79,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"template\": \"support-rag-v4\",\n  \"chunks\": 8,\n  \"history_turns\": 2\n}",
+            "response": "{\n  \"prompt_tokens\": 2210,\n  \"truncated\": false,\n  \"cache_key\": \"pk_••91a\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s10",
+          "integrationId": "prompt-hub",
+          "function": "sched.v1.Scheduler/Enqueue",
+          "callee": "gpu-scheduler",
+          "startMs": 79,
+          "endMs": 2079,
+          "status": "fail",
+          "kind": "queue",
+          "note": "queue_timeout",
+          "payload": {
+            "request": "{\n  \"deployment\": \"dep-118\",\n  \"priority\": \"standard\",\n  \"prompt_tokens\": 2210,\n  \"max_tokens\": 512\n}",
+            "response": "{\n  \"admitted\": false,\n  \"error\": \"queue_timeout\",\n  \"waited_ms\": 2000,\n  \"queue_depth_at_enqueue\": 41\n}",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 72,
+            "kind": "ok"
+          },
+          {
+            "startMs": 72,
+            "endMs": 79,
+            "kind": "ok"
+          },
+          {
+            "startMs": 79,
+            "endMs": 2079,
+            "kind": "wait"
+          },
+          {
+            "startMs": 2079,
+            "endMs": 2084,
+            "kind": "fail"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 24,
+            "endMs": 44,
+            "kind": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_88f3a1c6",
+      "startedAt": "2026-10-24T14:02:14.122Z",
+      "tenant": "t-0428",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "stable",
+      "instance": "s-3",
+      "status": "ok",
+      "code": 200,
+      "metrics": {
+        "ttftMs": 578,
+        "totalMs": 2321,
+        "inputTokens": 1690,
+        "outputTokens": 140,
+        "tokensPerSecond": 81,
+        "queueMs": 22,
+        "prefillMs": 214
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 2321,
+          "status": "ok",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_88f3a1c6\ntraceparent: 00-4bf92f3588f3a1c677b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0428\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 200\ncontent-type: text/event-stream\nx-request-id: req_88f3a1c6\nx-vesper-route: stable/vesper-chat-3.1\n\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 26 more chunks …\ndata: {\"choices\":[{\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":1690,\"completion_tokens\":140}}\ndata: [DONE]",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0428\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 1690,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0428:tpm 2202 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0428\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-114\",\n  \"model\": \"vesper-chat-3.1\",\n  \"variant\": \"stable\",\n  \"weight\": 0.9,\n  \"capacity_aware\": false,\n  \"replicas_live\": 10,\n  \"replicas_desired\": 10\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"PASS\",\n  \"score\": 0.02,\n  \"labels\": []\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 335,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0428\"\n  }\n}",
+            "response": "{\n  \"chunks\": 8,\n  \"tokens\": 1204,\n  \"shards_queried\": 6,\n  \"retries\": 1,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"kb_0035\",\n    \"… 4 more\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 48,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 24\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s8",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 48,
+          "endMs": 298,
+          "status": "fail",
+          "kind": "rpc",
+          "note": "DEADLINE_EXCEEDED",
+          "attempt": 1,
+          "shard": "vs-03",
+          "replica": "primary",
+          "target": "vector-store/vs-03/primary",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-03\",\n  \"replica\": \"primary\",\n  \"attempt\": 1,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"error\": {\n    \"code\": \"DEADLINE_EXCEEDED\",\n    \"message\": \"shard vs-03/primary exceeded 250 ms\",\n    \"compaction\": \"running since 13:57:40\"\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s9",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 298,
+          "endMs": 331,
+          "status": "ok",
+          "kind": "rpc",
+          "attempt": 2,
+          "shard": "vs-03",
+          "replica": "replica-b",
+          "target": "vector-store/vs-03/replica-b",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-03\",\n  \"replica\": \"replica-b\",\n  \"attempt\": 2,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"hits\": 8,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"… 5 more\"\n  ],\n  \"scores\": [\n    0.82,\n    0.79,\n    0.77,\n    \"…\"\n  ],\n  \"latency_ms\": 33\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s10",
+          "integrationId": "route-prompt",
+          "function": "prompt.v1.Builder/Assemble",
+          "callee": "prompt-builder",
+          "startMs": 335,
+          "endMs": 342,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"template\": \"support-rag-v4\",\n  \"chunks\": 8,\n  \"history_turns\": 2\n}",
+            "response": "{\n  \"prompt_tokens\": 1690,\n  \"truncated\": false,\n  \"cache_key\": \"pk_••91a\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s11",
+          "integrationId": "prompt-hub",
+          "function": "sched.v1.Scheduler/Enqueue",
+          "callee": "gpu-scheduler",
+          "startMs": 342,
+          "endMs": 364,
+          "status": "wait",
+          "kind": "queue",
+          "payload": {
+            "request": "{\n  \"deployment\": \"dep-114\",\n  \"priority\": \"standard\",\n  \"prompt_tokens\": 1690,\n  \"max_tokens\": 512\n}",
+            "response": "{\n  \"admitted\": true,\n  \"replica\": \"s-3\",\n  \"queue_depth_at_enqueue\": 2,\n  \"waited_ms\": 22\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s12",
+          "integrationId": "hub-compute",
+          "function": "inference.v1.ModelServer/Generate",
+          "callee": "model-server",
+          "startMs": 364,
+          "endMs": 2306,
+          "status": "ok",
+          "kind": "gen",
+          "ttft": 578,
+          "payload": {
+            "request": "{\n  \"model\": \"vesper-chat-3.1\",\n  \"replica\": \"s-3\",\n  \"prompt_tokens\": 1690,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"stream\": true\n}",
+            "response": "{\n  \"prefill_ms\": 214,\n  \"ttft_ms_from_request\": 578,\n  \"completion_tokens\": 140,\n  \"tokens_per_s\": 81,\n  \"finish_reason\": \"stop\",\n  \"kv_cache_util\": 0.61\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s13",
+          "integrationId": "compute-out",
+          "function": "stream.v1.Gateway/Push",
+          "callee": "stream-gateway",
+          "startMs": 578,
+          "endMs": 2321,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "{\n  \"seq\": 1,\n  \"delta_tokens\": 5,\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"acked_chunks\": 28,\n  \"bytes\": 8540\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s14",
+          "integrationId": "out-sout",
+          "function": "safety.v1.Output/Check ×40",
+          "callee": "safety-output",
+          "startMs": 578,
+          "endMs": 2318,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"window\": \"chunks 1–2\",\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"checks\": 40,\n  \"verdict\": \"PASS\",\n  \"max_added_ms\": 6\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s15",
+          "integrationId": "out-cli",
+          "function": "SSE text/event-stream",
+          "callee": "clients",
+          "startMs": 578,
+          "endMs": 2321,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "// server push · no request body",
+            "response": "data: {\"id\":\"req_88f3a1c6\",\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 27 more chunks · 140 tokens …\ndata: [DONE]",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 48,
+            "kind": "ok"
+          },
+          {
+            "startMs": 48,
+            "endMs": 298,
+            "kind": "fail"
+          },
+          {
+            "startMs": 298,
+            "endMs": 335,
+            "kind": "ok"
+          },
+          {
+            "startMs": 335,
+            "endMs": 342,
+            "kind": "ok"
+          },
+          {
+            "startMs": 342,
+            "endMs": 364,
+            "kind": "wait"
+          },
+          {
+            "startMs": 364,
+            "endMs": 578,
+            "kind": "gpu"
+          },
+          {
+            "startMs": 578,
+            "endMs": 2321,
+            "kind": "stream"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 24,
+            "endMs": 48,
+            "kind": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_a41f0d3e",
+      "startedAt": "2026-10-24T14:02:13.560Z",
+      "tenant": "t-0207",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "stable",
+      "instance": "s-5",
+      "status": "ok",
+      "code": 200,
+      "metrics": {
+        "ttftMs": 302,
+        "totalMs": 1460,
+        "inputTokens": 1102,
+        "outputTokens": 96,
+        "tokensPerSecond": 84,
+        "queueMs": 18,
+        "prefillMs": 205
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 1460,
+          "status": "ok",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_a41f0d3e\ntraceparent: 00-4bf92f35a41f0d3e77b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0207\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 200\ncontent-type: text/event-stream\nx-request-id: req_a41f0d3e\nx-vesper-route: stable/vesper-chat-3.1\n\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\ndata: {\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 17 more chunks …\ndata: {\"choices\":[{\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":1102,\"completion_tokens\":96}}\ndata: [DONE]",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0207\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 1102,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0207:tpm 1614 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0207\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-114\",\n  \"model\": \"vesper-chat-3.1\",\n  \"variant\": \"stable\",\n  \"weight\": 0.9,\n  \"capacity_aware\": false,\n  \"replicas_live\": 10,\n  \"replicas_desired\": 10\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"PASS\",\n  \"score\": 0.02,\n  \"labels\": []\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 72,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0207\"\n  }\n}",
+            "response": "{\n  \"chunks\": 8,\n  \"tokens\": 1204,\n  \"shards_queried\": 6,\n  \"retries\": 0,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"kb_0035\",\n    \"… 4 more\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 44,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 20\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s8",
+          "integrationId": "retr-vec",
+          "function": "vector.v1.Shard/Query",
+          "callee": "vector-store",
+          "startMs": 44,
+          "endMs": 70,
+          "status": "ok",
+          "kind": "rpc",
+          "attempt": 1,
+          "shard": "vs-05",
+          "replica": "primary",
+          "payload": {
+            "request": "{\n  \"shard\": \"vs-05\",\n  \"replica\": \"primary\",\n  \"attempt\": 1,\n  \"k\": 8,\n  \"deadline_ms\": 250,\n  \"vector\": \"[1024 floats]\"\n}",
+            "response": "{\n  \"hits\": 8,\n  \"ids\": [\n    \"kb_1182\",\n    \"kb_0407\",\n    \"kb_2291\",\n    \"… 5 more\"\n  ],\n  \"scores\": [\n    0.82,\n    0.79,\n    0.77,\n    \"…\"\n  ],\n  \"latency_ms\": 26\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s9",
+          "integrationId": "route-prompt",
+          "function": "prompt.v1.Builder/Assemble",
+          "callee": "prompt-builder",
+          "startMs": 72,
+          "endMs": 79,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"template\": \"support-rag-v4\",\n  \"chunks\": 8,\n  \"history_turns\": 2\n}",
+            "response": "{\n  \"prompt_tokens\": 1102,\n  \"truncated\": false,\n  \"cache_key\": \"pk_••91a\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s10",
+          "integrationId": "prompt-hub",
+          "function": "sched.v1.Scheduler/Enqueue",
+          "callee": "gpu-scheduler",
+          "startMs": 79,
+          "endMs": 97,
+          "status": "wait",
+          "kind": "queue",
+          "payload": {
+            "request": "{\n  \"deployment\": \"dep-114\",\n  \"priority\": \"standard\",\n  \"prompt_tokens\": 1102,\n  \"max_tokens\": 512\n}",
+            "response": "{\n  \"admitted\": true,\n  \"replica\": \"s-5\",\n  \"queue_depth_at_enqueue\": 2,\n  \"waited_ms\": 18\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s11",
+          "integrationId": "hub-compute",
+          "function": "inference.v1.ModelServer/Generate",
+          "callee": "model-server",
+          "startMs": 97,
+          "endMs": 1445,
+          "status": "ok",
+          "kind": "gen",
+          "ttft": 302,
+          "payload": {
+            "request": "{\n  \"model\": \"vesper-chat-3.1\",\n  \"replica\": \"s-5\",\n  \"prompt_tokens\": 1102,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"stream\": true\n}",
+            "response": "{\n  \"prefill_ms\": 205,\n  \"ttft_ms_from_request\": 302,\n  \"completion_tokens\": 96,\n  \"tokens_per_s\": 84,\n  \"finish_reason\": \"stop\",\n  \"kv_cache_util\": 0.61\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s12",
+          "integrationId": "compute-out",
+          "function": "stream.v1.Gateway/Push",
+          "callee": "stream-gateway",
+          "startMs": 302,
+          "endMs": 1460,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "{\n  \"seq\": 1,\n  \"delta_tokens\": 5,\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"acked_chunks\": 19,\n  \"bytes\": 5856\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s13",
+          "integrationId": "out-sout",
+          "function": "safety.v1.Output/Check ×40",
+          "callee": "safety-output",
+          "startMs": 302,
+          "endMs": 1457,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"window\": \"chunks 1–2\",\n  \"text\": \"[redacted]\"\n}",
+            "response": "{\n  \"checks\": 40,\n  \"verdict\": \"PASS\",\n  \"max_added_ms\": 6\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s14",
+          "integrationId": "out-cli",
+          "function": "SSE text/event-stream",
+          "callee": "clients",
+          "startMs": 302,
+          "endMs": 1460,
+          "status": "ok",
+          "kind": "stream",
+          "payload": {
+            "request": "// server push · no request body",
+            "response": "data: {\"id\":\"req_a41f0d3e\",\"choices\":[{\"delta\":{\"content\":\"[redacted]\"}}]}\n… 18 more chunks · 96 tokens …\ndata: [DONE]",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 72,
+            "kind": "ok"
+          },
+          {
+            "startMs": 72,
+            "endMs": 79,
+            "kind": "ok"
+          },
+          {
+            "startMs": 79,
+            "endMs": 97,
+            "kind": "wait"
+          },
+          {
+            "startMs": 97,
+            "endMs": 302,
+            "kind": "gpu"
+          },
+          {
+            "startMs": 302,
+            "endMs": 1460,
+            "kind": "stream"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 24,
+            "endMs": 44,
+            "kind": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_d07c55a9",
+      "startedAt": "2026-10-24T14:02:12.981Z",
+      "tenant": "t-0611",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": "canary",
+      "instance": null,
+      "status": "error",
+      "code": 400,
+      "metrics": {
+        "ttftMs": null,
+        "totalMs": 64,
+        "inputTokens": 880,
+        "outputTokens": null,
+        "tokensPerSecond": null,
+        "queueMs": null,
+        "prefillMs": null
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 64,
+          "status": "fail",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_d07c55a9\ntraceparent: 00-4bf92f35d07c55a977b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0611\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 400\n\n{\n  \"error\": {\n    \"type\": \"invalid_request\",\n    \"code\": \"policy_violation\",\n    \"message\": \"Input blocked by safety policy support-v6\"\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 15,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0611\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 880,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"ALLOW\",\n  \"quota\": {\n    \"remaining_tpm\": 182400,\n    \"limit_tpm\": 400000\n  },\n  \"ttl_ms\": 30000\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 7,
+          "endMs": 9,
+          "status": "ok",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0611:tpm 1392 400000",
+            "response": "(integer) 182400",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s4",
+          "integrationId": "edge-route",
+          "function": "router.v1.Router/Route",
+          "callee": "inference-router",
+          "startMs": 15,
+          "endMs": 22,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model_alias\": \"vesper-chat\",\n  \"tenant\": \"t-0611\",\n  \"sticky_hash\": \"0x5be1c2\"\n}",
+            "response": "{\n  \"deployment\": \"dep-118\",\n  \"model\": \"vesper-chat-3.2\",\n  \"variant\": \"canary\",\n  \"weight\": 0.1,\n  \"capacity_aware\": false,\n  \"replicas_live\": 1,\n  \"replicas_desired\": 2\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s5",
+          "integrationId": "route-safety",
+          "function": "safety.v1.Input/Classify",
+          "callee": "safety-input",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "fail",
+          "kind": "rpc",
+          "note": "BLOCK",
+          "payload": {
+            "request": "{\n  \"policy\": \"support-v6\",\n  \"messages_ref\": \"msg:0-1\",\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"verdict\": \"BLOCK\",\n  \"score\": 0.94,\n  \"labels\": [\n    \"prompt_injection\"\n  ]\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s6",
+          "integrationId": "route-retr",
+          "function": "retrieval.v2.Retrieval/Search",
+          "callee": "retrieval-svc",
+          "startMs": 22,
+          "endMs": 61,
+          "status": "cancel",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"index\": \"kb-support\",\n  \"query_ref\": \"msg:1\",\n  \"k\": 8,\n  \"filters\": {\n    \"tenant\": \"t-0611\"\n  }\n}",
+            "response": "{\n  \"status\": \"CANCELLED\",\n  \"reason\": \"upstream blocked by safety-input\"\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s7",
+          "integrationId": "retr-embed",
+          "function": "embed.v1.Embed/Encode",
+          "callee": "embed-svc",
+          "startMs": 24,
+          "endMs": 44,
+          "status": "ok",
+          "kind": "rpc",
+          "payload": {
+            "request": "{\n  \"model\": \"embed-v3\",\n  \"inputs\": 1,\n  \"text\": \"[redacted · 41 tokens]\"\n}",
+            "response": "{\n  \"dims\": 1024,\n  \"vector\": \"[1024 floats · 4 KB]\",\n  \"latency_ms\": 20\n}",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 22,
+            "kind": "ok"
+          },
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "ok"
+          },
+          {
+            "startMs": 61,
+            "endMs": 64,
+            "kind": "fail"
+          }
+        ],
+        "parallel": [
+          {
+            "startMs": 22,
+            "endMs": 61,
+            "kind": "fail"
+          }
+        ]
+      }
+    },
+    {
+      "id": "req_6b2e4f18",
+      "startedAt": "2026-10-24T14:02:12.402Z",
+      "tenant": "t-0099",
+      "entrypoint": "POST /v1/chat/completions",
+      "route": null,
+      "instance": null,
+      "status": "error",
+      "code": 429,
+      "metrics": {
+        "ttftMs": null,
+        "totalMs": 7,
+        "inputTokens": 640,
+        "outputTokens": null,
+        "tokensPerSecond": null,
+        "queueMs": null,
+        "prefillMs": null
+      },
+      "calls": [
+        {
+          "id": "s1",
+          "integrationId": "cli-edge",
+          "function": "POST /v1/chat/completions",
+          "callee": "edge-gateway",
+          "startMs": 0,
+          "endMs": 7,
+          "status": "fail",
+          "kind": "http",
+          "payload": {
+            "request": "POST /v1/chat/completions HTTP/2\nhost: api.vesper.example\nauthorization: Bearer ••••••••3f2a\ncontent-type: application/json\nx-request-id: req_6b2e4f18\ntraceparent: 00-4bf92f356b2e4f1877b34da6a3ce9293-00f067aa0ba902b7-01\n\n{\n  \"model\": \"vesper-chat\",\n  \"stream\": true,\n  \"max_tokens\": 512,\n  \"temperature\": 0.2,\n  \"metadata\": {\n    \"tenant\": \"t-0099\"\n  },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"[redacted · 312 tokens]\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"[redacted · 41 tokens]\"\n    }\n  ]\n}",
+            "response": "HTTP/2 429\nretry-after: 6\n\n{\n  \"error\": {\n    \"type\": \"rate_limit\",\n    \"code\": \"quota_exceeded\",\n    \"message\": \"Tenant t-0099 exceeded 400,000 tokens per minute\"\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s2",
+          "integrationId": "edge-ident",
+          "function": "authz.v1.Authz/Verify",
+          "callee": "authz",
+          "startMs": 4,
+          "endMs": 6,
+          "status": "fail",
+          "kind": "rpc",
+          "note": "quota_exceeded",
+          "payload": {
+            "request": "{\n  \"token_id\": \"tok_••••3f2a\",\n  \"tenant\": \"t-0099\",\n  \"scope\": \"chat:write\",\n  \"estimate\": {\n    \"input_tokens\": 640,\n    \"max_output_tokens\": 512\n  }\n}",
+            "response": "{\n  \"decision\": \"DENY\",\n  \"reason\": \"quota_exceeded\",\n  \"quota\": {\n    \"remaining_tpm\": 0,\n    \"limit_tpm\": 400000\n  }\n}",
+            "redacted": true
+          }
+        },
+        {
+          "id": "s3",
+          "integrationId": "ident-quota",
+          "function": "EVALSHA reserve_tpm",
+          "callee": "quota-cache",
+          "startMs": 4.6,
+          "endMs": 5.4,
+          "status": "fail",
+          "kind": "redis",
+          "payload": {
+            "request": "EVALSHA 9c1fe2b0 1 quota:t-0099:tpm 1152 400000",
+            "response": "(integer) -1\n// window full: 400,000 / 400,000 tokens",
+            "redacted": true
+          }
+        }
+      ],
+      "timeline": {
+        "criticalPath": [
+          {
+            "startMs": 0,
+            "endMs": 4,
+            "kind": "ok"
+          },
+          {
+            "startMs": 4,
+            "endMs": 7,
+            "kind": "fail"
+          }
+        ],
+        "parallel": []
+      }
+    }
+  ]
+}

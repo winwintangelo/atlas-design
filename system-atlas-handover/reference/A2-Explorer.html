@@ -1,0 +1,1347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>System Atlas — A2 reference mockup</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Saira:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#02050a}
+a{color:#56d6ff}a:hover{color:#a6ecff}
+@keyframes aFlow{to{stroke-dashoffset:-240}}
+@keyframes aPulse{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes aRing{0%{transform:scale(.6);opacity:.95}100%{transform:scale(1.9);opacity:0}}
+input[type=range].xRange{-webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;margin:0;cursor:pointer}
+input[type=range].xRange::-webkit-slider-runnable-track{height:34px;background:transparent}
+input[type=range].xRange::-webkit-slider-thumb{-webkit-appearance:none;width:3px;height:34px;background:transparent;border:0}
+input[type=range].xRange::-moz-range-track{height:34px;background:transparent}
+input[type=range].xRange::-moz-range-thumb{width:3px;height:34px;background:transparent;border:0}
+input.xSearch::placeholder{color:#6f859b}
+input.xSearch:focus{outline:none;border-color:#56d6ff;box-shadow:0 0 0 1px #56d6ff, 0 0 18px rgba(86,214,255,0.25)}
+.xScroll::-webkit-scrollbar{width:6px;height:6px}.xScroll::-webkit-scrollbar-thumb{background:rgba(150,190,230,0.25)}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #02050a; color: #e9f2fb; font-family: 'Saira', system-ui, sans-serif">
+
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <defs>
+      <filter id="xGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="{{fx.blur}}" result="b"></feGaussianBlur>
+        <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+      </filter>
+      <filter id="xGlowBig" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="{{fx.blurBig}}" result="b"></feGaussianBlur>
+        <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+      </filter>
+      <linearGradient id="xSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#010307"></stop>
+        <stop offset="0.75" stop-color="{{fx.skyMid}}"></stop>
+        <stop offset="1" stop-color="{{fx.skyLow}}"></stop>
+      </linearGradient>
+      <radialGradient id="xHaze" cx="0.5" cy="0.42" r="0.7">
+        <stop offset="0" stop-color="#1b4a66" stop-opacity="0.36"></stop>
+        <stop offset="1" stop-color="#02050a" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <div role="application" aria-label="3D city of the platform. Drag to orbit, shift-drag to pan, scroll to zoom." onPointerDown="{{pDown}}" onPointerMove="{{pMove}}" onPointerUp="{{pUp}}" onPointerCancel="{{pUp}}" onWheel="{{wheel}}" style="position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; cursor: {{cursor}}; touch-action: none">
+    <div style="position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; transform: {{zoom.transform}}; transition: transform {{zoom.dur}}s cubic-bezier(0.7, 0, 0.2, 1)">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none" aria-hidden="true">
+        <rect x="-3000" y="-3000" width="7920" height="{{g.skyH}}" fill="url(#xSky)"></rect>
+        <rect x="-3000" y="{{g.horizon}}" width="7920" height="6000" fill="#02060b"></rect>
+        <rect x="-200" y="-100" width="2320" height="1200" fill="url(#xHaze)" opacity="{{fx.haze}}"></rect>
+        <path d="{{g.grid}}" fill="none" stroke="#56d6ff" stroke-opacity="{{fx.grid}}" stroke-width="1"></path>
+        <path d="{{g.gridNear}}" fill="none" stroke="#56d6ff" stroke-opacity="{{fx.gridNear}}" stroke-width="1"></path>
+        <path d="{{g.horizonLine}}" fill="none" stroke="#56d6ff" stroke-width="1.5" opacity="{{fx.horizon}}" filter="url(#xGlowBig)"></path>
+        <path d="{{g.platesCyan}}" fill="rgba(86,214,255,0.035)" stroke="#56d6ff" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="6 6"></path>
+        <path d="{{g.platesViolet}}" fill="rgba(182,155,255,0.04)" stroke="#b69bff" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="6 6"></path>
+        <path d="{{g.platesAmber}}" fill="rgba(255,179,64,0.045)" stroke="#ffb340" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 6"></path>
+        <path d="{{g.lake}}" fill="rgba(120,100,220,0.16)" stroke="#b69bff" stroke-opacity="0.5" stroke-width="1"></path>
+        <path d="{{g.ripples}}" fill="none" stroke="#b69bff" stroke-opacity="0.22" stroke-width="1"></path>
+      </svg>
+
+      <sc-for list="{{items}}" as="b" hint-placeholder-count="12">
+        <svg width="{{b.bw}}" height="{{b.bh}}" viewBox="{{b.vb}}" style="position: absolute; left: {{b.l}}px; top: {{b.t}}px; overflow: visible; pointer-events: none" aria-hidden="true">
+          <path d="{{b.side}}" fill="{{b.sf}}"></path>
+          <path d="{{b.front}}" fill="{{b.ff}}"></path>
+          <path d="{{b.top}}" fill="{{b.tf}}"></path>
+          <path d="{{b.ribs}}" fill="none" stroke="{{b.ec}}" stroke-opacity="0.16" stroke-width="1"></path>
+          <path d="{{b.dim}}" fill="{{b.wc}}" opacity="0.13"></path>
+          <path d="{{b.lit}}" fill="{{b.wc}}" opacity="{{b.wo}}"></path>
+          <path d="{{b.edges}}" fill="none" stroke="{{b.ec}}" stroke-width="1" stroke-opacity="0.7" stroke-linejoin="round"></path>
+          <path d="{{b.cap}}" fill="none" stroke="{{b.ec}}" stroke-width="{{b.cw}}" stroke-linejoin="round" filter="url(#xGlow)"></path>
+          <path d="{{b.extra}}" fill="{{b.xf}}" stroke="{{b.xs}}" stroke-width="1.4" filter="url(#xGlow)"></path>
+        </svg>
+      </sc-for>
+
+      <sc-for list="{{edges}}" as="e" hint-placeholder-count="16">
+        <svg width="{{e.bw}}" height="{{e.bh}}" viewBox="{{e.vb}}" style="position: absolute; left: {{e.l}}px; top: {{e.t}}px; overflow: visible; pointer-events: none" aria-hidden="true">
+          <path d="{{e.d}}" fill="none" stroke="{{e.gc}}" stroke-opacity="{{e.go}}" stroke-width="{{e.gw}}" stroke-linecap="round" filter="url(#xGlow)"></path>
+          <path d="{{e.d}}" fill="none" stroke="{{e.c}}" stroke-opacity="{{e.o}}" stroke-width="{{e.w}}" stroke-linecap="round" stroke-dasharray="{{e.base}}"></path>
+          <path d="{{e.d}}" fill="none" stroke="{{e.fc}}" stroke-opacity="{{e.fo}}" stroke-width="{{e.fw}}" stroke-dasharray="{{e.dash}}" stroke-linecap="round" style="animation: aFlow {{e.dur}}s linear infinite"></path>
+          <path d="{{e.d}}" fill="none" stroke="rgba(0,0,0,0)" stroke-width="18" style="pointer-events: stroke; cursor: pointer" onClick="{{e.pick}}"></path>
+        </svg>
+      </sc-for>
+
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none" aria-hidden="true">
+        <path d="{{o.tops}}" fill="rgba(242,251,255,0.12)" stroke="#ffffff" stroke-width="2.2" filter="url(#xGlow)" style="animation: aPulse 1.2s ease-in-out infinite"></path>
+        <path d="{{o.link}}" fill="none" stroke="#f2fbff" stroke-width="1.4" stroke-dasharray="3 5"></path>
+        <path d="{{o.beam}}" fill="none" stroke="#bfefff" stroke-width="{{fx.beam}}" stroke-opacity="0.07" stroke-linecap="round" filter="url(#xGlowBig)"></path>
+        <path d="{{o.beam}}" fill="none" stroke="#f2fbff" stroke-width="1.2" stroke-opacity="{{fx.beamCore}}"></path>
+        <path d="{{o.ring}}" fill="none" stroke="#ffb340" stroke-width="3" stroke-linecap="round" filter="url(#xGlow)"></path>
+        <path d="{{o.cars}}" fill="#ffb340"></path>
+        <path d="{{o.stream}}" fill="none" stroke="#56d6ff" stroke-width="2.6" stroke-linecap="round" filter="url(#xGlow)"></path>
+        <path d="{{o.stream}}" fill="none" stroke="#e9fbff" stroke-width="2.6" stroke-dasharray="1.5 7" stroke-linecap="round" style="animation: aFlow 2.2s linear infinite"></path>
+        <path d="{{o.trail}}" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-opacity="0.55" filter="url(#xGlow)"></path>
+        <path d="{{o.trailBack}}" fill="none" stroke="#7fe1ff" stroke-width="4" stroke-linecap="round" stroke-opacity="0.55" filter="url(#xGlow)"></path>
+        <path d="{{o.trailFail}}" fill="none" stroke="#ff6b7d" stroke-width="4" stroke-linecap="round" stroke-opacity="0.65" filter="url(#xGlow)"></path>
+        <path d="{{o.spark}}" fill="none" stroke="#ff6b7d" stroke-width="2.2" stroke-linecap="round" filter="url(#xGlow)" style="animation: aPulse 0.9s ease-in-out infinite"></path>
+        <path d="{{o.scar}}" fill="none" stroke="#ff6b7d" stroke-width="2" stroke-linecap="round"></path>
+        <path d="{{o.packets}}" fill="#ffffff" filter="url(#xGlowBig)"></path>
+        <path d="{{o.packetsBack}}" fill="#7fe1ff" filter="url(#xGlowBig)"></path>
+        <path d="{{o.packetsFail}}" fill="#ff6b7d" filter="url(#xGlowBig)"></path>
+      </svg>
+    </div>
+  </div>
+
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position: absolute; left: 0; top: 0; pointer-events: none" aria-hidden="true">
+    <path d="{{g.motes}}" fill="#d9f6ff" opacity="{{fx.motes}}" style="animation: aPulse 5s ease-in-out infinite"></path>
+  </svg>
+  <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 46%, rgba(0,0,0,0.85) 100%); opacity: {{fx.vignette}}; transition: opacity 0.6s"></div>
+
+  <div style="position: absolute; inset: 0; pointer-events: none">
+    <sc-for list="{{labels}}" as="l" hint-placeholder-count="14">
+      <div style="position: absolute; left: {{l.sx}}px; top: {{l.sy}}px; transform: translate(-50%, -100%); opacity: {{l.op}}; transition: left {{zoom.dur}}s cubic-bezier(0.7, 0, 0.2, 1), top {{zoom.dur}}s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.4s; display: flex; flex-direction: column; align-items: center">
+        <div style="padding: 4px 8px 5px; background: rgba(2,7,13,0.8); border: 1px solid {{l.bc}}; display: flex; flex-direction: column; gap: 1px; white-space: nowrap">
+          <span style="font-family: 'Michroma', 'Saira', sans-serif; font-size: 10px; letter-spacing: 0.12em; color: {{l.c}}">{{l.t}}</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #d3e1ee">{{l.s}}</span>
+        </div>
+        <div style="width: 1px; height: {{l.lead}}px; background: {{l.c}}; opacity: 0.75"></div>
+      </div>
+    </sc-for>
+    <sc-for list="{{handles}}" as="h" hint-placeholder-count="16">
+      <button type="button" aria-label="{{h.aria}}" onClick="{{h.pick}}" style="position: absolute; left: {{h.sx}}px; top: {{h.sy}}px; width: 28px; height: 28px; margin: -14px 0 0 -14px; padding: 0; border: 0; background: transparent; cursor: pointer; pointer-events: {{h.pe}}; opacity: {{h.op}}; transition: left {{zoom.dur}}s cubic-bezier(0.7, 0, 0.2, 1), top {{zoom.dur}}s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.4s; display: flex; align-items: center; justify-content: center">
+        <span style="width: 10px; height: 10px; transform: rotate(45deg); box-sizing: border-box; border: 1.5px solid {{h.c}}; background: {{h.bg}}; box-shadow: 0 0 8px {{h.c}}"></span>
+      </button>
+    </sc-for>
+    <sc-for list="{{pulses}}" as="p" hint-placeholder-count="2">
+      <div style="position: absolute; left: {{p.sx}}px; top: {{p.sy}}px; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; border: 2px solid {{p.c}}; animation: aRing 1.3s ease-out infinite"></div>
+    </sc-for>
+    <sc-if value="{{edgeChip.show}}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; left: {{edgeChip.sx}}px; top: {{edgeChip.sy}}px; transform: translate(-50%, calc(-100% - 16px)); padding: 6px 10px; white-space: nowrap; background: rgba(2,7,13,0.9); border: 1px solid #56d6ff; box-shadow: 0 0 18px rgba(86,214,255,0.35); display: flex; flex-direction: column; gap: 1px">
+        <span style="font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: 0.12em; color: #56d6ff">INTEGRATION</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #f2fbff">{{edgeChip.t}}</span>
+      </div>
+    </sc-if>
+    <sc-if value="{{bubble.show}}" hint-placeholder-val="{{ true }}">
+      <div style="position: absolute; left: {{bubble.sx}}px; top: {{bubble.sy}}px; transform: {{bubble.tf}}; padding: 7px 11px; white-space: nowrap; background: rgba(2,7,13,0.92); border: 1px solid {{bubble.c}}; border-left: 3px solid {{bubble.c}}; display: flex; flex-direction: column; gap: 2px; transition: left 0.12s linear, top 0.12s linear">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #f2fbff">{{bubble.t}}</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: {{bubble.c}}">{{bubble.s}}</span>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{floor.show}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 404px; top: 176px; width: 470px; box-sizing: border-box; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; background: rgba(3,9,16,0.9); border: 1px solid rgba(242,251,255,0.5); box-shadow: 0 0 40px rgba(159,232,255,0.18)">
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <span style="font-family: 'Michroma', sans-serif; font-size: 12px; letter-spacing: 0.14em; color: #f2fbff">FLOOR VIEW · INSIDE {{floor.node}}</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #a9bccd">{{floor.host}} · TP 8</span>
+      </div>
+      <svg width="430" height="196" viewBox="0 0 430 196" role="img" aria-label="Eight GPUs in tensor parallel; every sequence in the batch spans all of them; the selected request is highlighted">
+        <path d="{{floor.blades}}" fill="#08131d" stroke="#bfeaff" stroke-opacity="0.55"></path>
+        <path d="{{floor.lanes}}" fill="none" stroke="#56d6ff" stroke-opacity="0.45" stroke-width="1.3"></path>
+        <path d="{{floor.mine}}" fill="none" stroke="#f2fbff" stroke-width="3.2" filter="url(#xGlow)"></path>
+        <path d="{{floor.kv}}" fill="#ffb340"></path>
+        <path d="{{floor.kvFree}}" fill="#2a2010"></path>
+        <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="#cfe0ee">
+          <text x="14" y="16">GPU 0</text><text x="66" y="16">1</text><text x="118" y="16">2</text><text x="170" y="16">3</text><text x="222" y="16">4</text><text x="274" y="16">5</text><text x="326" y="16">6</text><text x="378" y="16">7</text>
+          <text x="416" y="{{floor.mineY}}" fill="#f2fbff" text-anchor="end" dy="-6">{{floor.mineTxt}}</text>
+          <text x="10" y="190" fill="#ffb340">{{floor.kvTxt}}</text>
+          <text x="420" y="190" fill="#a9bccd" text-anchor="end">{{floor.batchTxt}}</text>
+        </g>
+      </svg>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{floor.stats}}" as="s" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: 1px solid {{s.bc}}">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 19px; color: {{s.c}}">{{s.v}}</span>
+            <span style="font-size: 12px; color: #d3e1ee">{{s.k}}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #7d93a8">{{s.r}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <div aria-label="Camera" style="position: absolute; left: 960px; top: 78px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 5px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(86,214,255,0.28)">
+      <div role="group" aria-label="Zoom level" style="display: flex; gap: 2px">
+        <sc-for list="{{levels}}" as="v" hint-placeholder-count="4">
+          <button type="button" onClick="{{v.go}}" style="height: 36px; padding: 0 12px; cursor: pointer; border: 1px solid {{v.bc}}; background: {{v.bg}}; color: {{v.c}}; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em">{{v.t}}</button>
+        </sc-for>
+      </div>
+      <span style="width: 1px; height: 26px; background: rgba(150,190,230,0.25)"></span>
+      <button type="button" aria-label="Orbit left" onClick="{{rotL}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M14.5 9 A5.5 5.5 0 1 1 9 3.5 H12 M10 1.5 L12.2 3.5 L10 5.5" fill="none" stroke="#d3e1ee" stroke-width="1.4"></path></svg></button>
+      <button type="button" aria-label="Orbit right" onClick="{{rotR}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9 A5.5 5.5 0 1 0 9 3.5 H6 M8 1.5 L5.8 3.5 L8 5.5" fill="none" stroke="#d3e1ee" stroke-width="1.4"></path></svg></button>
+      <button type="button" aria-label="Tilt up" onClick="{{tiltU}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 12 L9 6 L15 12" fill="none" stroke="#d3e1ee" stroke-width="1.4"></path><path d="M3 15 H15" stroke="#56d6ff" stroke-width="1.2"></path></svg></button>
+      <button type="button" aria-label="Tilt down" onClick="{{tiltD}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6 L9 12 L15 6" fill="none" stroke="#d3e1ee" stroke-width="1.4"></path><path d="M3 15 H15" stroke="#56d6ff" stroke-width="1.2"></path></svg></button>
+      <span style="width: 1px; height: 26px; background: rgba(150,190,230,0.25)"></span>
+      <button type="button" aria-label="Zoom out" onClick="{{zoomOut}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 18px">−</button>
+      <span style="min-width: 52px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a9bccd">{{zoomPct}}</span>
+      <button type="button" aria-label="Zoom in" onClick="{{zoomIn}}" style="width: 36px; height: 36px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 18px">+</button>
+      <button type="button" onClick="{{resetView}}" style="height: 36px; padding: 0 12px; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 12px">RESET</button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #8fa5b9">
+      <span>drag orbit · shift-drag pan · scroll zoom · click an arc</span>
+      <span style="color: #d3e1ee">AZ {{camTxt.az}} · EL {{camTxt.el}}</span>
+      <button type="button" onClick="{{toggleTraffic}}" style="height: 26px; padding: 0 8px; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: {{lyBtn.trafficC}}; font-family: 'JetBrains Mono', monospace; font-size: 11px">TRAFFIC {{lyBtn.traffic}}</button>
+      <button type="button" onClick="{{toggleLineage}}" style="height: 26px; padding: 0 8px; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: {{lyBtn.lineageC}}; font-family: 'JetBrains Mono', monospace; font-size: 11px">LINEAGE {{lyBtn.lineage}}</button>
+    </div>
+  </div>
+
+  <header style="position: absolute; left: 0; top: 0; right: 0; height: 64px; box-sizing: border-box; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: linear-gradient(rgba(2,5,10,0.92), rgba(2,5,10,0)); pointer-events: none">
+    <div style="display: flex; align-items: center; gap: 18px">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 24 L14 4 L25 24 Z M9 24 L14 14 L19 24" fill="none" stroke="#56d6ff" stroke-width="1.6"></path></svg>
+      <span style="font-family: 'Michroma', sans-serif; font-size: 15px; letter-spacing: 0.24em">VESPER</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #7d93a8">SYSTEM ATLAS</span>
+      <span style="padding: 4px 10px; border: 1px solid rgba(86,214,255,0.45); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #56d6ff">A2 · METROPOLIS EXPLORER</span>
+    </div>
+    <nav aria-label="Location" style="display: flex; gap: 10px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a9bccd">
+      <sc-for list="{{crumbs}}" as="c" hint-placeholder-count="3">
+        <span style="color: {{c.c}}">{{c.t}}</span>
+      </sc-for>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 16px; pointer-events: auto">
+      <span style="display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #d3e1ee"><span style="width: 8px; height: 8px; border-radius: 50%; background: #56d6ff; box-shadow: 0 0 8px #56d6ff"></span>LIVE · {{clock}} UTC</span>
+      <div role="group" aria-label="Visual intensity" style="display: flex; border: 1px solid rgba(150,190,230,0.3)">
+        <button type="button" onClick="{{setOp}}" style="height: 36px; padding: 0 14px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; background: {{modeBtn.opBg}}; color: {{modeBtn.opC}}">OPERATIONAL</button>
+        <button type="button" onClick="{{setCin}}" style="height: 36px; padding: 0 14px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; background: {{modeBtn.cinBg}}; color: {{modeBtn.cinC}}">CINEMATIC</button>
+      </div>
+    </div>
+  </header>
+
+  <aside aria-label="Transactions" style="position: absolute; left: 24px; top: 84px; width: 356px; height: 808px; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(86,214,255,0.22)">
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">TRANSACTIONS</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">14:02:12 – 14:02:18 · us-east-2</span>
+    </div>
+    <div style="position: relative">
+      <label for="xQuery" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search transactions</label>
+      <svg width="16" height="16" viewBox="0 0 16 16" style="position: absolute; left: 12px; top: 14px; pointer-events: none" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="#56d6ff" stroke-width="1.4"></circle><path d="M11 11 L14.5 14.5" stroke="#56d6ff" stroke-width="1.4"></path></svg>
+      <input id="xQuery" class="xSearch" type="text" value="{{q}}" onChange="{{setQ}}" placeholder="ttft>800  status:error  tenant:t-0428" autocomplete="off" spellcheck="false" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 12px 0 36px; background: rgba(5,14,24,0.9); border: 1px solid rgba(86,214,255,0.4); color: #f2fbff; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+    </div>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.5; color: #7d93a8">ttft&gt;800 · total&lt;2000 · status:error · route:canary · tenant: · node: · code: · any text</span>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div role="group" aria-label="Status filter" style="display: flex; gap: 6px; align-items: center">
+        <span style="width: 48px; font-size: 12px; color: #a9bccd">Status</span>
+        <sc-for list="{{chipsS}}" as="c" hint-placeholder-count="4">
+          <button type="button" onClick="{{c.go}}" style="height: 30px; padding: 0 10px; cursor: pointer; border: 1px solid {{c.bc}}; background: {{c.bg}}; color: {{c.c}}; font-family: 'JetBrains Mono', monospace; font-size: 11.5px">{{c.t}}</button>
+        </sc-for>
+      </div>
+      <div role="group" aria-label="Route filter" style="display: flex; gap: 6px; align-items: center">
+        <span style="width: 48px; font-size: 12px; color: #a9bccd">Route</span>
+        <sc-for list="{{chipsR}}" as="c" hint-placeholder-count="3">
+          <button type="button" onClick="{{c.go}}" style="height: 30px; padding: 0 10px; cursor: pointer; border: 1px solid {{c.bc}}; background: {{c.bg}}; color: {{c.c}}; font-family: 'JetBrains Mono', monospace; font-size: 11.5px">{{c.t}}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 4px; border-top: 1px solid rgba(150,190,230,0.14)">
+      <span style="font-size: 13px; color: #e9f2fb">{{resCount}}</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">sorted by first token</span>
+    </div>
+    <div class="xScroll" style="display: flex; flex-direction: column; gap: 6px; overflow-y: auto; flex: 1 1 0; min-height: 0">
+      <sc-for list="{{results}}" as="r" hint-placeholder-count="2">
+        <button type="button" onClick="{{r.pick}}" style="display: flex; flex-direction: column; gap: 6px; padding: 9px 10px 10px 12px; text-align: left; cursor: pointer; border: 1px solid {{r.bc}}; border-left: 3px solid {{r.lc}}; background: {{r.bg}}; color: #e9f2fb; font-family: 'Saira', sans-serif">
+          <span style="display: flex; justify-content: space-between; width: 100%; gap: 8px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13.5px">{{r.id}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{r.tc}}">{{r.ttft}}</span></span>
+          <span style="display: flex; justify-content: space-between; width: 100%; gap: 8px; font-size: 12px; color: #a9bccd"><span>{{r.meta}}</span><span style="padding: 0 6px; border: 1px solid {{r.badgeC}}; color: {{r.badgeC}}; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; line-height: 16px">{{r.badge}}</span></span>
+          <span style="display: flex; width: 100%; height: 5px; gap: 1px">
+            <sc-for list="{{r.strip}}" as="s" hint-placeholder-count="5">
+              <span style="flex: {{s.w}} 1 0; min-width: 2px; background: {{s.bg}}"></span>
+            </sc-for>
+          </span>
+        </button>
+      </sc-for>
+      <sc-if value="{{noResults}}" hint-placeholder-val="{{ false }}">
+        <span style="padding: 14px 4px; font-size: 13px; color: #a9bccd">No traces match. Try removing a filter.</span>
+      </sc-if>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(150,190,230,0.14)">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">SAVED VIEWS</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <sc-for list="{{saved}}" as="v" hint-placeholder-count="3">
+          <button type="button" onClick="{{v.go}}" style="height: 30px; padding: 0 10px; cursor: pointer; border: 1px solid rgba(150,190,230,0.25); background: transparent; color: #d3e1ee; font-family: 'Saira', sans-serif; font-size: 12.5px">{{v.t}}</button>
+        </sc-for>
+      </div>
+    </div>
+  </aside>
+
+  <aside aria-label="Inspector" style="position: absolute; right: 24px; top: 84px; width: 372px; height: 808px; box-sizing: border-box; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(242,251,255,0.3)">
+    <div role="tablist" aria-label="Inspector view" style="display: flex; gap: 0; border-bottom: 1px solid rgba(150,190,230,0.2)">
+      <button type="button" role="tab" aria-selected="{{tabs.txSel}}" onClick="{{tabs.goTx}}" style="flex: 1 1 0; height: 38px; cursor: pointer; border: 0; border-bottom: 2px solid {{tabs.txB}}; background: transparent; color: {{tabs.txC}}; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em">TRANSACTION</button>
+      <button type="button" role="tab" aria-selected="{{tabs.edSel}}" onClick="{{tabs.goEd}}" style="flex: 1 1 0; height: 38px; cursor: pointer; border: 0; border-bottom: 2px solid {{tabs.edB}}; background: transparent; color: {{tabs.edC}}; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em">INTEGRATION</button>
+    </div>
+
+    <sc-if value="{{tabs.isTx}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #f2fbff">{{tx.id}}</span>
+        <span style="font-size: 12.5px; color: #a9bccd">{{tx.sub}}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+        <sc-for list="{{tx.stats}}" as="s" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 1px; padding: 6px 8px; border: 1px solid {{s.bc}}; background: {{s.bg}}">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: {{s.c}}">{{s.v}}</span>
+            <span style="font-size: 11.5px; color: #a9bccd">{{s.k}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">CALLS · CLICK TO JUMP</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">{{tx.callCount}}</span>
+      </div>
+      <div class="xScroll" style="display: flex; flex-direction: column; max-height: 214px; overflow-y: auto; margin-top: -6px">
+        <sc-for list="{{calls}}" as="c" hint-placeholder-count="10">
+          <button type="button" onClick="{{c.go}}" style="display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 26px; padding: 2px 6px; text-align: left; cursor: pointer; border: 0; border-left: 2px solid {{c.lc}}; background: {{c.bg}}; color: #e9f2fb">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #7d93a8">{{c.n}}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{c.fc}}">{{c.fn}}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: {{c.tc}}">{{c.ms}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 0; min-height: 0">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+          <span style="display: flex; flex-direction: column; min-width: 0"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">PAYLOAD</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #f2fbff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{pay.title}}</span></span>
+          <div role="group" aria-label="Payload direction" style="display: flex; border: 1px solid rgba(150,190,230,0.3); flex-shrink: 0">
+            <button type="button" onClick="{{pay.goReq}}" style="height: 30px; padding: 0 10px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; background: {{pay.reqBg}}; color: {{pay.reqC}}">REQUEST</button>
+            <button type="button" onClick="{{pay.goRes}}" style="height: 30px; padding: 0 10px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; background: {{pay.resBg}}; color: {{pay.resC}}">RESPONSE</button>
+          </div>
+        </div>
+        <div class="xScroll" style="flex: 1 1 0; min-height: 0; overflow: auto; padding: 8px 10px; background: rgba(1,4,9,0.85); border: 1px solid rgba(150,190,230,0.16)">
+          <sc-for list="{{pay.lines}}" as="ln" hint-placeholder-count="12">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; line-height: 17px; white-space: pre"><sc-for list="{{ln.tk}}" as="k" hint-placeholder-count="4"><span style="color: {{k.c}}">{{k.t}}</span></sc-for></div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #7d93a8">{{pay.meta}}</span>
+          <button type="button" onClick="{{toggleReveal}}" style="height: 28px; padding: 0 10px; flex-shrink: 0; cursor: pointer; border: 1px solid {{revealBtn.bc}}; background: transparent; color: {{revealBtn.c}}; font-family: 'JetBrains Mono', monospace; font-size: 11px">{{revealBtn.t}}</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{tabs.isEd}}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ed.none}}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #a9bccd">Click any arc in the city, or a diamond at its midpoint, to see the functions on that integration and a live tail of real calls.</p>
+      </sc-if>
+      <sc-if value="{{ed.has}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 3px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #f2fbff">{{ed.title}}</span>
+          <span style="font-size: 12.5px; color: #a9bccd">{{ed.proto}}</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+          <sc-for list="{{ed.stats}}" as="s" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 1px; padding: 6px 8px; border: 1px solid {{s.bc}}">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 15px; color: {{s.c}}">{{s.v}}</span>
+              <span style="font-size: 11.5px; color: #a9bccd">{{s.k}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <svg width="340" height="40" viewBox="0 0 340 40" role="img" aria-label="{{ed.sparkAria}}">
+          <path d="M0 39.5 H340" stroke="rgba(150,190,230,0.2)"></path>
+          <path d="{{ed.spark}}" fill="none" stroke="{{ed.sparkC}}" stroke-width="1.6"></path>
+          <text x="0" y="10" font-family="JetBrains Mono, monospace" font-size="10" fill="#7d93a8">{{ed.sparkLbl}}</text>
+          <text x="340" y="10" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#7d93a8">now</text>
+        </svg>
+        <div style="display: flex; flex-direction: column">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8; padding-bottom: 4px">FUNCTIONS · CLICK TO FILTER</span>
+          <sc-for list="{{ed.fns}}" as="f" hint-placeholder-count="2">
+            <button type="button" onClick="{{f.go}}" style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1px 8px; padding: 6px 8px; text-align: left; cursor: pointer; border: 0; border-left: 2px solid {{f.lc}}; background: {{f.bg}}; color: #e9f2fb">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{f.n}}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: {{f.ec}}">{{f.err}}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a9bccd">{{f.stat}}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ed.hasPin}}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8">{{ed.pinHead}}</span>
+            <sc-for list="{{ed.pins}}" as="p" hint-placeholder-count="1">
+              <button type="button" onClick="{{p.go}}" style="display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 6px 8px; cursor: pointer; border: 1px solid {{p.bc}}; background: rgba(242,251,255,0.04); color: #e9f2fb; font-family: 'JetBrains Mono', monospace; font-size: 11.5px">
+                <span>{{p.t}}</span><span style="color: {{p.c}}">{{p.s}} ↗</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #7d93a8; padding-bottom: 3px"><span>LIVE TAIL · {{ed.fnFilter}}</span><span style="display: flex; align-items: center; gap: 6px; letter-spacing: 0.06em; color: #56d6ff"><span style="width: 7px; height: 7px; border-radius: 50%; background: #56d6ff; animation: aPulse 1s ease-in-out infinite"></span>sampled 1:50</span></span>
+          <sc-for list="{{ed.samples}}" as="s" hint-placeholder-count="6">
+            <button type="button" onClick="{{s.go}}" style="display: grid; grid-template-columns: 86px 58px minmax(0, 1fr) auto; gap: 6px; align-items: center; min-height: 24px; padding: 0 6px; text-align: left; cursor: pointer; border: 0; border-left: 2px solid {{s.lc}}; background: {{s.bg}}; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 11px">
+              <span style="color: #a9bccd">{{s.ts}}</span><span>{{s.tr}}</span><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{s.sc}}">{{s.st}}</span><span style="color: {{s.lcol}}">{{s.lat}}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; flex: 1 1 0; min-height: 0">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #f2fbff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ed.payTitle}}</span>
+            <div role="group" aria-label="Sample payload direction" style="display: flex; border: 1px solid rgba(150,190,230,0.3); flex-shrink: 0">
+              <button type="button" onClick="{{pay.goReq}}" style="height: 26px; padding: 0 8px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; background: {{pay.reqBg}}; color: {{pay.reqC}}">REQ</button>
+              <button type="button" onClick="{{pay.goRes}}" style="height: 26px; padding: 0 8px; border: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; background: {{pay.resBg}}; color: {{pay.resC}}">RES</button>
+            </div>
+          </div>
+          <div class="xScroll" style="flex: 1 1 0; min-height: 0; overflow: auto; padding: 6px 8px; background: rgba(1,4,9,0.85); border: 1px solid rgba(150,190,230,0.16)">
+            <sc-for list="{{ed.lines}}" as="ln" hint-placeholder-count="6">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 16px; white-space: pre"><sc-for list="{{ln.tk}}" as="k" hint-placeholder-count="4"><span style="color: {{k.c}}">{{k.t}}</span></sc-for></div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </sc-if>
+  </aside>
+
+  <section aria-label="Replay" style="position: absolute; left: 24px; right: 24px; bottom: 18px; height: 156px; box-sizing: border-box; padding: 12px 18px; display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 24px; background: rgba(2,7,13,{{fx.panel}}); border: 1px solid rgba(86,214,255,0.22)">
+    <div style="display: flex; flex-direction: column; gap: 9px">
+      <div style="display: flex; gap: 6px; align-items: center">
+        <button type="button" aria-label="{{rp.playAria}}" onClick="{{rp.toggle}}" style="width: 44px; height: 44px; padding: 0; cursor: pointer; border: 1px solid #f2fbff; background: rgba(242,251,255,0.1); display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="{{rp.icon}}" fill="#f2fbff"></path></svg></button>
+        <button type="button" aria-label="Restart replay" onClick="{{rp.restart}}" style="width: 40px; height: 40px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.3); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3 V13 M13 3 L6 8 L13 13 Z" fill="none" stroke="#d3e1ee" stroke-width="1.4"></path></svg></button>
+        <button type="button" aria-label="Previous call" onClick="{{rp.prev}}" style="width: 40px; height: 40px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.3); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M11 3 L5 8 L11 13" fill="none" stroke="#d3e1ee" stroke-width="1.5"></path></svg></button>
+        <button type="button" aria-label="Next call" onClick="{{rp.next}}" style="width: 40px; height: 40px; padding: 0; cursor: pointer; border: 1px solid rgba(150,190,230,0.3); background: transparent; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3 L11 8 L5 13" fill="none" stroke="#d3e1ee" stroke-width="1.5"></path></svg></button>
+        <button type="button" aria-label="Playback speed" onClick="{{rp.speedGo}}" style="height: 40px; padding: 0 12px; cursor: pointer; border: 1px solid rgba(150,190,230,0.3); background: transparent; color: #d3e1ee; font-family: 'JetBrains Mono', monospace; font-size: 12px">{{rp.speed}}</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #f2fbff">t = {{rp.tTxt}}</span>
+        <span style="font-size: 13px; color: {{rp.phaseC}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{rp.phase}}</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #7d93a8">replay paced by the lens below · times are real</span>
+      </div>
+    </div>
+    <div style="position: relative; display: flex; flex-direction: column">
+      <div style="position: relative; height: 18px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d93a8">
+        <sc-for list="{{rp.axis}}" as="a" hint-placeholder-count="8">
+          <span style="position: absolute; left: {{a.x}}%; top: 2px; transform: translateX(-50%); white-space: nowrap; color: {{a.c}}">{{a.t}}</span>
+        </sc-for>
+      </div>
+      <div style="position: relative; height: 70px">
+        <div style="position: absolute; left: 3%; width: 22%; top: 0; bottom: 0; background: rgba(86,214,255,0.05)"></div>
+        <sc-for list="{{rp.segs}}" as="s" hint-placeholder-count="8">
+          <div style="position: absolute; left: {{s.x}}%; width: {{s.w}}%; top: {{s.y}}px; height: {{s.h}}px; background: {{s.bg}}; box-shadow: {{s.sh}}; opacity: {{s.op}}"></div>
+        </sc-for>
+        <sc-for list="{{rp.ticks}}" as="k" hint-placeholder-count="14">
+          <div style="position: absolute; left: {{k.x}}%; top: 50px; width: 1px; height: 10px; background: {{k.c}}"></div>
+        </sc-for>
+        <sc-for list="{{rp.marks}}" as="m" hint-placeholder-count="2">
+          <div style="position: absolute; left: {{m.x}}%; top: 0; height: 64px; border-left: 1px {{m.st}} {{m.c}}"></div>
+        </sc-for>
+        <div style="position: absolute; left: {{rp.headX}}%; top: -4px; height: 74px; width: 2px; margin-left: -1px; background: #ffffff; box-shadow: 0 0 10px #ffffff"></div>
+        <div style="position: absolute; left: {{rp.headX}}%; top: -10px; width: 10px; height: 10px; margin-left: -5px; transform: rotate(45deg); background: #ffffff"></div>
+        <sc-if value="{{rp.ttftShow}}" hint-placeholder-val="{{ true }}"><span style="position: absolute; left: {{rp.ttftX}}%; top: 50px; padding-left: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ffb340; white-space: nowrap">first token {{rp.ttftTxt}}</span></sc-if>
+        <label for="xScrub" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Replay position</label>
+        <input id="xScrub" class="xRange" type="range" min="0" max="1000" step="1" value="{{rp.slider}}" onChange="{{rp.scrub}}" style="position: absolute; left: 0; right: 0; top: 18px; width: 100%">
+      </div>
+      <div style="display: flex; gap: 18px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a9bccd; padding-top: 2px">
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 16px; height: 6px; background: #f2fbff"></span>critical path</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 16px; height: 6px; background: repeating-linear-gradient(135deg, #ffb340 0 4px, #a86a12 4px 6px)"></span>queued</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 16px; height: 6px; background: #ff6b7d"></span>failed / retried</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 16px; height: 6px; background: #56d6ff"></span>streaming</span>
+        <span style="display: flex; align-items: center; gap: 6px"><span style="width: 16px; height: 3px; background: rgba(242,251,255,0.55)"></span>parallel</span>
+        <span>tick = one call · lens 0–60 ms ×9.6</span>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"intensity":{"editor":"enum","options":["Cinematic","Operational"],"default":"Cinematic"},"startView":{"editor":"enum","options":["Replay","Integration"],"default":"Replay"},"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    this._tick = 0;
+    this._iv = setInterval(function () {
+      var st = self.state || {};
+      self._tick += 1;
+      var upd = null;
+      if (st.playing) {
+        var d = self.disp(st.t == null ? self.startT() : st.t) + 0.1 * (st.speed || 1) * 100 / 16;
+        upd = d >= 100 ? { t: self.msOf(100), playing: false } : { t: self.msOf(d) };
+        upd.pin = null;
+      }
+      if (self._tick % 10 === 0) { upd = upd || {}; upd.live = (st.live || 0) + 1; }
+      if (upd) self.setState(upd);
+    }, 100);
+  }
+  componentWillUnmount() { if (this._iv) clearInterval(this._iv); if (this._anim) clearInterval(this._anim); }
+
+  isEdgeStart() { return this.props.startView === 'Integration'; }
+  startT() { return this.isEdgeStart() ? 5842 : 290; }
+  disp(t) {
+    if (t < 0) return Math.max(0, 3 + t);
+    if (t <= 60) return 3 + t * 22 / 60;
+    if (t <= 1500) return 25 + (t - 60) * 55 / 1440;
+    return Math.min(100, 80 + (t - 1500) * 20 / 4500);
+  }
+  msOf(d) {
+    if (d < 3) return d - 3;
+    if (d <= 25) return (d - 3) * 60 / 22;
+    if (d <= 80) return 60 + (d - 25) * 1440 / 55;
+    return 1500 + (d - 80) * 4500 / 20;
+  }
+  animCam(az1, el1) {
+    var self = this, st = this.state || {};
+    var az0 = st.az == null ? 12 : st.az, el0 = st.el == null ? 29 : st.el, k = 0, n = 8;
+    if (this._anim) clearInterval(this._anim);
+    this._anim = setInterval(function () {
+      k += 1; var u = k / n; u = u * u * (3 - 2 * u);
+      self.setState({ az: az0 + (az1 - az0) * u, el: el0 + (el1 - el0) * u, trans: 'none' });
+      if (k >= n) { clearInterval(self._anim); self._anim = null; }
+    }, 30);
+  }
+
+  data() {
+    if (this._d) return this._d;
+    function mk(o) {
+      var calls = [], k = 0;
+      function call(e, fn, callee, t0, t1, st, extra) { var x = { k: 'c' + (++k), e: e, fn: fn, callee: callee, t0: t0, t1: t1, st: st || 'ok' }; if (extra) for (var q in extra) x[q] = extra[q]; calls.push(x); return x; }
+      var cli = call('cli-edge', 'POST /v1/chat/completions', 'edge', 0, 0, 'ok', { kind: 'http' });
+      var tx = { id: o.id, at: o.at, tenant: o.tenant, route: o.route, node: o.node, inTok: o.inTok, out: o.out || 0, tps: o.tps || 0, ep: 'POST /v1/chat/completions', retry: !!o.retry, queue: o.queue || 0, prefill: o.prefill || 0, ttft: null, segs: [], par: [] };
+      function done(total, code, st) { cli.t1 = total; tx.total = total; tx.code = code; tx.status = st; tx.calls = calls; return tx; }
+      if (o.fail === 'ident') {
+        call('edge-ident', 'authz.v1.Authz/Verify', 'ident', 4, 6, 'fail', { note: 'quota_exceeded' });
+        call('ident-quota', 'EVALSHA reserve_tpm', 'quota', 4.6, 5.4, 'fail', { kind: 'redis' });
+        tx.segs = [[0, 4, 'ok'], [4, 7, 'fail']];
+        cli.st = 'fail';
+        return done(7, 429, 'error');
+      }
+      call('edge-ident', 'authz.v1.Authz/Verify', 'ident', 4, 15);
+      call('ident-quota', 'EVALSHA reserve_tpm', 'quota', 7, 9, 'ok', { kind: 'redis' });
+      call('edge-route', 'router.v1.Router/Route', 'route', 15, 22);
+      var sf = call('route-safety', 'safety.v1.Input/Classify', 'safety', 22, 61);
+      if (o.fail === 'safety') {
+        sf.st = 'fail'; sf.note = 'BLOCK';
+        call('route-retr', 'retrieval.v2.Retrieval/Search', 'retr', 22, 61, 'cancel');
+        call('retr-embed', 'embed.v1.Embed/Encode', 'embed', 24, 44);
+        tx.segs = [[0, 22, 'ok'], [22, 61, 'ok'], [61, 64, 'fail']]; tx.par = [[22, 61, 'fail']];
+        cli.st = 'fail';
+        return done(64, 400, 'error');
+      }
+      var rEnd = o.retry ? 335 : 72, eEnd = o.retry ? 48 : 44;
+      call('route-retr', 'retrieval.v2.Retrieval/Search', 'retr', 22, rEnd);
+      call('retr-embed', 'embed.v1.Embed/Encode', 'embed', 24, eEnd);
+      if (o.retry) {
+        call('retr-vec', 'vector.v1.Shard/Query', 'vec', 48, 298, 'fail', { shard: 'vs-03', replica: 'primary', attempt: 1, target: 'vsP', note: 'DEADLINE_EXCEEDED' });
+        call('retr-vec', 'vector.v1.Shard/Query', 'vec', 298, 331, 'ok', { shard: 'vs-03', replica: 'replica-b', attempt: 2, target: 'vsR' });
+        tx.segs = [[0, 22, 'ok'], [22, 48, 'ok'], [48, 298, 'fail'], [298, rEnd, 'ok']];
+      } else {
+        call('retr-vec', 'vector.v1.Shard/Query', 'vec', 44, 70, 'ok', { shard: o.shard || 'vs-05', replica: 'primary', attempt: 1 });
+        tx.segs = [[0, 22, 'ok'], [22, rEnd, 'ok']];
+      }
+      tx.par = [[22, 61, 'ok'], [24, eEnd, 'ok']];
+      var pE = rEnd + 7;
+      call('route-prompt', 'prompt.v1.Builder/Assemble', 'prompt', rEnd, pE);
+      var qE = pE + o.queue;
+      var enq = call('prompt-hub', 'sched.v1.Scheduler/Enqueue', 'hub', pE, qE, 'wait', { kind: 'queue' });
+      tx.segs.push([rEnd, pE, 'ok']); tx.segs.push([pE, qE, 'wait']);
+      if (o.fail === 'hub') {
+        enq.st = 'fail'; enq.note = 'queue_timeout';
+        tx.segs.push([qE, qE + 5, 'fail']); cli.st = 'fail';
+        return done(qE + 5, 503, 'error');
+      }
+      var ttft = qE + o.prefill, dEnd = Math.round(ttft + o.out / o.tps * 1000);
+      tx.ttft = ttft;
+      call('hub-compute', 'inference.v1.ModelServer/Generate', 'compute', qE, dEnd, 'ok', { kind: 'gen', ttft: ttft });
+      call('compute-out', 'stream.v1.Gateway/Push', 'out', ttft, dEnd + 15, 'ok', { kind: 'stream' });
+      call('out-sout', 'safety.v1.Output/Check ×40', 'sout', ttft, dEnd + 12);
+      call('out-cli', 'SSE text/event-stream', 'client', ttft, dEnd + 15, 'ok', { kind: 'stream' });
+      tx.segs.push([qE, ttft, 'gpu']); tx.segs.push([ttft, dEnd + 15, 'stream']);
+      return done(dEnd + 15, 200, ttft > 800 ? 'slow' : 'ok');
+    }
+    var TX = [
+      mk({ id: 'req_7f3a9c21', at: '14:02:17.318', tenant: 't-0428', route: 'canary', node: 'c-0', retry: true, queue: 840, prefill: 228, out: 318, tps: 72, inTok: 1846 }),
+      mk({ id: 'req_2c91be07', at: '14:02:16.904', tenant: 't-0311', route: 'canary', node: 'c-0', queue: 1010, prefill: 190, out: 212, tps: 74, inTok: 1530 }),
+      mk({ id: 'req_9e7710b4', at: '14:02:15.770', tenant: 't-0519', route: 'canary', node: 'c-0', queue: 2000, fail: 'hub', inTok: 2210 }),
+      mk({ id: 'req_88f3a1c6', at: '14:02:14.122', tenant: 't-0428', route: 'stable', node: 's-3', retry: true, queue: 22, prefill: 214, out: 140, tps: 81, inTok: 1690 }),
+      mk({ id: 'req_a41f0d3e', at: '14:02:13.560', tenant: 't-0207', route: 'stable', node: 's-5', queue: 18, prefill: 205, out: 96, tps: 84, inTok: 1102 }),
+      mk({ id: 'req_d07c55a9', at: '14:02:12.981', tenant: 't-0611', route: 'canary', node: null, fail: 'safety', inTok: 880 }),
+      mk({ id: 'req_6b2e4f18', at: '14:02:12.402', tenant: 't-0099', route: null, node: null, fail: 'ident', inTok: 640 })
+    ];
+    var byId = {}; TX.forEach(function (t) { byId[t.id] = t; });
+    var E = [
+      { id: 'cli-edge', a: 'client', b: 'edge', from: 'client', to: 'edge-gateway', proto: 'HTTPS/2 · public', rate: 1284, fns: [{ n: 'POST /v1/chat/completions', r: 1284, p50: '2.9 s', p99: '7.8 s', err: 0.4 }, { n: 'POST /v1/embeddings', r: 96, p50: '41 ms', p99: '120 ms', err: 0.1 }] },
+      { id: 'edge-ident', a: 'edge', b: 'ident', from: 'edge-gateway', to: 'authz', proto: 'gRPC · mTLS · authz.v1', rate: 1380, fns: [{ n: 'authz.v1.Authz/Verify', r: 1380, p50: '3 ms', p99: '9 ms', err: 0.0 }, { n: 'authz.v1.Authz/Introspect', r: 12, p50: '2 ms', p99: '6 ms', err: 0.0 }] },
+      { id: 'ident-quota', a: 'ident', b: 'quota', from: 'authz', to: 'quota-cache', proto: 'RESP3 · Redis cluster', rate: 1380, fns: [{ n: 'EVALSHA reserve_tpm', r: 1380, p50: '1 ms', p99: '3 ms', err: 0.0 }, { n: 'HGET tenant:limits', r: 40, p50: '0.4 ms', p99: '1 ms', err: 0.0 }] },
+      { id: 'edge-route', a: 'edge', b: 'route', from: 'edge-gateway', to: 'inference-router', proto: 'gRPC · mTLS · router.v1', rate: 1284, fns: [{ n: 'router.v1.Router/Route', r: 1284, p50: '6 ms', p99: '14 ms', err: 0.0 }] },
+      { id: 'route-safety', a: 'route', b: 'safety', from: 'inference-router', to: 'safety-input', proto: 'gRPC · mTLS · safety.v1', rate: 1284, fns: [{ n: 'safety.v1.Input/Classify', r: 1284, p50: '34 ms', p99: '70 ms', err: 0.1 }] },
+      { id: 'route-retr', a: 'route', b: 'retr', from: 'inference-router', to: 'retrieval-svc', proto: 'gRPC · mTLS · retrieval.v2', rate: 796, fns: [{ n: 'retrieval.v2.Retrieval/Search', r: 796, p50: '52 ms', p99: '310 ms', err: 0.2 }] },
+      { id: 'retr-embed', a: 'retr', b: 'embed', from: 'retrieval-svc', to: 'embed-svc', proto: 'gRPC · mTLS · embed.v1', rate: 796, fns: [{ n: 'embed.v1.Embed/Encode', r: 796, p50: '22 ms', p99: '48 ms', err: 0.0 }] },
+      { id: 'retr-vec', a: 'retr', b: 'vec', from: 'retrieval-svc', to: 'vector-store', proto: 'gRPC · mTLS · vector.v1 · fan-out to 6 shards', rate: 4780, warn: true, fns: [{ n: 'vector.v1.Shard/Query', r: 4780, p50: '18 ms', p99: '270 ms', err: 0.9 }, { n: 'vector.v1.Shard/Upsert', r: 8, p50: '12 ms', p99: '40 ms', err: 0.0 }, { n: 'vector.v1.Shard/Health', r: 12, p50: '1 ms', p99: '3 ms', err: 0.0 }] },
+      { id: 'route-prompt', a: 'route', b: 'prompt', from: 'inference-router', to: 'prompt-builder', proto: 'gRPC · mTLS · prompt.v1', rate: 1284, fns: [{ n: 'prompt.v1.Builder/Assemble', r: 1284, p50: '6 ms', p99: '11 ms', err: 0.0 }] },
+      { id: 'prompt-hub', a: 'prompt', b: 'hub', from: 'prompt-builder', to: 'gpu-scheduler', proto: 'gRPC · mTLS · sched.v1', rate: 1284, warn: true, fns: [{ n: 'sched.v1.Scheduler/Enqueue', r: 1284, p50: '40 ms wait', p99: '1.6 s wait', err: 0.3 }] },
+      { id: 'hub-compute', a: 'hub', b: 'compute', from: 'gpu-scheduler', to: 'model-server', proto: 'gRPC server-stream · inference.v1', rate: 1284, fns: [{ n: 'inference.v1.ModelServer/Generate', r: 1284, p50: '210 ms prefill', p99: '330 ms prefill', err: 0.0 }] },
+      { id: 'compute-out', a: 'compute', b: 'out', from: 'model-server', to: 'stream-gateway', proto: 'gRPC client-stream · stream.v1', rate: 1284, fns: [{ n: 'stream.v1.Gateway/Push', r: 1284, p50: '14 ms / chunk', p99: '31 ms / chunk', err: 0.0 }] },
+      { id: 'out-sout', a: 'out', b: 'sout', from: 'stream-gateway', to: 'safety-output', proto: 'gRPC · mTLS · safety.v1', rate: 51360, fns: [{ n: 'safety.v1.Output/Check', r: 51360, p50: '1.2 ms', p99: '6 ms', err: 0.0 }] },
+      { id: 'out-cli', a: 'out', b: 'clientOut', from: 'stream-gateway', to: 'client', proto: 'Server-sent events · public', rate: 1284, fns: [{ n: 'SSE text/event-stream', r: 1284, p50: '72 tok/s', p99: '41 tok/s floor', err: 0.4 }] },
+      { id: 'reg-compute', a: 'registry', b: 'compute', from: 'model registry', to: 'model-server', proto: 'control plane · deploy.v1', rate: 1, lineage: true, fns: [{ n: 'deploy.v1.Controller/Rollout', r: 0, p50: 'dep-118 · 13:10 UTC', p99: 'canary 10%', err: 0.0 }] },
+      { id: 'compute-tele', a: 'compute', b: 'tele', from: 'all services', to: 'trace-collector', proto: 'OTLP/gRPC · opentelemetry', rate: 340, fns: [{ n: 'TraceService/Export', r: 340, p50: '4 ms', p99: '19 ms', err: 0.0 }] }
+    ];
+    var eById = {}; E.forEach(function (e) { eById[e.id] = e; });
+    this._d = { TX: TX, byId: byId, E: E, eById: eById };
+    return this._d;
+  }
+
+  geo(az, el, mode) {
+    var key = az.toFixed(2) + '|' + el.toFixed(2) + '|' + mode;
+    if (this._g && this._g.key === key) return this._g;
+    var cin = mode === 'cin';
+    function r1(n) { return Math.round(n * 10) / 10; }
+    function rnd(i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+    function pathPts(pts, close) { return 'M' + pts.map(function (p) { return r1(p[0]) + ' ' + r1(p[1]); }).join(' L') + (close ? ' Z' : ''); }
+    var PIV = [-60, 0, 1900], DIST = 4150, F = 1330, CX = 960, CY = 520;
+    var A = az * Math.PI / 180, L = el * Math.PI / 180;
+    var cam = [PIV[0] + DIST * Math.cos(L) * Math.sin(A), PIV[1] + DIST * Math.sin(L), PIV[2] - DIST * Math.cos(L) * Math.cos(A)];
+    function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+    function nrm(a) { var l = Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]); return [a[0] / l, a[1] / l, a[2] / l]; }
+    function crs(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+    var fw = nrm(sub(PIV, cam)), rt = nrm(crs([0, 1, 0], fw)), up = crs(fw, rt);
+    function depth(x, y, z) { return (x - cam[0]) * fw[0] + (y - cam[1]) * fw[1] + (z - cam[2]) * fw[2]; }
+    function proj(x, y, z) {
+      var dx = x - cam[0], dy = y - cam[1], dz = z - cam[2];
+      var xc = dx * rt[0] + dy * rt[1] + dz * rt[2], yc = dx * up[0] + dy * up[1] + dz * up[2], zc = dx * fw[0] + dy * fw[1] + dz * fw[2];
+      if (zc < 80) zc = 80;
+      return [CX + F * xc / zc, CY - F * yc / zc, zc];
+    }
+    function dist3(x, y, z) { var a = x - cam[0], b = y - cam[1], c = z - cam[2]; return Math.sqrt(a * a + b * b + c * c); }
+    var K = {
+      svc: { e: '#56d6ff', t: '#0b1a27', f: '#050c14', s: '#08131d', w: '#7fe1ff' },
+      gpu: { e: '#8fdcff', t: '#0b1a27', f: '#040a11', s: '#07111b', w: '#cfefff' },
+      canary: { e: '#f2fbff', t: '#14202b', f: '#060c13', s: '#0a141e', w: '#ffffff' },
+      dead: { e: '#ff6b7d', t: '#1a0b0f', f: '#0c0507', s: '#12080b', w: '#ff6b7d' },
+      hot: { e: '#ffb340', t: '#1f1608', f: '#0c0904', s: '#140f06', w: '#ffc46b' },
+      sched: { e: '#ffb340', t: '#1a1409', f: '#0b0905', s: '#120e07', w: '#ffc46b' },
+      train: { e: '#b69bff', t: '#130f23', f: '#080612', s: '#0d0a19', w: '#cdbaff' },
+      data: { e: '#b69bff', t: '#100d1f', f: '#07060f', s: '#0b0916', w: '#a993f0' },
+      tele: { e: '#8fb3d1', t: '#0c141c', f: '#060a0f', s: '#091018', w: '#a9c6de' }
+    };
+    var B = [], i, j;
+    function add(o) { o.seed = B.length * 7 + 3; B.push(o); return o; }
+    for (i = 0; i < 6; i++) add({ g: 'edge', x: -250 + i * 100, z: 300, w: 64, d: 64, h: 170, k: 'svc', win: [2, 5], load: 0.72 });
+    for (i = 0; i < 4; i++) add({ g: 'ident', x: 610 + (i % 2) * 92, z: 660 + Math.floor(i / 2) * 92, w: 64, d: 64, h: 150, k: 'svc', win: [2, 4], load: 0.6 });
+    for (i = 0; i < 3; i++) add({ g: 'quota', x: 820, z: 640 + i * 66, w: 46, d: 46, h: 54, k: 'svc', win: [1, 1], load: 1 });
+    for (i = 0; i < 6; i++) add({ g: 'out', x: -800 + (i % 3) * 82, z: 660 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 140, k: 'svc', win: [2, 4], load: 0.66 });
+    for (i = 0; i < 6; i++) add({ g: 'sout', x: -800 + (i % 3) * 82, z: 880 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 105, k: 'svc', win: [2, 3], load: 0.6 });
+    for (i = 0; i < 4; i++) add({ g: 'route', x: 100 + (i % 2 ? 115 : -115), z: 1190 + Math.floor(i / 2) * 120, w: 70, d: 70, h: 200, k: 'svc', win: [2, 6], load: 0.68 });
+    add({ g: 'route', x: 100, z: 1250, w: 26, d: 26, h: 340, k: 'canary', win: [1, 8], load: 1 });
+    for (i = 0; i < 6; i++) add({ g: 'safety', x: -640 + (i % 3) * 82, z: 1560 + Math.floor(i / 3) * 82, w: 56, d: 56, h: 130, k: 'svc', win: [2, 4], load: 0.55 });
+    for (i = 0; i < 8; i++) add({ g: 'retr', x: 760 + (i % 4) * 84, z: 1440 + Math.floor(i / 4) * 84, w: 58, d: 58, h: 150, k: 'svc', win: [2, 4], load: 0.62 });
+    for (i = 0; i < 4; i++) add({ g: 'embed', x: 1130 + (i % 2) * 76, z: 1440 + Math.floor(i / 2) * 84, w: 54, d: 54, h: 112, k: 'gpu', win: [2, 3], load: 0.8 });
+    var vsP, vsR;
+    for (i = 0; i < 6; i++) {
+      var p = add({ g: i === 2 ? 'vsP' : 'vault', x: 700 + i * 112, z: 2050, w: 36, d: 90, h: 128, k: i === 2 ? 'hot' : 'svc', win: [1, 5], load: i === 2 ? 1 : 0.5 });
+      var q = add({ g: i === 2 ? 'vsR' : 'vault', x: 742 + i * 112, z: 2050, w: 36, d: 90, h: 128, k: 'svc', win: [1, 5], load: 0.5 });
+      if (i === 2) { vsP = p; vsR = q; }
+    }
+    for (i = 0; i < 4; i++) add({ g: 'prompt', x: 210 + (i % 2) * 78, z: 2110 + Math.floor(i / 2) * 78, w: 54, d: 54, h: 110, k: 'svc', win: [2, 3], load: 0.6 });
+    for (i = 0; i < 3; i++) add({ g: 'hub', x: -396 + i * 46, z: 2550 + (i === 1 ? 30 : 0), w: 30, d: 30, h: 190, k: 'sched', win: [1, 6], load: 0.9 });
+    var colsX = [-150, 160, 470, 780], rowsZ = [3060, 3280, 3500], nodes = {}, nodeList = [], sIdx = 0;
+    for (j = 0; j < 3; j++) for (i = 0; i < 4; i++) {
+      var kind = 'gpu', nm;
+      if (j === 0 && i === 3) { kind = 'canary'; nm = 'c-0'; }
+      else if (j === 0 && i === 2) { kind = 'dead'; nm = 'c-1'; }
+      else { nm = 's-' + sIdx; sIdx++; }
+      var n = add({ g: 'node:' + nm, x: colsX[i], z: rowsZ[j], w: 232, d: 150, h: kind === 'dead' ? 300 : 430, k: kind, win: [4, 2], load: kind === 'dead' ? 0 : (kind === 'canary' ? 1 : 0.91), gpu: true, nm: nm });
+      nodes[nm] = n; nodeList.push(n);
+    }
+    for (j = 0; j < 8; j++) for (i = 0; i < 8; i++) add({ g: 'train', x: -2050 + i * 92, z: 2500 + j * 92, w: 70, d: 70, h: j < 4 ? 120 : 84, k: 'train', win: [2, 2], load: j < 4 ? 1 : 0.62 });
+    for (i = 0; i < 4; i++) add({ g: 'data', x: -1560, z: 1380 + i * 120, w: 420, d: 46, h: 38, k: 'data', win: [8, 1], load: 0.5 });
+    for (i = 0; i < 3; i++) add({ g: 'data', x: -1180, z: 1380 + i * 110, w: 60, d: 60, h: 92, k: 'data', win: [2, 3], load: 0.6 });
+    add({ g: 'data', x: -1180, z: 1800, w: 84, d: 70, h: 70, k: 'data', win: [3, 2], load: 0.7 });
+    var registry = add({ g: 'registry', x: -980, z: 2300, w: 96, d: 96, h: 120, k: 'data', win: [3, 3], load: 0.8 });
+    for (i = 0; i < 3; i++) add({ g: 'tele', x: 1560 + i * 160, z: 2350 + i * 300, w: 40, d: 40, h: 380, k: 'tele', win: [1, 10], load: 0.5 });
+
+    var fx = cin ? { winBoost: 1 } : { winBoost: 0.8 };
+    var groupTops = {}, boxes = {};
+    function boxGeom(b) {
+      var x0 = b.x - b.w / 2, x1 = b.x + b.w / 2, z0 = b.z - b.d / 2, z1 = b.z + b.d / 2, h = b.h;
+      var top = [proj(x0, h, z0), proj(x1, h, z0), proj(x1, h, z1), proj(x0, h, z1)];
+      var zf = null, zz = null, xf = null, xx = null;
+      if (cam[2] < z0) { zf = [proj(x0, 0, z0), proj(x1, 0, z0), proj(x1, h, z0), proj(x0, h, z0)]; zz = z0; }
+      else if (cam[2] > z1) { zf = [proj(x1, 0, z1), proj(x0, 0, z1), proj(x0, h, z1), proj(x1, h, z1)]; zz = z1; }
+      if (cam[0] < x0) { xf = [proj(x0, 0, z0), proj(x0, 0, z1), proj(x0, h, z1), proj(x0, h, z0)]; xx = x0; }
+      else if (cam[0] > x1) { xf = [proj(x1, 0, z0), proj(x1, 0, z1), proj(x1, h, z1), proj(x1, h, z0)]; xx = x1; }
+      var lit = [], dim = [], ribs = [];
+      if (zf) {
+        var cols = b.win[0], rows = b.win[1], cw = b.w / cols, rh = (h * 0.84) / rows, idx = 0;
+        for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+          var wx0 = x0 + c * cw + cw * (b.gpu ? 0.12 : 0.22), wx1 = x0 + (c + 1) * cw - cw * (b.gpu ? 0.12 : 0.22);
+          var tY = h * 0.92 - r * rh - rh * 0.14, bY = h * 0.92 - (r + 1) * rh + rh * 0.14;
+          var quad = [proj(wx0, bY, zz), proj(wx1, bY, zz), proj(wx1, tY, zz), proj(wx0, tY, zz)];
+          var on = b.load >= 1 ? true : (b.load <= 0 ? false : rnd(b.seed + idx) < b.load);
+          (on ? lit : dim).push(quad); idx++;
+        }
+      }
+      if (xf) { var nR = Math.max(2, Math.round(b.d / 22)); for (var k2 = 1; k2 < nR; k2++) { var zr = z0 + (z1 - z0) * k2 / nR; ribs.push([proj(xx, h * 0.04, zr), proj(xx, h * 0.96, zr)]); } }
+      return { top: top, zf: zf, xf: xf, lit: lit, dim: dim, ribs: ribs };
+    }
+    var items = B.map(function (b) {
+      var G = boxGeom(b), pal = K[b.k];
+      var all = G.top.concat(G.zf || [], G.xf || []);
+      var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      all.forEach(function (p) { if (p[0] < minX) minX = p[0]; if (p[1] < minY) minY = p[1]; if (p[0] > maxX) maxX = p[0]; if (p[1] > maxY) maxY = p[1]; });
+      var pad = 30, ox = minX - pad, oy = minY - pad;
+      function rel(pts) { return pts.map(function (p) { return [p[0] - ox, p[1] - oy]; }); }
+      function multi(list) { return list.map(function (q) { return pathPts(rel(q), true); }).join(' '); }
+      var extra = '', xs = 'none';
+      if (b.k === 'dead') {
+        var mx = (G.top[0][0] + G.top[2][0]) / 2 - ox, my = (G.top[0][1] + G.top[2][1]) / 2 - oy;
+        extra = 'M' + r1(mx - 16) + ' ' + r1(my - 8) + ' L' + r1(mx + 16) + ' ' + r1(my + 8) + ' M' + r1(mx + 16) + ' ' + r1(my - 8) + ' L' + r1(mx - 16) + ' ' + r1(my + 8);
+        xs = '#ff6b7d';
+      }
+      b.anchor = proj(b.x, b.h, b.z);
+      b.box = [minX, minY, maxX, maxY];
+      groupTops[b.g] = (groupTops[b.g] ? groupTops[b.g] + ' ' : '') + pathPts(G.top, true);
+      boxes[b.g] = boxes[b.g] ? [Math.min(boxes[b.g][0], minX), Math.min(boxes[b.g][1], minY), Math.max(boxes[b.g][2], maxX), Math.max(boxes[b.g][3], maxY)] : [minX, minY, maxX, maxY];
+      var wd = r1(maxX - minX + pad * 2), ht = r1(maxY - minY + pad * 2);
+      return {
+        bw: wd, bh: ht, vb: '0 0 ' + wd + ' ' + ht, l: r1(ox), t: r1(oy), dd: dist3(b.x, b.h / 2, b.z),
+        side: G.xf ? pathPts(rel(G.xf), true) : '', front: G.zf ? pathPts(rel(G.zf), true) : '', top: pathPts(rel(G.top), true),
+        sf: pal.s, ff: pal.f, tf: pal.t, ec: pal.e, wc: pal.w, wo: (b.k === 'canary' ? 1 : 0.85) * fx.winBoost,
+        lit: multi(G.lit), dim: multi(G.dim), ribs: G.ribs.map(function (s) { return pathPts(rel(s), false); }).join(' '),
+        edges: (G.zf ? pathPts(rel(G.zf), true) : '') + (G.xf ? ' ' + pathPts(rel(G.xf), true) : ''), cap: pathPts(rel(G.top), true), cw: b.k === 'canary' ? 2.4 : 1.5,
+        extra: extra, xf: 'none', xs: xs
+      };
+    });
+
+    // transit hub: rings on the ground, cars are queued requests (stable inner, canary outer)
+    var HUB = { x: -350, z: 2560 }, Rin = 160, Rout = 245, entryA = Math.PI * 1.5;
+    function ringPts(R, a0, a1, n, y) { var pts = []; for (var t = 0; t <= n; t++) { var a = a0 + (a1 - a0) * t / n; pts.push(proj(HUB.x + R * Math.cos(a), y, HUB.z + R * Math.sin(a))); } return pts; }
+    function carQuad(R, a, y, len, wid) {
+      var tx = -Math.sin(a), tz = Math.cos(a), nx = Math.cos(a), nz = Math.sin(a), cx = HUB.x + R * Math.cos(a), cz = HUB.z + R * Math.sin(a);
+      return [proj(cx - tx * len - nx * wid, y, cz - tz * len - nz * wid), proj(cx + tx * len - nx * wid, y, cz + tz * len - nz * wid), proj(cx + tx * len + nx * wid, y, cz + tz * len + nz * wid), proj(cx - tx * len + nx * wid, y, cz - tz * len + nz * wid)];
+    }
+    var hb = [Infinity, Infinity, -Infinity, -Infinity];
+    ringPts(Rout + 40, 0, Math.PI * 2, 48, 0).forEach(function (p) { hb[0] = Math.min(hb[0], p[0]); hb[1] = Math.min(hb[1], p[1]); hb[2] = Math.max(hb[2], p[0]); hb[3] = Math.max(hb[3], p[1]); });
+    var hox = hb[0] - 20, hoy = hb[1] - 40;
+    function hrel(pts) { return pts.map(function (p) { return [p[0] - hox, p[1] - hoy]; }); }
+    var canCars = [], stCars = [];
+    for (i = 0; i < 37; i++) canCars.push(pathPts(hrel(carQuad(Rout, entryA + 0.12 + i * 0.152, 6, 15, 8)), true));
+    for (i = 0; i < 2; i++) stCars.push(pathPts(hrel(carQuad(Rin, entryA + 0.2 + i * 0.3, 6, 13, 7)), true));
+    var hw = r1(hb[2] - hb[0] + 40), hh = r1(hb[3] - hb[1] + 60);
+    items.push({
+      bw: hw, bh: hh, vb: '0 0 ' + hw + ' ' + hh, l: r1(hox), t: r1(hoy), dd: dist3(HUB.x, 0, HUB.z) + Rout * 0.9,
+      side: pathPts(hrel(ringPts(Rout + 22, 0, Math.PI * 2, 72, 0)), true), sf: 'rgba(255,179,64,0.05)',
+      front: '', ff: 'none', top: pathPts(hrel(ringPts(Rin - 22, 0, Math.PI * 2, 72, 0)), true), tf: 'rgba(86,214,255,0.06)',
+      ribs: pathPts(hrel(ringPts(Rout, 0, Math.PI * 2, 96, 2)), true) + ' ' + pathPts(hrel(ringPts(Rin, 0, Math.PI * 2, 96, 2)), true),
+      ec: '#ffb340', dim: '', lit: canCars.join(' '), wc: '#ffb340', wo: 1,
+      edges: pathPts(hrel(ringPts(Rout + 22, 0, Math.PI * 2, 96, 0)), true), cap: pathPts(hrel(ringPts(Rout, 0, Math.PI * 2, 96, 2)), true), cw: 1.2,
+      extra: stCars.join(' '), xf: '#56d6ff', xs: '#56d6ff'
+    });
+    items.sort(function (a, b) { return b.dd - a.dd; });
+    boxes.hub = boxes.hub ? [Math.min(boxes.hub[0], hb[0]), Math.min(boxes.hub[1], hb[1]), Math.max(boxes.hub[2], hb[2]), Math.max(boxes.hub[3], hb[3])] : hb;
+
+    // ground: clipped grid, horizon, plates, lake
+    var NEAR = 120, grid = [], gridNear = [];
+    function seg(a, b2, out) {
+      var da = depth(a[0], a[1], a[2]), db = depth(b2[0], b2[1], b2[2]);
+      if (da < NEAR && db < NEAR) return;
+      if (da < NEAR) { var u = (NEAR - da) / (db - da); a = [a[0] + (b2[0] - a[0]) * u, a[1], a[2] + (b2[2] - a[2]) * u]; }
+      if (db < NEAR) { var u2 = (NEAR - db) / (da - db); b2 = [b2[0] + (a[0] - b2[0]) * u2, b2[1], b2[2] + (a[2] - b2[2]) * u2]; }
+      out.push(pathPts([proj(a[0], a[1], a[2]), proj(b2[0], b2[1], b2[2])], false));
+    }
+    for (var gx = -3600; gx <= 3600; gx += 200) seg([gx, 0, -2000], [gx, 0, 6000], Math.abs(gx) <= 2200 ? gridNear : grid);
+    for (var gz = -2000; gz <= 6000; gz += 200) seg([-3600, 0, gz], [3600, 0, gz], (gz >= -200 && gz <= 4000) ? gridNear : grid);
+    var horizonY = CY - F * Math.tan(L);
+    function plate(x0, z0, x1, z1) { return pathPts([proj(x0, 0, z0), proj(x1, 0, z0), proj(x1, 0, z1), proj(x0, 0, z1)], true); }
+    function line3(pts) { return pathPts(pts.map(function (p) { return proj(p[0], 0, p[1]); }), false); }
+    var rip = []; for (i = 1; i < 7; i++) rip.push(line3([[-1800, 1300 + i * 84], [-1320, 1300 + i * 84]]));
+    var motes = [];
+    for (i = 0; i < 70; i++) { var mx2 = 400 + rnd(i * 3.1) * 1120, my2 = 130 + rnd(i * 5.7) * 640, mr = 0.6 + rnd(i * 9.2) * 1.6; motes.push('M' + r1(mx2 - mr) + ' ' + r1(my2) + ' a' + r1(mr) + ' ' + r1(mr) + ' 0 1 0 ' + r1(mr * 2) + ' 0 a' + r1(mr) + ' ' + r1(mr) + ' 0 1 0 ' + r1(-mr * 2) + ' 0'); }
+    var g = {
+      horizon: r1(horizonY), skyH: r1(horizonY + 3000),
+      grid: grid.join(' '), gridNear: gridNear.join(' '),
+      horizonLine: 'M-3000 ' + r1(horizonY) + ' L4920 ' + r1(horizonY),
+      platesCyan: [plate(-300, 240, 300, 360), plate(560, 600, 870, 820), plate(-850, 610, -590, 1000), plate(-90, 1130, 290, 1370), plate(-690, 1510, -430, 1670), plate(710, 1390, 1250, 1560), plate(660, 1980, 1330, 2120), plate(160, 2060, 340, 2220), plate(-310, 2960, 930, 3600), plate(1500, 2290, 1940, 3020)].join(' '),
+      platesViolet: [plate(-2110, 2440, -1340, 3200), plate(-1810, 1310, -1110, 1900), plate(-1050, 2230, -910, 2370)].join(' '),
+      platesAmber: plate(-640, 2290, -60, 2830),
+      lake: plate(-1820, 1300, -1300, 1880), ripples: rip.join(' '), motes: motes.join(' ')
+    };
+
+    // integration arcs between component anchors
+    var AN = {
+      client: [0, 40, -160], clientOut: [-280, 40, -160], edge: [-50, 196, 300], ident: [656, 176, 706], quota: [820, 74, 706],
+      route: [100, 366, 1250], safety: [-558, 156, 1600], retr: [886, 176, 1482], embed: [1168, 132, 1482], vec: [980, 150, 2050],
+      prompt: [249, 136, 2149], hub: [-350, 214, 2560], compute: [315, 520, 3020], out: [-718, 166, 700], sout: [-718, 125, 920],
+      registry: [registry.x, registry.h + 20, registry.z], tele: [1720, 420, 2650]
+    };
+    var D = this.data();
+    var edgeGeo = {};
+    D.E.forEach(function (e) {
+      var a3 = AN[e.a], b3 = AN[e.b];
+      var dx = a3[0] - b3[0], dz = a3[2] - b3[2], len = Math.sqrt(dx * dx + dz * dz);
+      var lift = Math.max(110, Math.min(520, len * 0.2)) + (e.id === 'reg-compute' ? 300 : 0);
+      var P0 = proj(a3[0], a3[1], a3[2]), P2 = proj(b3[0], b3[1], b3[2]), Cm = proj((a3[0] + b3[0]) / 2, Math.max(a3[1], b3[1]) + lift, (a3[2] + b3[2]) / 2);
+      var Q = [2 * Cm[0] - (P0[0] + P2[0]) / 2, 2 * Cm[1] - (P0[1] + P2[1]) / 2];
+      var pts = []; for (var s = 0; s <= 16; s++) { var u = s / 16, w0 = (1 - u) * (1 - u), w1 = 2 * (1 - u) * u, w2 = u * u; pts.push([w0 * P0[0] + w1 * Q[0] + w2 * P2[0], w0 * P0[1] + w1 * Q[1] + w2 * P2[1]]); }
+      var bb = [Infinity, Infinity, -Infinity, -Infinity]; pts.forEach(function (p) { bb[0] = Math.min(bb[0], p[0]); bb[1] = Math.min(bb[1], p[1]); bb[2] = Math.max(bb[2], p[0]); bb[3] = Math.max(bb[3], p[1]); });
+      var pad = 24, ox = bb[0] - pad, oy = bb[1] - pad, wd = r1(bb[2] - bb[0] + pad * 2), ht = r1(bb[3] - bb[1] + pad * 2);
+      edgeGeo[e.id] = {
+        P0: P0, Q: Q, P2: P2, ox: ox, oy: oy, bw: wd, bh: ht, mid: pts[8],
+        d: 'M' + r1(P0[0] - ox) + ' ' + r1(P0[1] - oy) + ' Q' + r1(Q[0] - ox) + ' ' + r1(Q[1] - oy) + ' ' + r1(P2[0] - ox) + ' ' + r1(P2[1] - oy)
+      };
+    });
+
+    // label anchors
+    function grpAnchor(gk) { var bs = B.filter(function (b) { return b.g === gk; }); var x = 0, zz = 0, hh = 0; bs.forEach(function (b) { x += b.x; zz += b.z; hh = Math.max(hh, b.h); }); return proj(x / bs.length, hh + 10, zz / bs.length); }
+    var nodeAnchor = {}; nodeList.forEach(function (n) { nodeAnchor[n.nm] = proj(n.x, n.h + 10, n.z); });
+    var anchors = {
+      edge: grpAnchor('edge'), ident: grpAnchor('ident'), route: proj(100, 360, 1250), safety: grpAnchor('safety'), retr: grpAnchor('retr'),
+      vault: proj(vsP.x, vsP.h + 10, vsP.z), vsP: proj(vsP.x, vsP.h + 10, vsP.z), vsR: proj(vsR.x, vsR.h + 10, vsR.z), prompt: grpAnchor('prompt'), hub: proj(HUB.x - 200, 30, HUB.z),
+      compute: proj(-150, 440, 3060), out: grpAnchor('out'), train: proj(-1730, 140, 2640), data: proj(-1560, 60, 1560), registry: proj(registry.x, registry.h + 10, registry.z),
+      tele: proj(1560, 400, 2350), quota: grpAnchor('quota'), embed: grpAnchor('embed'), sout: grpAnchor('sout')
+    };
+    var ringRide = function (u) { var a = entryA + Math.PI * 1.62 * u; return proj(HUB.x + Rout * Math.cos(a), 14, HUB.z + Rout * Math.sin(a)); };
+    var ringPath = function (u) { var pts = []; var n = Math.max(2, Math.round(60 * u)); for (var s = 0; s <= n; s++) pts.push(ringRide(u * s / n)); return pathPts(pts, false); };
+    var cityBox = [Infinity, Infinity, -Infinity, -Infinity];
+    B.forEach(function (b) { cityBox[0] = Math.min(cityBox[0], b.box[0]); cityBox[1] = Math.min(cityBox[1], b.box[1]); cityBox[2] = Math.max(cityBox[2], b.box[2]); cityBox[3] = Math.max(cityBox[3], b.box[3]); });
+    var compBox = [Infinity, Infinity, -Infinity, -Infinity];
+    nodeList.forEach(function (n) { compBox[0] = Math.min(compBox[0], n.box[0]); compBox[1] = Math.min(compBox[1], n.box[1]); compBox[2] = Math.max(compBox[2], n.box[2]); compBox[3] = Math.max(compBox[3], n.box[3]); });
+    compBox = [Math.min(compBox[0], hb[0]), Math.min(compBox[1], hb[1]), Math.max(compBox[2], hb[2]), Math.max(compBox[3], hb[3])];
+    var nodeBox = {}; nodeList.forEach(function (n) { nodeBox[n.nm] = n.box; });
+    var nodeTop = {}; nodeList.forEach(function (n) { nodeTop[n.nm] = proj(n.x, n.h, n.z); });
+    var nodeSky = {}; nodeList.forEach(function (n) { nodeSky[n.nm] = proj(n.x, n.h + 650, n.z); });
+    this._g = {
+      key: key, items: items, g: g, edgeGeo: edgeGeo, anchors: anchors, nodeAnchor: nodeAnchor, groupTops: groupTops,
+      ringRide: ringRide, ringPath: ringPath, cityBox: cityBox, compBox: compBox, nodeBox: nodeBox, nodeTop: nodeTop, nodeSky: nodeSky,
+      vsP: proj(vsP.x, vsP.h + 20, vsP.z), vsR: proj(vsR.x, vsR.h + 20, vsR.z), AN: AN, proj: proj
+    };
+    return this._g;
+  }
+
+  payload(tx, c, reveal) {
+    var red = function (n, txt) { return reveal ? txt : '[redacted · ' + n + ' tokens]'; };
+    var J = function (o) { return JSON.stringify(o, null, 2).split('\n'); };
+    var canary = tx.route === 'canary';
+    var trace = '4bf92f35' + tx.id.slice(4) + '77b34da6a3ce9293';
+    var req = [], res = [];
+    switch (c.e) {
+      case 'cli-edge':
+        req = ['POST /v1/chat/completions HTTP/2', 'host: api.vesper.example', 'authorization: Bearer ••••••••3f2a', 'content-type: application/json', 'x-request-id: ' + tx.id, 'traceparent: 00-' + trace + '-00f067aa0ba902b7-01', ''].concat(J({ model: 'vesper-chat', stream: true, max_tokens: 512, temperature: 0.2, metadata: { tenant: tx.tenant }, messages: [{ role: 'system', content: red(312, 'You are the support assistant for ' + tx.tenant + '. Answer only from the provided articles.') }, { role: 'user', content: red(41, 'My order arrived damaged. Can you ship a replacement this week?') }] }));
+        if (tx.code === 200) res = ['HTTP/2 200', 'content-type: text/event-stream', 'x-request-id: ' + tx.id, 'x-vesper-route: ' + tx.route + '/' + (canary ? 'vesper-chat-3.2' : 'vesper-chat-3.1'), '', 'data: {"choices":[{"delta":{"content":"' + (reveal ? 'I am sorry your order' : '[redacted]') + '"}}]}', 'data: {"choices":[{"delta":{"content":"' + (reveal ? ' arrived damaged. I can' : '[redacted]') + '"}}]}', '… ' + (Math.round(tx.out / 5) - 2) + ' more chunks …', 'data: {"choices":[{"finish_reason":"stop"}],"usage":{"prompt_tokens":' + tx.inTok + ',"completion_tokens":' + tx.out + '}}', 'data: [DONE]'];
+        else if (tx.code === 429) res = ['HTTP/2 429', 'retry-after: 6', ''].concat(J({ error: { type: 'rate_limit', code: 'quota_exceeded', message: 'Tenant ' + tx.tenant + ' exceeded 400,000 tokens per minute' } }));
+        else if (tx.code === 400) res = ['HTTP/2 400', ''].concat(J({ error: { type: 'invalid_request', code: 'policy_violation', message: 'Input blocked by safety policy support-v6' } }));
+        else res = ['HTTP/2 503', 'retry-after: 1', ''].concat(J({ error: { type: 'overloaded', code: 'queue_timeout', message: 'No capacity on vesper-chat-3.2 within 2,000 ms' } }));
+        break;
+      case 'edge-ident':
+        req = J({ token_id: 'tok_••••3f2a', tenant: tx.tenant, scope: 'chat:write', estimate: { input_tokens: tx.inTok, max_output_tokens: 512 } });
+        res = c.st === 'fail' ? J({ decision: 'DENY', reason: 'quota_exceeded', quota: { remaining_tpm: 0, limit_tpm: 400000 } }) : J({ decision: 'ALLOW', quota: { remaining_tpm: 182400, limit_tpm: 400000 }, ttl_ms: 30000 });
+        break;
+      case 'ident-quota':
+        req = ['EVALSHA 9c1fe2b0 1 quota:' + tx.tenant + ':tpm ' + (tx.inTok + 512) + ' 400000'];
+        res = c.st === 'fail' ? ['(integer) -1', '// window full: 400,000 / 400,000 tokens'] : ['(integer) 182400'];
+        break;
+      case 'edge-route':
+        req = J({ model_alias: 'vesper-chat', tenant: tx.tenant, sticky_hash: '0x5be1c2' });
+        res = canary ? J({ deployment: 'dep-118', model: 'vesper-chat-3.2', variant: 'canary', weight: 0.1, capacity_aware: false, replicas_live: 1, replicas_desired: 2 }) : J({ deployment: 'dep-114', model: 'vesper-chat-3.1', variant: 'stable', weight: 0.9, capacity_aware: false, replicas_live: 10, replicas_desired: 10 });
+        break;
+      case 'route-safety':
+        req = J({ policy: 'support-v6', messages_ref: 'msg:0-1', text: red(41, 'My order arrived damaged. Can you ship a replacement this week?') });
+        res = c.st === 'fail' ? J({ verdict: 'BLOCK', score: 0.94, labels: ['prompt_injection'] }) : J({ verdict: 'PASS', score: 0.02, labels: [] });
+        break;
+      case 'route-retr':
+        req = J({ index: 'kb-support', query_ref: 'msg:1', k: 8, filters: { tenant: tx.tenant } });
+        res = c.st === 'cancel' ? J({ status: 'CANCELLED', reason: 'upstream blocked by safety-input' }) : J({ chunks: 8, tokens: 1204, shards_queried: 6, retries: tx.retry ? 1 : 0, ids: ['kb_1182', 'kb_0407', 'kb_2291', 'kb_0035', '… 4 more'] });
+        break;
+      case 'retr-embed':
+        req = J({ model: 'embed-v3', inputs: 1, text: red(41, 'My order arrived damaged. Can you ship a replacement this week?') });
+        res = J({ dims: 1024, vector: '[1024 floats · 4 KB]', latency_ms: Math.round(c.t1 - c.t0) });
+        break;
+      case 'retr-vec':
+        req = J({ shard: c.shard, replica: c.replica, attempt: c.attempt, k: 8, deadline_ms: 250, vector: '[1024 floats]' });
+        res = c.st === 'fail' ? J({ error: { code: 'DEADLINE_EXCEEDED', message: 'shard vs-03/primary exceeded 250 ms', compaction: 'running since 13:57:40' } }) : J({ hits: 8, ids: ['kb_1182', 'kb_0407', 'kb_2291', '… 5 more'], scores: [0.82, 0.79, 0.77, '…'], latency_ms: Math.round(c.t1 - c.t0) });
+        break;
+      case 'route-prompt':
+        req = J({ template: 'support-rag-v4', chunks: 8, history_turns: 2 });
+        res = J({ prompt_tokens: tx.inTok, truncated: false, cache_key: 'pk_••91a' });
+        break;
+      case 'prompt-hub':
+        req = J({ deployment: canary ? 'dep-118' : 'dep-114', priority: 'standard', prompt_tokens: tx.inTok, max_tokens: 512 });
+        res = c.st === 'fail' ? J({ admitted: false, error: 'queue_timeout', waited_ms: 2000, queue_depth_at_enqueue: 41 }) : J({ admitted: true, replica: tx.node, queue_depth_at_enqueue: canary ? 37 : 2, waited_ms: Math.round(c.t1 - c.t0) });
+        break;
+      case 'hub-compute':
+        req = J({ model: canary ? 'vesper-chat-3.2' : 'vesper-chat-3.1', replica: tx.node, prompt_tokens: tx.inTok, max_tokens: 512, temperature: 0.2, stream: true });
+        res = J({ prefill_ms: tx.prefill, ttft_ms_from_request: tx.ttft, completion_tokens: tx.out, tokens_per_s: tx.tps, finish_reason: 'stop', kv_cache_util: canary ? 0.78 : 0.61 });
+        break;
+      case 'compute-out':
+        req = J({ seq: 1, delta_tokens: 5, text: reveal ? 'I am sorry your order' : '[redacted]' });
+        res = J({ acked_chunks: Math.round(tx.out / 5), bytes: tx.out * 61 });
+        break;
+      case 'out-sout':
+        req = J({ policy: 'support-v6', window: 'chunks 1–2', text: reveal ? 'I am sorry your order arrived damaged.' : '[redacted]' });
+        res = J({ checks: 40, verdict: 'PASS', max_added_ms: 6 });
+        break;
+      case 'out-cli':
+        req = ['// server push · no request body'];
+        res = ['data: {"id":"' + tx.id + '","choices":[{"delta":{"content":"' + (reveal ? 'I am sorry your order' : '[redacted]') + '"}}]}', '… ' + (Math.round(tx.out / 5) - 1) + ' more chunks · ' + tx.out + ' tokens …', 'data: [DONE]'];
+        break;
+    }
+    return { req: req, res: res };
+  }
+
+  sampleFor(e, n) {
+    function rnd(i) { var x = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); }
+    var seed = n * 13 + e.id.length * 101;
+    var fns = e.fns, tot = 0; fns.forEach(function (f) { tot += Math.max(f.r, 1); });
+    var pick = rnd(seed) * tot, fn = fns[0];
+    for (var i = 0; i < fns.length; i++) { pick -= Math.max(fns[i].r, 1); if (pick <= 0) { fn = fns[i]; break; } }
+    var failP = e.id === 'retr-vec' ? 0.18 : (e.id === 'prompt-hub' ? 0.08 : 0.02);
+    var fail = fn.err > 0 && rnd(seed + 7) < failP;
+    var base = parseFloat(fn.p50) || 5, hi = parseFloat(fn.p99) || base * 3;
+    var lat = fail ? (e.id === 'retr-vec' ? 250 : (e.id === 'prompt-hub' ? 2000 : hi * 1.4)) : base * (0.7 + Math.pow(rnd(seed + 3), 3) * (hi / base));
+    var ms = (31000 + n * 410 + Math.floor(rnd(seed + 9) * 380));
+    var ss = Math.floor(ms / 1000) % 60, mm = 2 + Math.floor(ms / 60000), msr = ms % 1000;
+    var ts = '14:0' + mm + ':' + (ss < 10 ? '0' : '') + ss + '.' + ('00' + msr).slice(-3);
+    var tr = (Math.floor(rnd(seed + 11) * 16777215)).toString(16);
+    tr = ('000000' + tr).slice(-6);
+    var stTxt = fail ? (e.id === 'retr-vec' ? 'DEADLINE_EXCEEDED' : (e.id === 'prompt-hub' ? 'queue_timeout' : 'UNAVAILABLE')) : 'OK';
+    var shard = 'vs-0' + (1 + Math.floor(rnd(seed + 5) * 6));
+    if (fail && e.id === 'retr-vec') shard = 'vs-03';
+    return { fn: fn.n, fail: fail, lat: lat, ts: ts, tr: tr, stTxt: stTxt, shard: shard, n: n };
+  }
+  samplePayload(e, s, reveal) {
+    var J = function (o) { return JSON.stringify(o, null, 2).split('\n'); };
+    var red = reveal ? 'Where is my refund for order 4471?' : '[redacted · 12 tokens]';
+    var m = {
+      'cli-edge': [['POST /v1/chat/completions HTTP/2', 'x-request-id: req_' + s.tr + '9a1', ''].concat(J({ model: 'vesper-chat', stream: true, messages: [{ role: 'user', content: red }] })), s.fail ? ['HTTP/2 503'] : ['HTTP/2 200', 'content-type: text/event-stream']],
+      'edge-ident': [J({ token_id: 'tok_••••' + s.tr.slice(0, 4), scope: 'chat:write' }), J({ decision: 'ALLOW', quota: { remaining_tpm: 211000 } })],
+      'ident-quota': [['EVALSHA 9c1fe2b0 1 quota:t-' + s.tr.slice(0, 4) + ':tpm 1300 400000'], ['(integer) 211000']],
+      'edge-route': [J({ model_alias: 'vesper-chat', sticky_hash: '0x' + s.tr }), J({ deployment: 'dep-114', variant: 'stable', weight: 0.9 })],
+      'route-safety': [J({ policy: 'support-v6', text: red }), J({ verdict: 'PASS', score: 0.03 })],
+      'route-retr': [J({ index: 'kb-support', k: 8 }), J({ chunks: 8, tokens: 1120, retries: 0 })],
+      'retr-embed': [J({ model: 'embed-v3', text: red }), J({ dims: 1024, vector: '[1024 floats]' })],
+      'retr-vec': [J({ shard: s.shard, replica: 'primary', k: 8, deadline_ms: 250 }), s.fail ? J({ error: { code: 'DEADLINE_EXCEEDED', shard: s.shard, deadline_ms: 250 } }) : J({ hits: 8, latency_ms: Math.round(s.lat) })],
+      'route-prompt': [J({ template: 'support-rag-v4', chunks: 8 }), J({ prompt_tokens: 1612 })],
+      'prompt-hub': [J({ deployment: 'dep-118', prompt_tokens: 1612 }), s.fail ? J({ admitted: false, error: 'queue_timeout', waited_ms: 2000 }) : J({ admitted: true, waited_ms: Math.round(s.lat) })],
+      'hub-compute': [J({ model: 'vesper-chat-3.1', max_tokens: 512, stream: true }), J({ prefill_ms: Math.round(s.lat), tokens_per_s: 79 })],
+      'compute-out': [J({ seq: 12, delta_tokens: 5 }), J({ ack: 12 })],
+      'out-sout': [J({ policy: 'support-v6', window: 'chunks 11–12', text: reveal ? 'Your refund was issued on' : '[redacted]' }), J({ verdict: 'PASS' })],
+      'out-cli': [['// server push'], ['data: {"choices":[{"delta":{"content":"' + (reveal ? 'Your refund' : '[redacted]') + '"}}]}']],
+      'reg-compute': [J({ deployment: 'dep-118', model: 'vesper-chat-3.2', strategy: 'canary', weight: 0.1 }), J({ status: 'ROLLED_OUT', at: '13:10:02Z' })],
+      'compute-tele': [J({ resource_spans: 1, spans: 214 }), J({ partial_success: null })]
+    };
+    var pr = m[e.id] || [['—'], ['—']];
+    return { req: pr[0], res: pr[1] };
+  }
+  tokLine(line) {
+    var out = [], re = /("(?:[^"\\]|\\.)*")(\s*:)?|(-?\d+(?:\.\d+)?)|(true|false|null)|([{}\[\],])|(\s+)|([^\s"{}\[\],]+)/g, m;
+    var err = /DEADLINE_EXCEEDED|quota_exceeded|policy_violation|queue_timeout|BLOCK|DENY|CANCELLED|HTTP\/2 (4|5)\d\d|\(integer\) -1/;
+    while ((m = re.exec(line))) {
+      if (m[1]) {
+        if (m[2]) { out.push({ t: m[1], c: '#8fb3d1' }); out.push({ t: m[2], c: '#6f859b' }); }
+        else out.push({ t: m[1], c: err.test(m[1]) ? '#ff6b7d' : (m[1].indexOf('[redacted') >= 0 ? '#ffb340' : '#cfefff') });
+      } else if (m[3]) out.push({ t: m[3], c: '#ffffff' });
+      else if (m[4]) out.push({ t: m[4], c: '#b69bff' });
+      else if (m[5]) out.push({ t: m[5], c: '#6f859b' });
+      else if (m[6]) out.push({ t: m[6], c: '#6f859b' });
+      else out.push({ t: m[7], c: err.test(m[7]) ? '#ff6b7d' : (line.indexOf('//') === 0 ? '#6f859b' : '#d3e1ee') });
+    }
+    if (!out.length) out.push({ t: ' ', c: '#6f859b' });
+    return out;
+  }
+
+  renderVals() {
+    var self = this;
+    var st = this.state || {};
+    var D = this.data();
+    var mode = st.mode || (this.props.intensity === 'Operational' ? 'op' : 'cin');
+    var cin = mode === 'cin';
+    var edgeStart = this.isEdgeStart();
+    var az = st.az == null ? 12 : st.az, el = st.el == null ? 29 : st.el;
+    var view = st.view || { kind: 'level', level: 0 };
+    var txId = st.txId || 'req_7f3a9c21';
+    var tx = D.byId[txId];
+    var t = st.t == null ? this.startT() : st.t;
+    var tab = st.tab || (edgeStart ? 'edge' : 'txn');
+    var edgeId = st.edge === undefined ? (edgeStart ? 'retr-vec' : null) : st.edge;
+    var payDir = st.payDir || 'res';
+    var reveal = !!st.reveal;
+    var showTraffic = st.traffic == null ? true : st.traffic;
+    var showLineage = st.lineage == null ? true : st.lineage;
+    var q = st.q == null ? 'ttft>800' : st.q;
+    var fS = st.fS || 'all', fR = st.fR || 'all';
+    var live = st.live || 0;
+    var trans = st.trans || 'smooth';
+    function r1(n) { return Math.round(n * 10) / 10; }
+    function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+    function circ(p, rr) { return 'M' + r1(p[0] - rr) + ' ' + r1(p[1]) + ' a' + rr + ' ' + rr + ' 0 1 0 ' + (rr * 2) + ' 0 a' + rr + ' ' + rr + ' 0 1 0 ' + (-rr * 2) + ' 0'; }
+    var white = '#f2fbff', cyan = '#56d6ff', amber = '#ffb340', coral = '#ff6b7d', violet = '#b69bff';
+
+    var fx = cin
+      ? { blur: 3.2, blurBig: 9, skyMid: '#06121d', skyLow: '#0d2a3d', grid: 0.07, gridNear: 0.2, haze: 1, horizon: 0.9, vignette: 0.85, panel: 0.7, beam: 22, beamCore: 0.6, motes: 0.8 }
+      : { blur: 1.1, blurBig: 3, skyMid: '#03080e', skyLow: '#06121b', grid: 0.04, gridNear: 0.12, haze: 0, horizon: 0.35, vignette: 0, panel: 0.9, beam: 0, beamCore: 0, motes: 0 };
+    var G = this.geo(az, el, mode);
+
+    // ----- view transform (levels fit the current projection) -----
+    function fit(bb, vx, vy, vw, vh) { var w = bb[2] - bb[0], h = bb[3] - bb[1], s = Math.min(vw / w, vh / h); return { s: s, tx: vx + vw / 2 - s * (bb[0] + w / 2), ty: vy + vh / 2 - s * (bb[1] + h / 2) }; }
+    var nodeNm = tx.node || 'c-0';
+    var nb = G.nodeBox[nodeNm];
+    var level = view.kind === 'level' ? view.level : -1;
+    var Z;
+    if (view.kind === 'free') Z = { s: view.s, tx: view.tx, ty: view.ty };
+    else if (level === 0) Z = fit(G.cityBox, 410, 200, 1100, 680);
+    else if (level === 1) Z = fit(G.compBox, 420, 200, 1080, 670);
+    else if (level === 2) Z = fit([nb[0] - 140, nb[1] - 70, nb[2] + 140, nb[3] + 60], 420, 200, 1080, 670);
+    else Z = fit([nb[0] - 30, nb[1] - 40, nb[2] + 30, nb[3] + 40], 900, 170, 600, 700);
+    this._lastZ = Z;
+    var dur = trans === 'none' ? 0 : (trans === 'quick' ? 0.3 : 1.1);
+    var zoom = { transform: 'translate(' + r1(Z.tx) + 'px, ' + r1(Z.ty) + 'px) scale(' + Z.s.toFixed(4) + ')', dur: dur };
+    function S(p) { return [Z.tx + Z.s * p[0], Z.ty + Z.s * p[1]]; }
+    function inView(p) { return p[0] > 392 && p[0] < 1530 && p[1] > 150 && p[1] < 890; }
+
+    // ----- replay state -----
+    var d = this.disp(t), TR = 0.9;
+    var calls = tx.calls.slice().sort(function (a, b) { return a.t0 - b.t0; });
+    var active = calls.filter(function (c) { return t >= c.t0 && t < c.t1; });
+    var cur = null;
+    if (st.pin) cur = calls.filter(function (c) { return c.k === st.pin; })[0] || null;
+    if (!cur) { var cand = active.filter(function (c) { return c.e !== 'cli-edge'; }); cur = cand.length ? cand[cand.length - 1] : (t < 0 ? calls[0] : (t >= tx.total ? calls[0] : calls[0])); }
+    var used = {}; calls.forEach(function (c) { if (!used[c.e]) used[c.e] = { first: c.t0, fail: false, failT: 0 }; if (c.st === 'fail') { used[c.e].fail = true; used[c.e].failT = c.t1; } });
+
+    // ----- edges -----
+    var E = D.E;
+    var edges = E.map(function (e) {
+      var gg = G.edgeGeo[e.id], u = used[e.id], sel = e.id === edgeId;
+      var w = 1 + Math.min(2.2, Math.log(Math.max(e.rate, 1)) / Math.log(10) * 0.55);
+      var o = { bw: gg.bw, bh: gg.bh, vb: '0 0 ' + gg.bw + ' ' + gg.bh, l: r1(gg.ox), t: r1(gg.oy), d: gg.d, base: 'none' };
+      var reached = u && d >= self.disp(u.first) - TR;
+      if (e.lineage) { o.c = violet; o.o = showLineage ? 0.75 : 0; o.w = 1.6; o.base = '10 8'; o.fc = violet; o.fo = 0; o.fw = 1; o.dash = '1 1'; o.dur = 10; o.gc = violet; o.go = showLineage ? 0.35 : 0; o.gw = 3; }
+      else if (u) {
+        var failed = u.fail && t >= u.failT;
+        o.c = failed ? coral : white; o.o = reached ? 0.95 : 0.3; o.w = reached ? 2.4 : 1.6;
+        o.gc = failed ? coral : white; o.go = reached ? 0.55 : 0; o.gw = 6;
+        o.fc = '#ffffff'; o.fo = reached ? 0.9 : 0; o.fw = 2.2; o.dash = '4 26'; o.dur = 3;
+      } else {
+        o.c = e.warn ? amber : cyan; o.o = showTraffic ? 0.38 : 0.12; o.w = w;
+        o.gc = cyan; o.go = 0; o.gw = 1;
+        o.fc = e.warn ? '#ffd9a0' : '#bff0ff'; o.fo = showTraffic ? 0.7 : 0; o.fw = 1.6; o.dash = '2 18'; o.dur = r1(Math.max(1.6, 9 - Math.log(Math.max(e.rate, 1)) / Math.log(10) * 1.6));
+      }
+      if (sel) { o.gc = cyan; o.go = 0.95; o.gw = 12; o.c = '#bff0ff'; o.o = 1; o.w = 3; o.fc = '#ffffff'; o.fo = 1; o.fw = 2.6; o.dash = '3 12'; o.dur = 2; }
+      o.pick = function () { if (self._moved) return; self.setState({ edge: e.id, tab: 'edge', sample: null }); };
+      return o;
+    });
+
+    // ----- packets along arcs -----
+    function bz(gg, u) { var a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, c2 = u * u; return [a * gg.P0[0] + b * gg.Q[0] + c2 * gg.P2[0], a * gg.P0[1] + b * gg.Q[1] + c2 * gg.P2[1]]; }
+    function trailPts(gg, u0, u1) { var pts = [], n = 10; for (var s = 0; s <= n; s++) pts.push(bz(gg, u0 + (u1 - u0) * s / n)); return 'M' + pts.map(function (p) { return r1(p[0]) + ' ' + r1(p[1]); }).join(' L'); }
+    var packets = [], packetsBack = [], packetsFail = [], trail = [], trailBack = [], trailFail = [], stream = [], spark = [], scar = [], ring = '', link = '', beam = '', bubbleAt = null, pulses = [], tops = [];
+    calls.forEach(function (c) {
+      var gg = G.edgeGeo[c.e]; if (!gg) return;
+      var o0 = c.e === 'cli-edge' ? 0 : self.disp(c.t0) - TR, o1 = c.e === 'cli-edge' ? 3 : self.disp(c.t0);
+      if (c.kind === 'stream') {
+        if (t >= c.t0 && t < c.t1) stream.push(gg.d.replace(/[-\d.]+ [-\d.]+/g, function (pair) { var xy = pair.split(' '); return r1(+xy[0] + gg.ox) + ' ' + r1(+xy[1] + gg.oy); }));
+        return;
+      }
+      if (d >= o0 && d < o1) {
+        var u = (d - o0) / (o1 - o0), p = bz(gg, u);
+        packets.push(circ(p, 6)); trail.push(trailPts(gg, Math.max(0, u - 0.22), u));
+        if (c === cur || !bubbleAt) bubbleAt = { p: p, c: c, phase: 'out' };
+      }
+      var b0 = self.disp(c.t1), b1 = b0 + TR;
+      if (c.e !== 'cli-edge' && c.kind !== 'queue' && c.kind !== 'gen' && d >= b0 && d < b1) {
+        var ub = 1 - (d - b0) / TR, pb = bz(gg, ub);
+        if (c.st === 'fail') { packetsFail.push(circ(pb, 6)); trailFail.push(trailPts(gg, ub, Math.min(1, ub + 0.22))); }
+        else { packetsBack.push(circ(pb, 5)); trailBack.push(trailPts(gg, ub, Math.min(1, ub + 0.22))); }
+      }
+      if (c.st === 'fail' && t >= c.t1) {
+        var fp = c.target === 'vsP' ? G.vsP : gg.P2;
+        if (d < b0 + 3) { for (var k = 0; k < 8; k++) { var an = k * Math.PI / 4 + 0.2, rr = 18 + (k % 2) * 7; spark.push('M' + r1(fp[0] + Math.cos(an) * 7) + ' ' + r1(fp[1] + Math.sin(an) * 7) + ' L' + r1(fp[0] + Math.cos(an) * rr) + ' ' + r1(fp[1] + Math.sin(an) * rr)); } }
+        scar.push('M' + r1(fp[0] - 6) + ' ' + r1(fp[1] - 6) + ' L' + r1(fp[0] + 6) + ' ' + r1(fp[1] + 6) + ' M' + r1(fp[0] + 6) + ' ' + r1(fp[1] - 6) + ' L' + r1(fp[0] - 6) + ' ' + r1(fp[1] + 6));
+      }
+      if (c.kind === 'queue' && t >= c.t0) {
+        var uq = Math.min(1, (t - c.t0) / Math.max(1, c.t1 - c.t0)) * (c.st === 'fail' ? 0.86 : 1);
+        ring = G.ringPath(uq);
+        if (t < c.t1) { var rp = G.ringRide(uq); packets.push(circ(rp, 6)); if (!bubbleAt || c === cur) bubbleAt = { p: rp, c: c, phase: 'in' }; }
+      }
+    });
+    var cars = '';
+    active.forEach(function (c) {
+      if (c.e === 'cli-edge' || c.kind === 'stream') return;
+      var gk = { edge: 'edge', ident: 'ident', quota: 'quota', route: 'route', safety: 'safety', retr: 'retr', embed: 'embed', prompt: 'prompt', hub: 'hub', out: 'out', sout: 'sout' }[c.callee];
+      if (c.callee === 'vec') gk = c.target || 'vault';
+      if (c.callee === 'compute') gk = 'node:' + nodeNm;
+      if (gk && G.groupTops[gk]) tops.push(G.groupTops[gk]);
+      var ap = c.callee === 'compute' ? G.nodeAnchor[nodeNm] : (c.callee === 'vec' ? (c.target === 'vsR' ? G.vsR : G.vsP) : G.edgeGeo[c.e].P2);
+      if (d >= self.disp(c.t0) && c.kind !== 'queue') { pulses.push({ p: ap, c: c.st === 'fail' ? coral : white }); if (c === cur) bubbleAt = { p: ap, c: c, phase: 'in' }; }
+    });
+    if (tx.calls.some(function (c) { return c.callee === 'compute'; }) && t >= (tx.ttft ? tx.ttft - tx.prefill : 1e9)) {
+      var cg = G.edgeGeo['hub-compute'], nt = G.nodeTop[nodeNm];
+      link = 'M' + r1(cg.P2[0]) + ' ' + r1(cg.P2[1]) + ' L' + r1(nt[0]) + ' ' + r1(nt[1]);
+      if (t < tx.total) beam = 'M' + r1(nt[0]) + ' ' + r1(nt[1]) + ' L' + r1(G.nodeSky[nodeNm][0]) + ' ' + r1(G.nodeSky[nodeNm][1]);
+    }
+    if (!bubbleAt && cur) { var cg2 = G.edgeGeo[cur.e]; bubbleAt = { p: cur.callee === 'compute' ? G.nodeAnchor[nodeNm] : cg2.P2, c: cur, phase: 'in' }; }
+
+    function callLine(c) {
+      var el2 = Math.max(0, Math.min(t, c.t1) - c.t0);
+      if (c.kind === 'queue') return c.st === 'fail' ? (t >= c.t1 ? 'queue_timeout after 2,000 ms' : 'waiting · ' + fmt(el2) + ' ms · ' + Math.max(1, Math.round(41 * (1 - el2 / 2000))) + ' ahead (est.)') : (t >= c.t1 ? 'admitted after ' + fmt(c.t1 - c.t0) + ' ms' : 'waiting · ' + fmt(el2) + ' / ' + fmt(c.t1 - c.t0) + ' ms · ~' + Math.max(0, Math.round((tx.route === 'canary' ? 37 : 2) * (1 - el2 / (c.t1 - c.t0)))) + ' ahead');
+      if (c.kind === 'gen') return t < c.ttft ? 'prefill ' + fmt(el2) + ' / ' + fmt(tx.prefill) + ' ms' : 'decoding · ' + Math.min(tx.out, Math.round((t - c.ttft) / 1000 * tx.tps)) + ' / ' + tx.out + ' tokens';
+      if (c.st === 'fail') return t >= c.t1 ? (c.note || 'failed') + ' · ' + fmt(c.t1 - c.t0) + ' ms' : fmt(el2) + ' / ' + (c.e === 'retr-vec' ? '250 ms deadline' : fmt(c.t1 - c.t0) + ' ms');
+      if (c.st === 'cancel') return 'cancelled at ' + fmt(c.t1) + ' ms';
+      return t >= c.t1 ? 'OK · ' + fmt(c.t1 - c.t0) + ' ms' : fmt(el2) + ' / ' + fmt(c.t1 - c.t0) + ' ms';
+    }
+    var bubble = { show: false, sx: 0, sy: 0, t: '', s: '', c: white, tf: 'none' };
+    if (bubbleAt) {
+      var bp = S(bubbleAt.p), bc = bubbleAt.c;
+      var sub2 = (bc.attempt ? 'attempt ' + bc.attempt + ' · ' + bc.shard + ' ' + bc.replica + ' · ' : '') + callLine(bc);
+      var bcol = bc.st === 'fail' ? (t >= bc.t1 ? coral : (bc.e === 'retr-vec' && t - bc.t0 > 180 ? amber : white)) : (bc.kind === 'queue' ? amber : cyan);
+      bubble = { show: inView(bp) && t > -3 && t < tx.total + 20, sx: r1(bp[0]), sy: r1(bp[1]), t: '→ ' + bc.fn, s: sub2, c: bcol, tf: bp[0] > 1180 ? 'translate(calc(-100% - 18px), -50%)' : 'translate(18px, -50%)' };
+    }
+
+    // ----- labels and handles -----
+    var A2 = G.anchors;
+    var L = [
+      { a: A2.edge, t: 'EDGE GATE', s: 'edge-gateway ×6', c: cyan, lv: [0], lead: 18 },
+      { a: A2.ident, t: 'IDENTITY', s: 'authz ×4 · quota', c: cyan, lv: [0], lead: 18 },
+      { a: A2.route, t: 'ROUTING', s: 'router ×4 · 90 / 10', c: cyan, lv: [0], lead: 20 },
+      { a: A2.safety, t: 'SAFETY', s: 'safety-input ×6', c: cyan, lv: [0], lead: 18 },
+      { a: A2.retr, t: 'RETRIEVAL', s: 'retrieval ×8 · embed ×4', c: cyan, lv: [0], lead: 40 },
+      { a: A2.vault, t: 'VECTOR VAULTS', s: 'vs-03 compacting · E5', c: amber, lv: [0], lead: 30 },
+      { a: A2.prompt, t: 'PROMPT', s: 'prompt-builder ×4', c: cyan, lv: [0], lead: 16 },
+      { a: A2.hub, t: 'TRANSIT HUB', s: 'canary queue 37 · stable 2', c: amber, lv: [0, 1], lead: 78 },
+      { a: A2.compute, t: 'COMPUTE · h100-a', s: '88 / 96 GPU', c: cyan, lv: [0], lead: 40 },
+      { a: A2.out, t: 'OUTPUT', s: 'stream ×6 · safety-output ×6', c: cyan, lv: [0], lead: 18 },
+      { a: A2.train, t: 'TRAINING QUARTER', s: 'h100-b · tr-2304', c: violet, lv: [0], lead: 30 },
+      { a: A2.data, t: 'DATA ARCHIVE', s: 'lake · sft-v14', c: violet, lv: [0], lead: 24 },
+      { a: A2.registry, t: 'MODEL REGISTRY', s: 'vesper-chat-3.2', c: violet, lv: [0], lead: 22 },
+      { a: A2.tele, t: 'TELEMETRY', s: 'traces · metrics · logs', c: '#8fb3d1', lv: [0], lead: 20 },
+      { a: G.nodeAnchor['c-0'], t: 'c-0 · CANARY 3.2', s: 'gpu-a-16 · 8 / 8 GPU', c: white, lv: [1, 2], lead: 26 },
+      { a: G.nodeAnchor['c-1'], t: 'c-1 · EVICTED', s: 'gpu-a-17 · XID 79', c: coral, lv: [1, 2], lead: 26 }
+    ];
+    if (nodeNm !== 'c-0') L.push({ a: G.nodeAnchor[nodeNm], t: nodeNm + ' · STABLE 3.1', s: 'serving ' + tx.id.slice(0, 10) + '…', c: white, lv: [1, 2], lead: 26 });
+    var lvNow = level < 0 ? (Z.s > 2.2 ? 2 : (Z.s > 1.3 ? 1 : 0)) : level;
+    var labels = L.map(function (l) { var p = S(l.a), vis = l.lv.indexOf(lvNow) >= 0 && inView(p); return { sx: r1(p[0]), sy: r1(p[1]), op: vis ? 1 : 0, t: l.t, s: l.s, c: l.c, bc: l.c === white ? 'rgba(242,251,255,0.55)' : 'rgba(150,190,230,0.28)', lead: l.lead }; });
+    var handles = E.map(function (e) {
+      var p = S(G.edgeGeo[e.id].mid), sel = e.id === edgeId, u = used[e.id];
+      var vis = inView(p) && (lvNow <= 1 || sel) && !(e.lineage && !showLineage);
+      var col = sel ? '#ffffff' : (e.lineage ? violet : (u ? white : (e.warn ? amber : cyan)));
+      return { sx: r1(p[0]), sy: r1(p[1]), op: vis ? 1 : 0, pe: vis ? 'auto' : 'none', c: col, bg: sel ? '#56d6ff' : '#02060b', aria: 'Inspect integration ' + e.from + ' to ' + e.to, pick: function () { self.setState({ edge: e.id, tab: 'edge', sample: null }); } };
+    });
+    var eSel = edgeId ? D.eById[edgeId] : null;
+    var edgeChip = { show: false, sx: 0, sy: 0, t: '' };
+    if (eSel) { var mp = S(G.edgeGeo[eSel.id].mid); edgeChip = { show: inView(mp), sx: r1(mp[0]), sy: r1(mp[1]), t: eSel.from + ' → ' + eSel.to }; }
+
+    // ----- floor view -----
+    var isFloor = level === 3;
+    var floor = { show: isFloor };
+    if (isFloor) {
+      var blades = [], lanes = [], mine = '', mineY = 0, kv = [], kvFree = [], i;
+      var kvU = nodeNm === 'c-0' ? 0.78 : 0.61, batch = nodeNm === 'c-0' ? 24 : 18, slot = nodeNm === 'c-0' ? 16 : 7;
+      for (i = 0; i < 8; i++) { var bx = 10 + i * 52; blades.push('M' + bx + ' 24 h44 v140 h-44 Z'); kv.push('M' + bx + ' 170 h' + r1(44 * kvU) + ' v7 h' + r1(-44 * kvU) + ' Z'); kvFree.push('M' + r1(bx + 44 * kvU) + ' 170 h' + r1(44 * (1 - kvU)) + ' v7 h' + r1(-44 * (1 - kvU)) + ' Z'); }
+      for (i = 0; i < batch; i++) { var ly = r1(34 + i * (124 / batch)); if (i === slot && tx.ttft) { mine = 'M10 ' + ly + ' L414 ' + ly; mineY = ly; } else lanes.push('M10 ' + ly + ' L414 ' + ly); }
+      floor = {
+        show: true, node: nodeNm, host: nodeNm === 'c-0' ? 'gpu-a-16 · vesper-chat-3.2' : 'gpu-a-0' + (parseInt(nodeNm.slice(2), 10) + 2) + ' · vesper-chat-3.1',
+        blades: blades.join(' '), lanes: lanes.join(' '), mine: mine, mineY: mineY || 30, kv: kv.join(' '), kvFree: kvFree.join(' '),
+        mineTxt: tx.ttft ? 'lane ' + (slot + 1) + ' · ' + tx.id : 'this request never reached a GPU', kvTxt: 'KV cache ' + Math.round(kvU * 100) + '% on every GPU', batchTxt: batch + ' sequences span all 8 GPUs',
+        stats: tx.ttft ? [{ v: fmt(tx.queue) + ' ms', k: 'waited at the door', r: 'Scheduler/Enqueue', c: tx.queue > 200 ? amber : white, bc: tx.queue > 200 ? 'rgba(255,179,64,0.5)' : 'rgba(242,251,255,0.3)' }, { v: fmt(tx.prefill) + ' ms', k: 'prefill · ' + fmt(tx.inTok) + ' tok', r: 'Generate', c: white, bc: 'rgba(242,251,255,0.3)' }, { v: tx.tps + ' tok/s', k: 'decode · ' + tx.out + ' tok', r: 'Generate', c: cyan, bc: 'rgba(86,214,255,0.4)' }] : [{ v: '—', k: 'no GPU time', r: tx.code + ' at ' + (tx.code === 503 ? 'scheduler' : (tx.code === 400 ? 'safety' : 'authz')), c: coral, bc: 'rgba(255,107,125,0.5)' }, { v: fmt(tx.total) + ' ms', k: 'total', r: '', c: white, bc: 'rgba(242,251,255,0.3)' }, { v: tx.code, k: 'status', r: '', c: coral, bc: 'rgba(255,107,125,0.5)' }]
+      };
+    }
+
+    // ----- explorer (search + filters) -----
+    function matches(x) {
+      if (fS !== 'all' && x.status !== fS) return false;
+      if (fR !== 'all' && x.route !== fR) return false;
+      var toks = q.trim().toLowerCase().split(/\s+/).filter(function (s) { return s; });
+      return toks.every(function (tok) {
+        var m;
+        if ((m = tok.match(/^(ttft|total)([<>])=?(\d+)$/))) { var v = x[m[1]]; if (v == null) return false; return m[2] === '>' ? v > +m[3] : v < +m[3]; }
+        if ((m = tok.match(/^(status|route|tenant|node|code):(.*)$/))) { var val = String({ status: x.status, route: x.route || '', tenant: x.tenant, node: x.node || '', code: x.code }[m[1]]).toLowerCase(); return m[2] === '' || val.indexOf(m[2]) === 0; }
+        return (x.id + ' ' + x.tenant + ' ' + (x.route || '') + ' ' + x.ep + ' ' + (x.node || '') + ' ' + x.code + ' ' + x.status).toLowerCase().indexOf(tok) >= 0;
+      });
+    }
+    var found = D.TX.filter(matches).sort(function (a, b) { return (b.ttft || (b.status === 'error' ? 9999 : 0)) - (a.ttft || (a.status === 'error' ? 9999 : 0)); });
+    function strip(x) {
+      var segBg = { ok: white, fail: coral, wait: amber, gpu: '#ffffff', stream: cyan };
+      return x.segs.map(function (s) { return { w: r1(Math.max(0.6, self.disp(s[1]) - self.disp(s[0]))), bg: segBg[s[2]] }; });
+    }
+    var results = found.map(function (x) {
+      var sel = x.id === txId;
+      var badge = x.status === 'error' ? String(x.code) : (x.status === 'slow' ? 'SLOW' : 'OK');
+      var badgeC = x.status === 'error' ? coral : (x.status === 'slow' ? amber : cyan);
+      return {
+        id: x.id, ttft: x.ttft ? fmt(x.ttft) + ' ms' : fmt(x.total) + ' ms', tc: x.ttft ? (x.ttft > 800 ? amber : '#d3e1ee') : coral,
+        meta: x.at + ' · ' + x.tenant + ' · ' + (x.route ? x.route + (x.node ? ' ' + x.node : '') : 'rejected'), badge: badge, badgeC: badgeC,
+        lc: badgeC, bc: sel ? 'rgba(242,251,255,0.6)' : 'rgba(150,190,230,0.16)', bg: sel ? 'rgba(242,251,255,0.07)' : 'rgba(5,14,24,0.6)', strip: strip(x),
+        pick: function () { self.setState({ txId: x.id, t: -3, playing: true, pin: null, tab: 'txn', trans: 'smooth' }); }
+      };
+    });
+    function chip(t2, on, go, col) { return { t: t2, go: go, bc: on ? (col || cyan) : 'rgba(150,190,230,0.25)', bg: on ? 'rgba(86,214,255,0.14)' : 'transparent', c: on ? '#f2fbff' : '#a9bccd' }; }
+    var chipsS = [['all', 'All'], ['slow', 'Slow'], ['error', 'Errors'], ['ok', 'OK']].map(function (p) { return chip(p[1], fS === p[0], function () { self.setState({ fS: p[0] }); }); });
+    var chipsR = [['all', 'All'], ['canary', 'Canary'], ['stable', 'Stable']].map(function (p) { return chip(p[1], fR === p[0], function () { self.setState({ fR: p[0] }); }); });
+    var saved = [
+      { t: 'Canary TTFT breaches', go: function () { self.setState({ q: 'ttft>800', fS: 'all', fR: 'canary' }); } },
+      { t: 'Errors', go: function () { self.setState({ q: '', fS: 'error', fR: 'all' }); } },
+      { t: 'Tenant t-0428', go: function () { self.setState({ q: 'tenant:t-0428', fS: 'all', fR: 'all' }); } },
+      { t: 'All', go: function () { self.setState({ q: '', fS: 'all', fR: 'all' }); } }
+    ];
+
+    // ----- inspector: transaction -----
+    var callRows = calls.map(function (c, ix) {
+      var isCur = cur && c.k === cur.k, done = t >= c.t1, started = t >= c.t0;
+      var stc = c.st === 'fail' ? coral : (c.kind === 'queue' ? amber : (c.st === 'cancel' ? '#7d93a8' : '#d3e1ee'));
+      return {
+        n: String(ix + 1), fn: c.fn.replace(/^[a-z]+\.v\d\./, ''), ms: c.kind === 'stream' || c.e === 'cli-edge' ? fmt(c.t1 - c.t0) + ' ms' : fmt(c.t1 - c.t0) + ' ms',
+        fc: started ? '#e9f2fb' : '#6f859b', tc: started ? stc : '#4c5f72', lc: isCur ? '#ffffff' : (started ? (c.st === 'fail' ? coral : 'rgba(150,190,230,0.3)') : 'transparent'),
+        bg: isCur ? 'rgba(242,251,255,0.1)' : 'transparent',
+        go: function () { self.setState({ t: c.t0 + Math.min(0.5 * (c.t1 - c.t0), c.t0 < 60 ? 1 : 20), pin: c.k, playing: false }); }
+      };
+    });
+    var pl = this.payload(tx, cur, reveal);
+    var payLines = (payDir === 'req' ? pl.req : pl.res).map(function (ln) { return { tk: self.tokLine(ln) }; });
+    var pay = {
+      title: (cur ? cur.fn : '') + (cur && cur.attempt ? ' · attempt ' + cur.attempt : ''),
+      lines: payLines,
+      meta: cur ? (payDir === 'req' ? 'sent' : 'received') + ' at ' + fmt(payDir === 'req' ? cur.t0 : cur.t1) + ' ms · span ' + cur.k.replace('c', 's') + ' · ' + (reveal ? 'content revealed · logged' : 'user content redacted') : '',
+      reqBg: payDir === 'req' ? 'rgba(86,214,255,0.2)' : 'transparent', reqC: payDir === 'req' ? '#ffffff' : '#a9bccd',
+      resBg: payDir === 'res' ? 'rgba(86,214,255,0.2)' : 'transparent', resC: payDir === 'res' ? '#ffffff' : '#a9bccd',
+      goReq: function () { self.setState({ payDir: 'req' }); }, goRes: function () { self.setState({ payDir: 'res' }); }
+    };
+    var txv = {
+      id: tx.id,
+      sub: tx.ep + ' · ' + tx.tenant + ' · ' + (tx.route ? tx.route + (tx.node ? ' · ' + tx.node : '') : 'rejected at authz') + ' · ' + tx.at,
+      callCount: calls.length + ' calls',
+      stats: [
+        { v: tx.ttft ? fmt(tx.ttft) + ' ms' : '—', k: 'first token · SLO 800', c: tx.ttft ? (tx.ttft > 800 ? amber : white) : coral, bc: tx.ttft && tx.ttft > 800 ? 'rgba(255,179,64,0.55)' : 'rgba(150,190,230,0.25)', bg: tx.ttft && tx.ttft > 800 ? 'rgba(40,26,8,0.45)' : 'transparent' },
+        { v: fmt(tx.total) + ' ms', k: 'total', c: white, bc: 'rgba(150,190,230,0.25)', bg: 'transparent' },
+        { v: String(tx.code), k: tx.code === 200 ? 'status · ' + tx.out + ' tok' : 'status', c: tx.code === 200 ? cyan : coral, bc: tx.code === 200 ? 'rgba(86,214,255,0.35)' : 'rgba(255,107,125,0.55)', bg: 'transparent' }
+      ]
+    };
+
+    // ----- inspector: integration -----
+    var ed = { none: !eSel, has: !!eSel };
+    if (eSel) {
+      var fnF = st.fnF && eSel.fns.some(function (f) { return f.n === st.fnF; }) ? st.fnF : null;
+      var tot = 0, errW = 0; eSel.fns.forEach(function (f) { tot += f.r; errW += f.r * f.err; });
+      var p99 = eSel.fns[0].p99;
+      ed.title = eSel.from + ' → ' + eSel.to;
+      ed.proto = eSel.proto + ' · ' + eSel.fns.length + ' function' + (eSel.fns.length > 1 ? 's' : '');
+      ed.stats = [
+        { v: eSel.lineage ? '1' : fmt(tot) + '/s', k: eSel.lineage ? 'rollout' : 'calls', c: white, bc: 'rgba(150,190,230,0.25)' },
+        { v: p99, k: 'p99 · top fn', c: eSel.warn ? amber : white, bc: eSel.warn ? 'rgba(255,179,64,0.5)' : 'rgba(150,190,230,0.25)' },
+        { v: (tot ? (errW / tot) : 0).toFixed(1) + '%', k: 'errors · 5 min', c: errW / Math.max(tot, 1) >= 0.5 ? coral : white, bc: errW / Math.max(tot, 1) >= 0.5 ? 'rgba(255,107,125,0.5)' : 'rgba(150,190,230,0.25)' }
+      ];
+      var sp = [], rndS = function (i) { var x = Math.sin(i * 45.1 + eSel.id.length * 7.7) * 9301.7; return x - Math.floor(x); };
+      for (var si = 0; si < 40; si++) { var y = 28 - rndS(si) * 8; if (eSel.warn && si > 26) y = 8 + rndS(si) * 5; sp.push((si === 0 ? 'M' : 'L') + r1(si * 340 / 39) + ' ' + r1(y)); }
+      ed.spark = sp.join(' '); ed.sparkC = eSel.warn ? amber : cyan; ed.sparkLbl = 'p99 · last 5 min'; ed.sparkAria = 'p99 latency over the last five minutes' + (eSel.warn ? ', rising sharply since 13:58' : ', flat');
+      ed.fns = eSel.fns.map(function (f) {
+        var on = fnF === f.n;
+        return { n: f.n, err: f.err.toFixed(1) + '% err', ec: f.err >= 0.5 ? coral : '#a9bccd', stat: (f.r ? fmt(f.r) + '/s · ' : '') + f.p50 + ' p50 · ' + f.p99 + ' p99', lc: on ? '#ffffff' : (f.err >= 0.5 ? coral : 'rgba(150,190,230,0.3)'), bg: on ? 'rgba(242,251,255,0.1)' : 'rgba(5,14,24,0.5)', go: function () { self.setState({ fnF: on ? null : f.n, sample: null }); } };
+      });
+      ed.fnFilter = fnF ? fnF.replace(/^[a-z]+\.v\d\./, '') : 'all functions';
+      var myCalls = tx.calls.filter(function (c) { return c.e === eSel.id; });
+      ed.hasPin = myCalls.length > 0;
+      ed.pinHead = tx.id + ' ON THIS ARC';
+      ed.pins = myCalls.map(function (c) {
+        return { t: c.attempt ? 'try ' + c.attempt : c.fn.replace(/^[a-z]+\.v\d\./, ''), s: (c.st === 'fail' ? (c.note || 'FAIL') : (c.kind === 'queue' ? 'waited' : 'OK')) + ' · ' + fmt(c.t1 - c.t0) + ' ms', c: c.st === 'fail' ? coral : (c.kind === 'queue' ? amber : cyan), bc: c.st === 'fail' ? 'rgba(255,107,125,0.5)' : 'rgba(150,190,230,0.25)', go: function () { self.setState({ tab: 'txn', pin: c.k, t: c.t0 + 1, playing: false }); } };
+      });
+      var samples = [], nS = 0, sIdx2 = live + 60;
+      while (samples.length < 6 && nS < 60) {
+        var smp = self.sampleFor(eSel, sIdx2 - nS); nS++;
+        if (fnF && smp.fn !== fnF) continue;
+        samples.push(smp);
+      }
+      var selS = st.sample == null ? (samples[0] ? samples[0].n : null) : st.sample;
+      ed.samples = samples.map(function (s2) {
+        var on = s2.n === selS;
+        return { ts: s2.ts, tr: s2.tr, st: (s2.fn.replace(/^[a-z]+\.v\d\./, '').replace(/^.*\//, '')) + ' · ' + s2.stTxt, sc: s2.fail ? coral : '#d3e1ee', lat: s2.lat >= 1000 ? (s2.lat / 1000).toFixed(1) + ' s' : Math.round(s2.lat) + ' ms', lcol: s2.fail ? coral : (s2.lat > 200 ? amber : '#a9bccd'), lc: on ? '#ffffff' : (s2.fail ? coral : 'transparent'), bg: on ? 'rgba(242,251,255,0.1)' : 'transparent', go: function () { self.setState({ sample: s2.n }); } };
+      });
+      var selObj = null; samples.forEach(function (s2) { if (s2.n === selS) selObj = s2; });
+      if (!selObj && samples.length) selObj = samples[0];
+      if (selObj) {
+        var spl = self.samplePayload(eSel, selObj, reveal);
+        ed.lines = (payDir === 'req' ? spl.req : spl.res).map(function (ln) { return { tk: self.tokLine(ln) }; });
+        ed.payTitle = selObj.ts + ' · ' + selObj.tr + ' · ' + selObj.fn.replace(/^[a-z]+\.v\d\./, '');
+      } else { ed.lines = []; ed.payTitle = 'no samples yet'; }
+    }
+    var tabs = {
+      isTx: tab === 'txn', isEd: tab === 'edge', txSel: tab === 'txn' ? 'true' : 'false', edSel: tab === 'edge' ? 'true' : 'false',
+      txB: tab === 'txn' ? '#f2fbff' : 'transparent', txC: tab === 'txn' ? '#f2fbff' : '#7d93a8', edB: tab === 'edge' ? '#56d6ff' : 'transparent', edC: tab === 'edge' ? '#f2fbff' : '#7d93a8',
+      goTx: function () { self.setState({ tab: 'txn' }); }, goEd: function () { self.setState({ tab: 'edge' }); }
+    };
+
+    // ----- replay bar -----
+    var segBg = { ok: '#f2fbff', fail: '#ff6b7d', wait: 'repeating-linear-gradient(135deg, #ffb340 0 6px, #a86a12 6px 9px)', gpu: '#ffffff', stream: 'repeating-linear-gradient(90deg, #56d6ff 0 3px, rgba(86,214,255,0.25) 3px 6px)' };
+    var segs = tx.segs.map(function (s) { var x0 = self.disp(s[0]), x1 = self.disp(s[1]); return { x: r1(x0), w: Math.max(0.25, r1(x1 - x0)), y: 14, h: 18, bg: segBg[s[2]], sh: s[2] === 'gpu' ? '0 0 10px rgba(242,251,255,0.7)' : 'none', op: 1 }; });
+    tx.par.forEach(function (s) { var x0 = self.disp(s[0]), x1 = self.disp(s[1]); segs.push({ x: r1(x0), w: Math.max(0.25, r1(x1 - x0)), y: 38, h: 6, bg: s[2] === 'fail' ? coral : 'rgba(242,251,255,0.55)', sh: 'none', op: 1 }); });
+    segs.push({ x: 0, w: 3, y: 22, h: 2, bg: 'rgba(242,251,255,0.4)', sh: 'none', op: 1 });
+    var ticks = calls.map(function (c) { return { x: r1(self.disp(c.t0)), c: c.st === 'fail' ? coral : (cur && c.k === cur.k ? '#ffffff' : 'rgba(150,190,230,0.45)') }; });
+    var marks = [{ x: r1(this.disp(800)), c: '#e9f2fb', st: 'dashed' }];
+    if (tx.ttft) marks.push({ x: r1(this.disp(tx.ttft)), c: amber, st: 'solid' });
+    var axis = [[-3, 'client'], [0, '0'], [20, '20'], [40, '40'], [60, '60 ms'], [500, '500'], [800, 'SLO'], [1000, '1 s'], [1500, '1.5 s'], [3000, '3 s'], [4500, '4.5 s'], [6000, '6 s']].map(function (a) { return { x: r1(self.disp(a[0])), t: a[1], c: a[0] === 800 ? '#e9f2fb' : '#7d93a8' }; });
+    var phase = t < 0 ? 'request leaving the client' : (t >= tx.total ? 'complete · ' + tx.code + (tx.code === 200 ? ' · stream closed' : ' returned to client') : (cur ? cur.fn.replace(/^[a-z]+\.v\d\./, '') + ' · ' + callLine(cur) : ''));
+    var rp = {
+      playAria: st.playing ? 'Pause replay' : 'Play replay', icon: st.playing ? 'M3 2 H7 V14 H3 Z M9 2 H13 V14 H9 Z' : 'M3 2 L14 8 L3 14 Z',
+      toggle: function () { var tt = st.t == null ? self.startT() : st.t; if (!st.playing && tt >= tx.total) self.setState({ t: -3, playing: true, pin: null }); else self.setState({ playing: !st.playing, pin: null }); },
+      restart: function () { self.setState({ t: -3, playing: true, pin: null }); },
+      prev: function () { var ps = calls.filter(function (c) { return c.t0 < t - 0.01; }); var tgt = ps.length ? ps[ps.length - 1] : calls[0]; self.setState({ t: tgt.t0, playing: false, pin: tgt.k }); },
+      next: function () { var ns = calls.filter(function (c) { return c.t0 > t + 0.01; }); if (ns.length) self.setState({ t: ns[0].t0 + 0.01, playing: false, pin: ns[0].k }); else self.setState({ t: tx.total, playing: false, pin: null }); },
+      speed: (st.speed || 1) + '×', speedGo: function () { var sp2 = st.speed || 1; self.setState({ speed: sp2 === 1 ? 2 : (sp2 === 2 ? 0.5 : 1) }); },
+      tTxt: t < 0 ? 'pre-flight' : fmt(Math.min(t, tx.total)) + ' ms', phase: phase, phaseC: cur && cur.st === 'fail' && t >= cur.t1 ? coral : (cur && cur.kind === 'queue' && t < cur.t1 ? amber : '#d3e1ee'),
+      ttftShow: !!tx.ttft, ttftX: tx.ttft ? r1(this.disp(tx.ttft)) : 0, ttftTxt: tx.ttft ? fmt(tx.ttft) + ' ms' : '',
+      segs: segs, ticks: ticks, marks: marks, axis: axis, headX: r1(Math.min(100, d)), slider: Math.round(d * 10),
+      scrub: function (ev) { var v = Number(ev && ev.target ? ev.target.value : ev); self.setState({ t: self.msOf(v / 10), playing: false, pin: null }); }
+    };
+
+    // ----- camera controls -----
+    var levelNames = ['City', 'District', 'Building', 'Floor'];
+    var levels = levelNames.map(function (n, k) { var on = level === k; return { t: n.toUpperCase(), bc: on ? cyan : 'rgba(150,190,230,0.2)', bg: on ? 'rgba(86,214,255,0.16)' : 'transparent', c: on ? '#f2fbff' : '#a9bccd', go: function () { self.setState({ view: { kind: 'level', level: k }, trans: 'smooth' }); } }; });
+    function zoomBy(k) { var z = self._lastZ, cx = 960, cy = 510, s2 = Math.max(0.35, Math.min(9, z.s * k)), kk = s2 / z.s; self.setState({ view: { kind: 'free', s: s2, tx: cx - (cx - z.tx) * kk, ty: cy - (cy - z.ty) * kk }, trans: 'quick' }); }
+    var crumbs = [];
+    var cl = ['us-east-2', 'Inference · compute', nodeNm + (nodeNm === 'c-0' ? ' · gpu-a-16' : ''), tx.id + ' on ' + nodeNm];
+    var depthN = level < 0 ? lvNow : level;
+    for (var ci = 0; ci <= depthN; ci++) { if (ci > 0) crumbs.push({ t: '/', c: '#4c5f72' }); crumbs.push({ t: cl[ci], c: ci === depthN ? '#f2fbff' : '#a9bccd' }); }
+    var clockS = 31 + live, clock = '14:0' + (2 + Math.floor(clockS / 60)) + ':' + ('0' + (clockS % 60)).slice(-2);
+
+    return {
+      fx: fx, g: G.g, items: G.items, edges: edges, zoom: zoom, labels: labels, handles: handles, edgeChip: edgeChip, bubble: bubble,
+      pulses: pulses.map(function (p) { var sp3 = S(p.p); return { sx: r1(sp3[0]), sy: r1(sp3[1]), c: p.c }; }).filter(function (p) { return inView([p.sx, p.sy]); }).slice(0, 3),
+      o: { tops: tops.join(' '), link: link, beam: beam, ring: ring, cars: cars, stream: stream.join(' '), trail: trail.join(' '), trailBack: trailBack.join(' '), trailFail: trailFail.join(' '), spark: spark.join(' '), scar: scar.join(' '), packets: packets.join(' '), packetsBack: packetsBack.join(' '), packetsFail: packetsFail.join(' ') },
+      floor: floor, levels: levels, crumbs: crumbs, clock: clock,
+      zoomPct: Math.round(Z.s * 100) + '%', camTxt: { az: Math.round(((az % 360) + 360) % 360) + '°', el: Math.round(el) + '°' },
+      cursor: this._drag ? 'grabbing' : 'grab',
+      q: q, setQ: function (ev) { self.setState({ q: ev && ev.target ? ev.target.value : '' }); },
+      chipsS: chipsS, chipsR: chipsR, results: results, noResults: results.length === 0, saved: saved,
+      resCount: results.length + (results.length === 1 ? ' match' : ' matches') + ' · ' + D.TX.length + ' traces retained',
+      tabs: tabs, tx: txv, calls: callRows, pay: pay, ed: ed, rp: rp,
+      revealBtn: { t: reveal ? 'HIDE CONTENT' : 'REVEAL CONTENT · AUDITED', c: reveal ? amber : '#d3e1ee', bc: reveal ? 'rgba(255,179,64,0.6)' : 'rgba(150,190,230,0.3)' },
+      toggleReveal: function () { self.setState({ reveal: !reveal }); },
+      lyBtn: { lineage: showLineage ? 'ON' : 'OFF', lineageC: showLineage ? violet : '#7d93a8', traffic: showTraffic ? 'ON' : 'OFF', trafficC: showTraffic ? cyan : '#7d93a8' },
+      toggleLineage: function () { self.setState({ lineage: !showLineage }); },
+      toggleTraffic: function () { self.setState({ traffic: !showTraffic }); },
+      rotL: function () { self.animCam(az - 20, el); }, rotR: function () { self.animCam(az + 20, el); },
+      tiltU: function () { self.animCam(az, Math.min(72, el + 7)); }, tiltD: function () { self.animCam(az, Math.max(12, el - 7)); },
+      zoomIn: function () { zoomBy(1.3); }, zoomOut: function () { zoomBy(1 / 1.3); },
+      resetView: function () { self.setState({ view: { kind: 'level', level: 0 }, trans: 'smooth' }); self.animCam(12, 29); },
+      modeBtn: { opBg: cin ? 'transparent' : 'rgba(86,214,255,0.18)', opC: cin ? '#a9bccd' : '#f2fbff', cinBg: cin ? 'rgba(86,214,255,0.18)' : 'transparent', cinC: cin ? '#f2fbff' : '#a9bccd' },
+      setOp: function () { self.setState({ mode: 'op' }); }, setCin: function () { self.setState({ mode: 'cin' }); },
+      pDown: function (ev) {
+        var rect = ev.currentTarget.getBoundingClientRect(), k = 1920 / rect.width;
+        self._drag = { x: ev.clientX, y: ev.clientY, k: k, az: az, el: el, z: self._lastZ, shift: ev.shiftKey };
+        self._moved = false;
+        try { ev.currentTarget.setPointerCapture(ev.pointerId); } catch (err) { }
+      },
+      pMove: function (ev) {
+        var dr = self._drag; if (!dr) return;
+        var dx = (ev.clientX - dr.x) * dr.k, dy = (ev.clientY - dr.y) * dr.k;
+        if (Math.abs(dx) + Math.abs(dy) > 4) self._moved = true;
+        if (!self._moved) return;
+        self._pend = dr.shift ? { view: { kind: 'free', s: dr.z.s, tx: dr.z.tx + dx, ty: dr.z.ty + dy }, trans: 'none' } : { az: dr.az - dx * 0.25, el: Math.max(12, Math.min(72, dr.el + dy * 0.15)), trans: 'none' };
+        if (!self._raf) { self._raf = (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(function () { self._raf = null; if (self._pend) { var pd = self._pend; self._pend = null; self.setState(pd); } }); }
+      },
+      pUp: function () { self._drag = null; setTimeout(function () { self._moved = false; }, 0); },
+      wheel: function (ev) {
+        var rect = ev.currentTarget.getBoundingClientRect(), k = 1920 / rect.width;
+        var px = (ev.clientX - rect.left) * k, py = (ev.clientY - rect.top) * k, z = self._lastZ;
+        var s2 = Math.max(0.35, Math.min(9, z.s * Math.exp(-ev.deltaY * 0.0015))), kk = s2 / z.s;
+        self.setState({ view: { kind: 'free', s: s2, tx: px - (px - z.tx) * kk, ty: py - (py - z.ty) * kk }, trans: 'none' });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

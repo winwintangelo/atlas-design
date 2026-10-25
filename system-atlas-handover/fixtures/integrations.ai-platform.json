@@ -1,0 +1,360 @@
+{
+  "note": "Integration arcs (edges) with their functions and 5-minute stats, as shown in the A2 mockup.",
+  "integrations": [
+    {
+      "id": "cli-edge",
+      "fromLabel": "client",
+      "toLabel": "edge-gateway",
+      "protocol": "HTTPS/2 · public",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "POST /v1/chat/completions",
+          "ratePerSec": 1284,
+          "p50": "2.9 s",
+          "p99": "7.8 s",
+          "errorPct": 0.4
+        },
+        {
+          "name": "POST /v1/embeddings",
+          "ratePerSec": 96,
+          "p50": "41 ms",
+          "p99": "120 ms",
+          "errorPct": 0.1
+        }
+      ],
+      "fromComponent": "clients",
+      "toComponent": "edge-gateway"
+    },
+    {
+      "id": "edge-ident",
+      "fromLabel": "edge-gateway",
+      "toLabel": "authz",
+      "protocol": "gRPC · mTLS · authz.v1",
+      "ratePerSec": 1380,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "authz.v1.Authz/Verify",
+          "ratePerSec": 1380,
+          "p50": "3 ms",
+          "p99": "9 ms",
+          "errorPct": 0
+        },
+        {
+          "name": "authz.v1.Authz/Introspect",
+          "ratePerSec": 12,
+          "p50": "2 ms",
+          "p99": "6 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "edge-gateway",
+      "toComponent": "authz"
+    },
+    {
+      "id": "ident-quota",
+      "fromLabel": "authz",
+      "toLabel": "quota-cache",
+      "protocol": "RESP3 · Redis cluster",
+      "ratePerSec": 1380,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "EVALSHA reserve_tpm",
+          "ratePerSec": 1380,
+          "p50": "1 ms",
+          "p99": "3 ms",
+          "errorPct": 0
+        },
+        {
+          "name": "HGET tenant:limits",
+          "ratePerSec": 40,
+          "p50": "0.4 ms",
+          "p99": "1 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "authz",
+      "toComponent": "quota-cache"
+    },
+    {
+      "id": "edge-route",
+      "fromLabel": "edge-gateway",
+      "toLabel": "inference-router",
+      "protocol": "gRPC · mTLS · router.v1",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "router.v1.Router/Route",
+          "ratePerSec": 1284,
+          "p50": "6 ms",
+          "p99": "14 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "edge-gateway",
+      "toComponent": "inference-router"
+    },
+    {
+      "id": "route-safety",
+      "fromLabel": "inference-router",
+      "toLabel": "safety-input",
+      "protocol": "gRPC · mTLS · safety.v1",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "safety.v1.Input/Classify",
+          "ratePerSec": 1284,
+          "p50": "34 ms",
+          "p99": "70 ms",
+          "errorPct": 0.1
+        }
+      ],
+      "fromComponent": "inference-router",
+      "toComponent": "safety-input"
+    },
+    {
+      "id": "route-retr",
+      "fromLabel": "inference-router",
+      "toLabel": "retrieval-svc",
+      "protocol": "gRPC · mTLS · retrieval.v2",
+      "ratePerSec": 796,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "retrieval.v2.Retrieval/Search",
+          "ratePerSec": 796,
+          "p50": "52 ms",
+          "p99": "310 ms",
+          "errorPct": 0.2
+        }
+      ],
+      "fromComponent": "inference-router",
+      "toComponent": "retrieval-svc"
+    },
+    {
+      "id": "retr-embed",
+      "fromLabel": "retrieval-svc",
+      "toLabel": "embed-svc",
+      "protocol": "gRPC · mTLS · embed.v1",
+      "ratePerSec": 796,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "embed.v1.Embed/Encode",
+          "ratePerSec": 796,
+          "p50": "22 ms",
+          "p99": "48 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "retrieval-svc",
+      "toComponent": "embed-svc"
+    },
+    {
+      "id": "retr-vec",
+      "fromLabel": "retrieval-svc",
+      "toLabel": "vector-store",
+      "protocol": "gRPC · mTLS · vector.v1 · fan-out to 6 shards",
+      "ratePerSec": 4780,
+      "health": "degraded",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "vector.v1.Shard/Query",
+          "ratePerSec": 4780,
+          "p50": "18 ms",
+          "p99": "270 ms",
+          "errorPct": 0.9
+        },
+        {
+          "name": "vector.v1.Shard/Upsert",
+          "ratePerSec": 8,
+          "p50": "12 ms",
+          "p99": "40 ms",
+          "errorPct": 0
+        },
+        {
+          "name": "vector.v1.Shard/Health",
+          "ratePerSec": 12,
+          "p50": "1 ms",
+          "p99": "3 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "retrieval-svc",
+      "toComponent": "vector-store"
+    },
+    {
+      "id": "route-prompt",
+      "fromLabel": "inference-router",
+      "toLabel": "prompt-builder",
+      "protocol": "gRPC · mTLS · prompt.v1",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "prompt.v1.Builder/Assemble",
+          "ratePerSec": 1284,
+          "p50": "6 ms",
+          "p99": "11 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "inference-router",
+      "toComponent": "prompt-builder"
+    },
+    {
+      "id": "prompt-hub",
+      "fromLabel": "prompt-builder",
+      "toLabel": "gpu-scheduler",
+      "protocol": "gRPC · mTLS · sched.v1",
+      "ratePerSec": 1284,
+      "health": "degraded",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "sched.v1.Scheduler/Enqueue",
+          "ratePerSec": 1284,
+          "p50": "40 ms wait",
+          "p99": "1.6 s wait",
+          "errorPct": 0.3
+        }
+      ],
+      "fromComponent": "prompt-builder",
+      "toComponent": "gpu-scheduler"
+    },
+    {
+      "id": "hub-compute",
+      "fromLabel": "gpu-scheduler",
+      "toLabel": "model-server",
+      "protocol": "gRPC server-stream · inference.v1",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "inference.v1.ModelServer/Generate",
+          "ratePerSec": 1284,
+          "p50": "210 ms prefill",
+          "p99": "330 ms prefill",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "gpu-scheduler",
+      "toComponent": "model-server"
+    },
+    {
+      "id": "compute-out",
+      "fromLabel": "model-server",
+      "toLabel": "stream-gateway",
+      "protocol": "gRPC client-stream · stream.v1",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "stream.v1.Gateway/Push",
+          "ratePerSec": 1284,
+          "p50": "14 ms / chunk",
+          "p99": "31 ms / chunk",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "model-server",
+      "toComponent": "stream-gateway"
+    },
+    {
+      "id": "out-sout",
+      "fromLabel": "stream-gateway",
+      "toLabel": "safety-output",
+      "protocol": "gRPC · mTLS · safety.v1",
+      "ratePerSec": 51360,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "safety.v1.Output/Check",
+          "ratePerSec": 51360,
+          "p50": "1.2 ms",
+          "p99": "6 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "stream-gateway",
+      "toComponent": "safety-output"
+    },
+    {
+      "id": "out-cli",
+      "fromLabel": "stream-gateway",
+      "toLabel": "client",
+      "protocol": "Server-sent events · public",
+      "ratePerSec": 1284,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "SSE text/event-stream",
+          "ratePerSec": 1284,
+          "p50": "72 tok/s",
+          "p99": "41 tok/s floor",
+          "errorPct": 0.4
+        }
+      ],
+      "fromComponent": "stream-gateway",
+      "toComponent": "clients"
+    },
+    {
+      "id": "reg-compute",
+      "fromLabel": "model registry",
+      "toLabel": "model-server",
+      "protocol": "control plane · deploy.v1",
+      "ratePerSec": 1,
+      "health": "healthy",
+      "kind": "control",
+      "functions": [
+        {
+          "name": "deploy.v1.Controller/Rollout",
+          "ratePerSec": 0,
+          "p50": "dep-118 · 13:10 UTC",
+          "p99": "canary 10%",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "model-registry",
+      "toComponent": "model-server"
+    },
+    {
+      "id": "compute-tele",
+      "fromLabel": "all services",
+      "toLabel": "trace-collector",
+      "protocol": "OTLP/gRPC · opentelemetry",
+      "ratePerSec": 340,
+      "health": "healthy",
+      "kind": "data",
+      "functions": [
+        {
+          "name": "TraceService/Export",
+          "ratePerSec": 340,
+          "p50": "4 ms",
+          "p99": "19 ms",
+          "errorPct": 0
+        }
+      ],
+      "fromComponent": "model-server",
+      "toComponent": "trace-collector"
+    }
+  ]
+}

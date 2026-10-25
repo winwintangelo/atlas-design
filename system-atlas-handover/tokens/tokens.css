@@ -1,0 +1,105 @@
+/* System Atlas — CSS custom properties generated from tokens.json (keep in sync).
+   Load fonts:
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Saira:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"> */
+
+:root {
+  /* surfaces */
+  --atlas-bg-void: #02050a;
+  --atlas-bg-doc: #070a0f;
+  --atlas-bg-ground: #02060b;
+  --atlas-bg-code: rgba(1, 4, 9, 0.85);
+  --atlas-bg-input: rgba(5, 14, 24, 0.9);
+  --atlas-bg-row: rgba(5, 14, 24, 0.6);
+  --atlas-panel-fill: rgba(2, 7, 13, 0.70);          /* cinematic */
+  --atlas-panel-border-cyan: rgba(86, 214, 255, 0.22);
+  --atlas-panel-border-white: rgba(242, 251, 255, 0.30);
+  --atlas-divider: rgba(150, 190, 230, 0.14);
+  --atlas-control-border: rgba(150, 190, 230, 0.25);
+
+  /* ink */
+  --atlas-ink-strong: #f2fbff;
+  --atlas-ink: #e9f2fb;
+  --atlas-ink-body: #d3e1ee;
+  --atlas-ink-2: #a9bccd;
+  --atlas-ink-3: #7d93a8;
+  --atlas-ink-muted: #6f859b;
+  --atlas-ink-disabled: #4c5f72;
+
+  /* semantics — identical meaning in every view */
+  --atlas-request: #f2fbff;   /* the selected transaction */
+  --atlas-flow: #56d6ff;      /* healthy traffic, accent, focus */
+  --atlas-response: #7fe1ff;  /* return packets */
+  --atlas-degraded: #ffb340;  /* queue, waiting, degraded, SLO breach */
+  --atlas-failure: #ff6b7d;   /* error, timeout, evicted */
+  --atlas-lineage: #b69bff;   /* provenance, control plane */
+  --atlas-lineage-light: #cdbaff;
+  --atlas-telemetry: #8fb3d1;
+
+  /* code viewer */
+  --atlas-code-key: #8fb3d1;
+  --atlas-code-string: #cfefff;
+  --atlas-code-number: #ffffff;
+  --atlas-code-literal: #b69bff;
+  --atlas-code-punct: #6f859b;
+  --atlas-code-error: #ff6b7d;
+  --atlas-code-redacted: #ffb340;
+
+  /* type */
+  --atlas-font-display: 'Michroma', 'Saira', sans-serif;
+  --atlas-font-ui: 'Saira', system-ui, sans-serif;
+  --atlas-font-data: 'JetBrains Mono', ui-monospace, monospace;
+  --atlas-track-label: 0.16em;
+  --atlas-track-display: 0.12em;
+  --atlas-track-brand: 0.24em;
+
+  /* layout (1920×1080 reference) */
+  --atlas-gutter: 24px;
+  --atlas-panel-pad: 16px;
+  --atlas-header-h: 64px;
+  --atlas-explorer-w: 356px;
+  --atlas-inspector-w: 372px;
+  --atlas-replay-h: 156px;
+  --atlas-control-h: 36px;
+  --atlas-control-lg: 44px;
+  --atlas-chip-h: 30px;
+  --atlas-radius: 0;
+
+  /* motion */
+  --atlas-ease-flight: cubic-bezier(0.7, 0, 0.2, 1);
+  --atlas-dur-flight: 1100ms;
+  --atlas-dur-quick: 300ms;
+  --atlas-dur-pulse: 1200ms;
+  --atlas-dur-ring: 1300ms;
+
+  /* glow (SVG / CSS); WebGL uses tokens.json → glow.webglBloom */
+  --atlas-glow-blur: 3.2px;
+  --atlas-glow-blur-big: 9px;
+}
+
+/* Operational intensity: rendering only, never data. */
+:root[data-intensity="operational"] {
+  --atlas-panel-fill: rgba(2, 7, 13, 0.90);
+  --atlas-glow-blur: 1.1px;
+  --atlas-glow-blur-big: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --atlas-dur-flight: 0ms; --atlas-dur-quick: 0ms; }
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Reference component styles */
+.atlas-panel { background: var(--atlas-panel-fill); border: 1px solid var(--atlas-panel-border-cyan); border-radius: 0; padding: var(--atlas-panel-pad); color: var(--atlas-ink); font-family: var(--atlas-font-ui); backdrop-filter: blur(6px); }
+.atlas-panel--evidence { border-color: var(--atlas-panel-border-white); }
+.atlas-label { font-family: var(--atlas-font-data); font-size: 11px; letter-spacing: var(--atlas-track-label); text-transform: uppercase; color: var(--atlas-ink-3); }
+.atlas-display { font-family: var(--atlas-font-display); text-transform: uppercase; letter-spacing: var(--atlas-track-display); }
+.atlas-data { font-family: var(--atlas-font-data); font-variant-numeric: tabular-nums; }
+.atlas-btn { height: var(--atlas-control-h); padding: 0 12px; border: 1px solid var(--atlas-control-border); background: transparent; color: var(--atlas-ink-2); font: 12px/1 var(--atlas-font-data); letter-spacing: 0.06em; border-radius: 0; cursor: pointer; }
+.atlas-btn[aria-pressed="true"], .atlas-btn.is-on { border-color: var(--atlas-flow); background: rgba(86, 214, 255, 0.16); color: var(--atlas-ink-strong); }
+.atlas-btn:focus-visible { outline: 2px solid var(--atlas-flow); outline-offset: 2px; }
+.atlas-row { border: 1px solid rgba(150, 190, 230, 0.16); border-left: 3px solid var(--status, var(--atlas-flow)); background: var(--atlas-bg-row); }
+.atlas-row.is-selected { border-color: rgba(242, 251, 255, 0.6); background: rgba(242, 251, 255, 0.07); }
+.atlas-tile { border: 1px solid rgba(150, 190, 230, 0.25); padding: 6px 8px; }
+.atlas-tile--breach { border-color: rgba(255, 179, 64, 0.55); background: rgba(40, 26, 8, 0.45); color: var(--atlas-degraded); }
+.atlas-tile--error { border-color: rgba(255, 107, 125, 0.55); color: var(--atlas-failure); }
+.atlas-code { background: var(--atlas-bg-code); border: 1px solid rgba(150, 190, 230, 0.16); font: 11.5px/17px var(--atlas-font-data); white-space: pre; overflow: auto; }

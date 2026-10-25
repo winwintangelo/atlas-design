@@ -1,0 +1,75 @@
+{
+  "note": "Second, fictional domain used to prove the model is not AI-specific. No layout is given: the layout engine must place districts and buildings itself. Acceptance test M6 renders this file with zero code changes.",
+  "topology": {
+    "system": { "id": "meridian-pay", "name": "Payments switch", "kind": "payments", "environment": "prod", "region": "eu-west-1", "snapshotAt": "2026-10-24T09:15:00Z", "headline": { "authorizationsPerSec": 2140, "slaAuthMs": 2000, "authP95Ms": 640, "declinePct": 3.1 } },
+    "districts": [
+      { "id": "edge", "label": "Edge", "tone": "cyan" },
+      { "id": "identity", "label": "Identity & tokens", "tone": "cyan" },
+      { "id": "risk", "label": "Risk", "tone": "cyan" },
+      { "id": "orchestration", "label": "Orchestration", "tone": "cyan" },
+      { "id": "schemes", "label": "Card schemes & issuers", "tone": "amber" },
+      { "id": "ledger", "label": "Ledger", "tone": "violet" },
+      { "id": "settlement", "label": "Settlement", "tone": "violet" },
+      { "id": "external", "label": "Merchants & issuers", "tone": "none" }
+    ],
+    "components": [
+      { "id": "merchants", "label": "merchants (external)", "districtId": "external", "type": "external", "instanceCount": 0, "metrics": { "ratePerSec": 2140, "utilization": null, "health": "healthy" } },
+      { "id": "api-gateway", "label": "api-gateway", "districtId": "edge", "type": "gateway", "instanceCount": 8, "metrics": { "ratePerSec": 2140, "utilization": 0.58, "health": "healthy" } },
+      { "id": "token-service", "label": "token-service", "districtId": "identity", "type": "service", "instanceCount": 6, "metrics": { "ratePerSec": 2140, "utilization": 0.44, "health": "healthy" } },
+      { "id": "token-vault", "label": "token-vault", "districtId": "identity", "type": "datastore", "instanceCount": 3, "metrics": { "ratePerSec": 2140, "utilization": 0.5, "health": "healthy" } },
+      { "id": "fraud-scoring", "label": "fraud-scoring", "districtId": "risk", "type": "service", "instanceCount": 10, "metrics": { "ratePerSec": 2140, "utilization": 0.71, "health": "healthy" } },
+      { "id": "payment-orchestrator", "label": "payment-orchestrator", "districtId": "orchestration", "type": "service", "instanceCount": 12, "metrics": { "ratePerSec": 2140, "utilization": 0.63, "health": "healthy" } },
+      { "id": "scheme-adapter", "label": "scheme-adapter", "districtId": "schemes", "type": "gateway", "instanceCount": 6, "metrics": { "ratePerSec": 2140, "utilization": 0.66, "health": "degraded" } },
+      { "id": "issuer-host-b", "label": "issuer host B (external)", "districtId": "external", "type": "external", "instanceCount": 0, "metrics": { "ratePerSec": 410, "utilization": null, "health": "degraded" } },
+      { "id": "ledger-svc", "label": "ledger-svc", "districtId": "ledger", "type": "service", "instanceCount": 6, "metrics": { "ratePerSec": 1980, "utilization": 0.4, "health": "healthy" } },
+      { "id": "ledger-db", "label": "ledger-db", "districtId": "ledger", "type": "datastore", "instanceCount": 3, "metrics": { "ratePerSec": 1980, "utilization": 0.52, "health": "healthy" } },
+      { "id": "events-bus", "label": "payments.events", "districtId": "settlement", "type": "queue", "instanceCount": 12, "metrics": { "ratePerSec": 1980, "utilization": 0.3, "health": "healthy" }, "queues": [{ "id": "payments.authorized.v1", "depth": 1200, "baseline": 900 }] },
+      { "id": "settlement-batch", "label": "settlement-batch", "districtId": "settlement", "type": "job", "instanceCount": 4, "metrics": { "ratePerSec": null, "utilization": 0.2, "health": "healthy" } }
+    ],
+    "instances": [
+      { "id": "scheme-adapter/sa-3", "label": "sa-3", "componentId": "scheme-adapter", "kind": "pod", "health": "degraded", "utilization": 1, "note": "connection pool to issuer B exhausted · E1" }
+    ],
+    "integrations": [
+      { "id": "m-gw", "fromComponent": "merchants", "toComponent": "api-gateway", "protocol": "HTTPS · public · mTLS for platforms", "kind": "data", "ratePerSec": 2140, "health": "healthy", "functions": [{ "name": "POST /v1/payments/authorize", "ratePerSec": 2140, "p50": "410 ms", "p99": "2.4 s", "errorPct": 0.2 }, { "name": "POST /v1/payments/{id}/capture", "ratePerSec": 1650, "p50": "38 ms", "p99": "140 ms", "errorPct": 0.0 }] },
+      { "id": "gw-tok", "fromComponent": "api-gateway", "toComponent": "token-service", "protocol": "gRPC · mTLS · tokens.v2", "kind": "data", "ratePerSec": 2140, "health": "healthy", "functions": [{ "name": "tokens.v2.Tokens/Detokenize", "ratePerSec": 2140, "p50": "4 ms", "p99": "12 ms", "errorPct": 0.0 }] },
+      { "id": "tok-vault", "fromComponent": "token-service", "toComponent": "token-vault", "protocol": "PKCS#11 · HSM-backed", "kind": "data", "ratePerSec": 2140, "health": "healthy", "functions": [{ "name": "C_Decrypt", "ratePerSec": 2140, "p50": "1.1 ms", "p99": "3 ms", "errorPct": 0.0 }] },
+      { "id": "gw-orch", "fromComponent": "api-gateway", "toComponent": "payment-orchestrator", "protocol": "gRPC · mTLS · payments.v3", "kind": "data", "ratePerSec": 2140, "health": "healthy", "functions": [{ "name": "payments.v3.Orchestrator/Authorize", "ratePerSec": 2140, "p50": "390 ms", "p99": "2.3 s", "errorPct": 0.2 }] },
+      { "id": "orch-fraud", "fromComponent": "payment-orchestrator", "toComponent": "fraud-scoring", "protocol": "gRPC · mTLS · risk.v1", "kind": "data", "ratePerSec": 2140, "health": "healthy", "functions": [{ "name": "risk.v1.Fraud/Score", "ratePerSec": 2140, "p50": "22 ms", "p99": "61 ms", "errorPct": 0.0 }] },
+      { "id": "orch-scheme", "fromComponent": "payment-orchestrator", "toComponent": "scheme-adapter", "protocol": "gRPC · mTLS · schemes.v1", "kind": "data", "ratePerSec": 2140, "health": "degraded", "functions": [{ "name": "schemes.v1.Adapter/Authorize", "ratePerSec": 2140, "p50": "300 ms", "p99": "2.2 s", "errorPct": 0.6 }] },
+      { "id": "scheme-issuer", "fromComponent": "scheme-adapter", "toComponent": "issuer-host-b", "protocol": "ISO 8583 over TCP · persistent", "kind": "data", "ratePerSec": 410, "health": "degraded", "functions": [{ "name": "ISO 8583 MTI 0100 → 0110", "ratePerSec": 410, "p50": "280 ms", "p99": "2.0 s timeout", "errorPct": 2.4 }, { "name": "ISO 8583 MTI 0800 echo", "ratePerSec": 1, "p50": "40 ms", "p99": "90 ms", "errorPct": 0.0 }] },
+      { "id": "orch-ledger", "fromComponent": "payment-orchestrator", "toComponent": "ledger-svc", "protocol": "gRPC · mTLS · ledger.v1", "kind": "data", "ratePerSec": 1980, "health": "healthy", "functions": [{ "name": "ledger.v1.Ledger/Hold", "ratePerSec": 1980, "p50": "9 ms", "p99": "30 ms", "errorPct": 0.0 }] },
+      { "id": "ledger-db", "fromComponent": "ledger-svc", "toComponent": "ledger-db", "protocol": "PostgreSQL wire · TLS", "kind": "data", "ratePerSec": 1980, "health": "healthy", "functions": [{ "name": "INSERT INTO ledger_entries …", "ratePerSec": 1980, "p50": "3 ms", "p99": "14 ms", "errorPct": 0.0 }] },
+      { "id": "orch-bus", "fromComponent": "payment-orchestrator", "toComponent": "events-bus", "protocol": "Kafka · topic payments.authorized.v1", "kind": "data", "ratePerSec": 1980, "health": "healthy", "functions": [{ "name": "produce payments.authorized.v1", "ratePerSec": 1980, "p50": "2 ms", "p99": "9 ms", "errorPct": 0.0 }] },
+      { "id": "bus-settle", "fromComponent": "events-bus", "toComponent": "settlement-batch", "protocol": "Kafka consumer group settle-eu", "kind": "data", "ratePerSec": 1980, "health": "healthy", "functions": [{ "name": "consume payments.authorized.v1", "ratePerSec": 1980, "p50": "lag 1.2 s", "p99": "lag 6 s", "errorPct": 0.0 }] }
+    ],
+    "evidence": [
+      { "id": "E1", "kind": "metric", "at": "2026-10-24T09:12:40Z", "subject": "scheme-adapter/sa-3", "text": "Connection pool to issuer B at 64 / 64 since 09:12:40.", "source": "adapter_pool_in_use{peer=\"issuer-b\"}" },
+      { "id": "E2", "kind": "span", "at": "2026-10-24T09:15:02.513Z", "subject": "issuer-host-b", "text": "0100 to issuer B timed out at 2,000 ms; stand-in processing approved.", "source": "trace pay_5d21c0a9 span s7" }
+    ]
+  },
+  "transactions": [
+    {
+      "id": "pay_5d21c0a9", "startedAt": "2026-10-24T09:15:02.211Z", "tenant": "merchant m-88102", "entrypoint": "POST /v1/payments/authorize", "route": "issuer-B · stand-in", "instance": "sa-3", "status": "slow", "code": 200,
+      "metrics": { "authMs": 2310, "totalMs": 2342, "slaMs": 2000 },
+      "timeline": {
+        "criticalPath": [{ "startMs": 0, "endMs": 31, "kind": "ok" }, { "startMs": 31, "endMs": 2031, "kind": "fail" }, { "startMs": 2031, "endMs": 2290, "kind": "ok" }, { "startMs": 2290, "endMs": 2342, "kind": "ok" }],
+        "parallel": [{ "startMs": 8, "endMs": 30, "kind": "ok" }]
+      },
+      "calls": [
+        { "id": "s1", "integrationId": "m-gw", "function": "POST /v1/payments/authorize", "callee": "api-gateway", "startMs": 0, "endMs": 2342, "status": "ok", "kind": "http",
+          "payload": { "redacted": true, "request": "POST /v1/payments/authorize HTTP/2\nidempotency-key: 6f1c••••\n\n{\n  \"amount\": 4890,\n  \"currency\": \"EUR\",\n  \"payment_method\": { \"type\": \"card\", \"pan\": \"[redacted · PCI]\", \"last4\": \"0007\", \"exp\": \"[redacted]\" },\n  \"merchant\": \"m-88102\"\n}", "response": "HTTP/2 200\n\n{\n  \"id\": \"pay_5d21c0a9\",\n  \"status\": \"authorized\",\n  \"auth_code\": \"S1N9QZ\",\n  \"stand_in\": true\n}" } },
+        { "id": "s2", "integrationId": "gw-tok", "function": "tokens.v2.Tokens/Detokenize", "callee": "token-service", "startMs": 2, "endMs": 7, "status": "ok", "kind": "rpc",
+          "payload": { "redacted": true, "request": "{ \"token\": \"tok_••••91af\" }", "response": "{ \"pan\": \"[redacted · PCI]\", \"bin\": \"[redacted]\" }" } },
+        { "id": "s3", "integrationId": "tok-vault", "function": "C_Decrypt", "callee": "token-vault", "startMs": 3, "endMs": 5, "status": "ok", "kind": "rpc", "payload": { "redacted": true, "request": "C_Decrypt(key=pan-dek-2026-10)", "response": "CKR_OK" } },
+        { "id": "s4", "integrationId": "gw-orch", "function": "payments.v3.Orchestrator/Authorize", "callee": "payment-orchestrator", "startMs": 7, "endMs": 2330, "status": "ok", "kind": "rpc", "payload": { "redacted": true, "request": "{ \"amount\": 4890, \"currency\": \"EUR\", \"merchant\": \"m-88102\" }", "response": "{ \"decision\": \"APPROVE\", \"source\": \"stand-in\" }" } },
+        { "id": "s5", "integrationId": "orch-fraud", "function": "risk.v1.Fraud/Score", "callee": "fraud-scoring", "startMs": 8, "endMs": 30, "status": "ok", "kind": "rpc", "payload": { "redacted": true, "request": "{ \"features\": \"[38 features]\" }", "response": "{ \"score\": 0.07, \"action\": \"ALLOW\" }" } },
+        { "id": "s6", "integrationId": "orch-scheme", "function": "schemes.v1.Adapter/Authorize", "callee": "scheme-adapter", "startMs": 31, "endMs": 2290, "status": "ok", "kind": "rpc", "target": "scheme-adapter/sa-3", "payload": { "redacted": true, "request": "{ \"route\": \"issuer-B\", \"timeout_ms\": 2000 }", "response": "{ \"result\": \"APPROVED\", \"stand_in\": true, \"reason\": \"issuer_timeout\" }" } },
+        { "id": "s7", "integrationId": "scheme-issuer", "function": "ISO 8583 MTI 0100 → 0110", "callee": "issuer-host-b", "startMs": 31, "endMs": 2031, "status": "fail", "kind": "rpc", "note": "TIMEOUT", "attempt": 1,
+          "payload": { "redacted": true, "request": "MTI 0100\nDE2  [redacted · PCI]\nDE3  000000\nDE4  000000004890\nDE11 418203\nDE41 TRM88102\nDE49 978", "response": "// no 0110 within 2,000 ms — socket timeout" } },
+        { "id": "s8", "integrationId": "orch-ledger", "function": "ledger.v1.Ledger/Hold", "callee": "ledger-svc", "startMs": 2290, "endMs": 2318, "status": "ok", "kind": "rpc", "payload": { "redacted": true, "request": "{ \"account\": \"acc_••••2210\", \"amount\": 4890 }", "response": "{ \"hold_id\": \"h_77e1\" }" } },
+        { "id": "s9", "integrationId": "ledger-db", "function": "INSERT INTO ledger_entries …", "callee": "ledger-db", "startMs": 2296, "endMs": 2309, "status": "ok", "kind": "sql", "payload": { "redacted": true, "request": "INSERT INTO ledger_entries (account_id, amount, kind) VALUES ($1, $2, 'hold')", "response": "INSERT 0 1" } },
+        { "id": "s10", "integrationId": "orch-bus", "function": "produce payments.authorized.v1", "callee": "events-bus", "startMs": 2320, "endMs": 2323, "status": "ok", "kind": "message", "payload": { "redacted": true, "request": "{ \"payment_id\": \"pay_5d21c0a9\", \"amount\": 4890 }", "response": "offset 88219021 · partition 7" } }
+      ]
+    }
+  ]
+}

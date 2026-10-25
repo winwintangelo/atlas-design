@@ -1,0 +1,1112 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "sourceMode": "demo",
+    "sourceLabel": "SIMULATED DATA",
+    "capturedAtUtc": "2026-10-24T14:03:00.045Z",
+    "observedAtUtc": "2026-10-24T14:03:00.040Z",
+    "watermarkUtc": "2026-10-24T14:03:00.000Z",
+    "streamId": "topology-demo-v1",
+    "sequence": 1,
+    "completeness": "complete"
+  },
+  "groups": [
+    {
+      "id": "system",
+      "label": "AI Platform",
+      "parentId": null,
+      "kind": "system"
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "access",
+      "label": "Access",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "orchestration",
+      "label": "Orchestration",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "retrieval",
+      "label": "Retrieval & Data",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "inference",
+      "label": "Compute & Inference",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "training",
+      "label": "Training & Model Lifecycle",
+      "parentId": "system",
+      "kind": "domain"
+    },
+    {
+      "id": "operations",
+      "label": "Operations",
+      "parentId": "system",
+      "kind": "domain"
+    }
+  ],
+  "components": [
+    {
+      "id": "client",
+      "label": "Client",
+      "serviceName": "client",
+      "groupId": "experience",
+      "kind": "client",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -8,
+        "y": 0,
+        "level": 0
+      }
+    },
+    {
+      "id": "gateway",
+      "label": "Gateway",
+      "serviceName": "gateway",
+      "groupId": "access",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -6,
+        "y": 0,
+        "level": 0
+      }
+    },
+    {
+      "id": "auth",
+      "label": "Auth",
+      "serviceName": "auth",
+      "groupId": "access",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -4,
+        "y": 0,
+        "level": 0
+      }
+    },
+    {
+      "id": "orchestrator",
+      "label": "Orchestrator",
+      "serviceName": "orchestrator",
+      "groupId": "orchestration",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -2,
+        "y": 0,
+        "level": 0
+      }
+    },
+    {
+      "id": "cache",
+      "label": "Response Cache",
+      "serviceName": "cache",
+      "groupId": "orchestration",
+      "kind": "store",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -2,
+        "y": -2,
+        "level": 0
+      }
+    },
+    {
+      "id": "tool-service",
+      "label": "Tool Service",
+      "serviceName": "tool-service",
+      "groupId": "orchestration",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -2,
+        "y": 2,
+        "level": 0
+      }
+    },
+    {
+      "id": "retrieval",
+      "label": "Retrieval",
+      "serviceName": "retrieval",
+      "groupId": "retrieval",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 0,
+        "y": -2,
+        "level": 0
+      }
+    },
+    {
+      "id": "embedding",
+      "label": "Embedding",
+      "serviceName": "embedding",
+      "groupId": "retrieval",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 1,
+        "y": -4,
+        "level": 0
+      }
+    },
+    {
+      "id": "vector-db",
+      "label": "Vector DB",
+      "serviceName": "vector-db",
+      "groupId": "retrieval",
+      "kind": "store",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 2,
+        "y": -2,
+        "level": 0
+      }
+    },
+    {
+      "id": "documents",
+      "label": "Documents",
+      "serviceName": "documents",
+      "groupId": "retrieval",
+      "kind": "store",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 4,
+        "y": -2,
+        "level": 0
+      }
+    },
+    {
+      "id": "gpu-queue",
+      "label": "GPU Queue",
+      "serviceName": "gpu-queue",
+      "groupId": "inference",
+      "kind": "queue",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 0,
+        "y": 2,
+        "level": 0
+      }
+    },
+    {
+      "id": "inference-gpu",
+      "label": "Inference GPU",
+      "serviceName": "inference-gpu",
+      "groupId": "inference",
+      "kind": "compute",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 3,
+        "y": 2,
+        "level": 0
+      }
+    },
+    {
+      "id": "output",
+      "label": "Response Stream",
+      "serviceName": "output",
+      "groupId": "inference",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 5,
+        "y": 2,
+        "level": 0
+      }
+    },
+    {
+      "id": "data-lake",
+      "label": "Data Lake",
+      "serviceName": "data-lake",
+      "groupId": "training",
+      "kind": "store",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -6,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "data-validation",
+      "label": "Data Validation",
+      "serviceName": "data-validation",
+      "groupId": "training",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -4,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "dataset",
+      "label": "Versioned Dataset",
+      "serviceName": "dataset",
+      "groupId": "training",
+      "kind": "artifact",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": -2,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "training-scheduler",
+      "label": "Training Scheduler",
+      "serviceName": "training-scheduler",
+      "groupId": "training",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 0,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "training-gpus",
+      "label": "Training GPUs",
+      "serviceName": "training-gpus",
+      "groupId": "training",
+      "kind": "compute",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 2,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "checkpoint",
+      "label": "Checkpoints",
+      "serviceName": "checkpoint",
+      "groupId": "training",
+      "kind": "artifact",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 4,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "evaluation",
+      "label": "Evaluation",
+      "serviceName": "evaluation",
+      "groupId": "training",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 6,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "model-registry",
+      "label": "Model Registry",
+      "serviceName": "model-registry",
+      "groupId": "training",
+      "kind": "artifact",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 8,
+        "y": -7,
+        "level": 1
+      }
+    },
+    {
+      "id": "deployment",
+      "label": "Deployment",
+      "serviceName": "deployment",
+      "groupId": "training",
+      "kind": "deployment",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 8,
+        "y": -4,
+        "level": 1
+      }
+    },
+    {
+      "id": "audit-queue",
+      "label": "Audit Queue",
+      "serviceName": "audit-queue",
+      "groupId": "operations",
+      "kind": "queue",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 5,
+        "y": 4,
+        "level": 0
+      }
+    },
+    {
+      "id": "audit-worker",
+      "label": "Audit Worker",
+      "serviceName": "audit-worker",
+      "groupId": "operations",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 7,
+        "y": 4,
+        "level": 0
+      }
+    },
+    {
+      "id": "telemetry",
+      "label": "Telemetry Collector",
+      "serviceName": "telemetry",
+      "groupId": "operations",
+      "kind": "service",
+      "environment": "demo",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "atlasLayout": {
+        "x": 9,
+        "y": 4,
+        "level": 0
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "client-resource-1",
+      "componentId": "client",
+      "serviceName": "client",
+      "instanceId": "client-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "gateway-resource-1",
+      "componentId": "gateway",
+      "serviceName": "gateway",
+      "instanceId": "gateway-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "auth-resource-1",
+      "componentId": "auth",
+      "serviceName": "auth",
+      "instanceId": "auth-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "orchestrator-resource-1",
+      "componentId": "orchestrator",
+      "serviceName": "orchestrator",
+      "instanceId": "orchestrator-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "cache-resource-1",
+      "componentId": "cache",
+      "serviceName": "cache",
+      "instanceId": "cache-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "tool-service-resource-1",
+      "componentId": "tool-service",
+      "serviceName": "tool-service",
+      "instanceId": "tool-service-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "retrieval-resource-1",
+      "componentId": "retrieval",
+      "serviceName": "retrieval",
+      "instanceId": "retrieval-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "embedding-resource-1",
+      "componentId": "embedding",
+      "serviceName": "embedding",
+      "instanceId": "embedding-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "vector-db-resource-1",
+      "componentId": "vector-db",
+      "serviceName": "vector-db",
+      "instanceId": "vector-db-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "documents-resource-1",
+      "componentId": "documents",
+      "serviceName": "documents",
+      "instanceId": "documents-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "gpu-queue-resource-1",
+      "componentId": "gpu-queue",
+      "serviceName": "gpu-queue",
+      "instanceId": "gpu-queue-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "inference-gpu-resource-1",
+      "componentId": "inference-gpu",
+      "serviceName": "inference-gpu",
+      "instanceId": "inference-gpu-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "output-resource-1",
+      "componentId": "output",
+      "serviceName": "output",
+      "instanceId": "output-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "data-lake-resource-1",
+      "componentId": "data-lake",
+      "serviceName": "data-lake",
+      "instanceId": "data-lake-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "data-validation-resource-1",
+      "componentId": "data-validation",
+      "serviceName": "data-validation",
+      "instanceId": "data-validation-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "dataset-resource-1",
+      "componentId": "dataset",
+      "serviceName": "dataset",
+      "instanceId": "dataset-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "training-scheduler-resource-1",
+      "componentId": "training-scheduler",
+      "serviceName": "training-scheduler",
+      "instanceId": "training-scheduler-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "training-gpus-resource-1",
+      "componentId": "training-gpus",
+      "serviceName": "training-gpus",
+      "instanceId": "training-gpus-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "checkpoint-resource-1",
+      "componentId": "checkpoint",
+      "serviceName": "checkpoint",
+      "instanceId": "checkpoint-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "evaluation-resource-1",
+      "componentId": "evaluation",
+      "serviceName": "evaluation",
+      "instanceId": "evaluation-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "model-registry-resource-1",
+      "componentId": "model-registry",
+      "serviceName": "model-registry",
+      "instanceId": "model-registry-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "deployment-resource-1",
+      "componentId": "deployment",
+      "serviceName": "deployment",
+      "instanceId": "deployment-demo-1",
+      "region": "demo-region-1",
+      "cluster": "training-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "audit-queue-resource-1",
+      "componentId": "audit-queue",
+      "serviceName": "audit-queue",
+      "instanceId": "audit-queue-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "audit-worker-resource-1",
+      "componentId": "audit-worker",
+      "serviceName": "audit-worker",
+      "instanceId": "audit-worker-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "telemetry-resource-1",
+      "componentId": "telemetry",
+      "serviceName": "telemetry",
+      "instanceId": "telemetry-demo-1",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    },
+    {
+      "id": "inference-gpu-resource-2",
+      "componentId": "inference-gpu",
+      "serviceName": "inference-gpu",
+      "instanceId": "inference-gpu-demo-2",
+      "region": "demo-region-1",
+      "cluster": "serving-cluster",
+      "attributes": {
+        "deployment.environment.name": "demo"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "dep:client:gateway",
+      "sourceId": "client",
+      "targetId": "gateway",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:gateway:auth",
+      "sourceId": "gateway",
+      "targetId": "auth",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:gateway:orchestrator",
+      "sourceId": "gateway",
+      "targetId": "orchestrator",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:orchestrator:cache",
+      "sourceId": "orchestrator",
+      "targetId": "cache",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:orchestrator:retrieval",
+      "sourceId": "orchestrator",
+      "targetId": "retrieval",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:orchestrator:tool-service",
+      "sourceId": "orchestrator",
+      "targetId": "tool-service",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:retrieval:embedding",
+      "sourceId": "retrieval",
+      "targetId": "embedding",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:retrieval:vector-db",
+      "sourceId": "retrieval",
+      "targetId": "vector-db",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:retrieval:documents",
+      "sourceId": "retrieval",
+      "targetId": "documents",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:orchestrator:gpu-queue",
+      "sourceId": "orchestrator",
+      "targetId": "gpu-queue",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:gpu-queue:inference-gpu",
+      "sourceId": "gpu-queue",
+      "targetId": "inference-gpu",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:orchestrator:output",
+      "sourceId": "orchestrator",
+      "targetId": "output",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "dep:output:gateway",
+      "sourceId": "output",
+      "targetId": "gateway",
+      "kind": "dependency",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Configured dependency, not evidence that every request traverses it."
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:data-lake:data-validation",
+      "sourceId": "data-lake",
+      "targetId": "data-validation",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:data-validation:dataset",
+      "sourceId": "data-validation",
+      "targetId": "dataset",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:dataset:training-scheduler",
+      "sourceId": "dataset",
+      "targetId": "training-scheduler",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:training-scheduler:training-gpus",
+      "sourceId": "training-scheduler",
+      "targetId": "training-gpus",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:training-gpus:checkpoint",
+      "sourceId": "training-gpus",
+      "targetId": "checkpoint",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:checkpoint:evaluation",
+      "sourceId": "checkpoint",
+      "targetId": "evaluation",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "lineage:evaluation:model-registry",
+      "sourceId": "evaluation",
+      "targetId": "model-registry",
+      "kind": "model-lineage",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "deploy:model-registry:deployment",
+      "sourceId": "model-registry",
+      "targetId": "deployment",
+      "kind": "deployment",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "deploy:deployment:inference-gpu",
+      "sourceId": "deployment",
+      "targetId": "inference-gpu",
+      "kind": "deployment",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "async:orchestrator:audit-queue",
+      "sourceId": "orchestrator",
+      "targetId": "audit-queue",
+      "kind": "async",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "async:audit-queue:audit-worker",
+      "sourceId": "audit-queue",
+      "targetId": "audit-worker",
+      "kind": "async",
+      "basis": "declared",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      },
+      "observedRequestCount": null
+    },
+    {
+      "id": "observed:gateway:orchestrator",
+      "sourceId": "gateway",
+      "targetId": "orchestrator",
+      "kind": "dependency",
+      "basis": "observed",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1",
+        "note": "Synthetic observed service relationship in the fixed demo window."
+      },
+      "observedWindowUtc": {
+        "from": "2026-10-24T14:00:00.000Z",
+        "to": "2026-10-24T14:03:00.000Z"
+      },
+      "observedRequestCount": 5
+    }
+  ],
+  "modelLineage": [
+    {
+      "datasetVersionId": "dataset-r18",
+      "trainingRunId": "training-run-42",
+      "checkpointId": "checkpoint-4200",
+      "modelVersionId": "model-v12",
+      "deploymentId": "deployment-12",
+      "inferenceComponentId": "inference-gpu",
+      "evidence": {
+        "quality": "synthetic",
+        "source": "handover-fixture-v1"
+      }
+    }
+  ]
+}
